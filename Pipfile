@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+# vector database tools
+chromadb = "*"
+langchain = "*"
+unstructured = "*"
+beautifulsoup4 = "*"
+pypdf = "*"
+markdown = "*"
+langchainhub = "*"
+sentence-transformers = "*"
+# chat and llm
+openai = "*"
+# ui
+streamlit = "*"
+streamlit-tags = "*"
+
+[dev-packages]
+black = "*"
+
+
+[requires]
+python_version = "3.10"
