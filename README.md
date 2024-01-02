@@ -2,6 +2,8 @@
 
 The goal of this app, is to allow everyone in an organisation to create their own personlized GPT Chat Assistants with custom "rules" and knowledge sources, using a simple graphic user interface and without any coding.
 
+![Screenshot of assistant builder. ](<images/Screenshot_2024-01-02_1.png>)
+
 ![Screenshot of chat interface. ](<images/Screenshot_2024-01-02 221402.png>)
 
 ## Features
