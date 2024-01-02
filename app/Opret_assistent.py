@@ -29,9 +29,9 @@ st.set_page_config(
 
 st.title("Min GPT")
 st.markdown(
-    "<small>Opret din egen chat assistent ved at selv at definér samtalens grundvilkår og evt. videnskilder. \n"
+    "<small>Opret din egen chat assistent ved at selv at definere samtalens grundvilkår og evt. videnskilder. \n"
     "Du kan også indlæse en eksisterende konfiguration.\n"
-    "Når du er færdig, så klik på 'Gem Min assistant' og download konfigurationen.</small>",
+    "Når du er færdig, klik på 'Gem Min assistant' og download konfigurationen.</small>",
     unsafe_allow_html=True,
 )
 
