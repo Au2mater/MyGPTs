@@ -2,6 +2,17 @@
 
 The goal of this app, is to allow everyone in an organisation to create their own personlized GPT Chat Assistants with custom "rules" and knowledge sources, using a simple graphic user interface and without any coding.
 
+![Screenshot](images/Screenshot 2024-01-02 221402.png)
+
+
+## Features
+__Assistants__
+- Create and edit your own GPT Chat Assistants
+- Create assistants from pre-configured templates
+- Create assistants from scratch
+
+
+
 __Models__
 APIs currently supported:
  - Azure OpenAi (GPT 3.5 Turbo)
