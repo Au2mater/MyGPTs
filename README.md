@@ -2,8 +2,6 @@
 
 The goal of this app, is to allow everyone in an organisation to create their own personlized GPT Chat Assistants with custom "rules" and knowledge sources, using a simple graphic user interface and without any coding.
 
-_Built using [Streamlit](https://streamlit.io/), [LangChain](https://www.langchain.com/) and [ChromaDB](https://www.trychroma.com/)._
-
 __Models__
 APIs currently supported:
  - Azure OpenAi (GPT 3.5 Turbo)
@@ -45,3 +43,5 @@ pipenv install
 ```sh
 pipenv run python app/Opret_assistent.py
 ```
+
+_Built using [Streamlit](https://streamlit.io/), [LangChain](https://www.langchain.com/) and [ChromaDB](https://www.trychroma.com/)._
