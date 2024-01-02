@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO 8859-15">
+    <style>
+        #imageContainer {
+            height: 65px;
+            width: 66px;
+            overflow: hidden;
+            background-color: white;
+            position: relative;
+        }
+        #displayImage {
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            border: 2px solid gray;
+            margin-left: 1px; /* Added this line to move the image 3px to the right */
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 11px;
+            height: 15px;
+            background-color: gray;
+            color: white;
+            text-align: center;
+            line-height: 14px;
+            cursor: pointer;
+        }
+        .arrow.left {
+            left: 0;
+        }
+        .arrow.right {
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="imageContainer">
+    <div class="arrow left" onclick="previousImage()">&lt;</div>
+    <img id="displayImage" src="https://www.verdensmaalene.dk/sites/default/files/filarkiv/kommunikationsmateriale/Verdensmaals-white-baggrund-RGB.png" alt="profilbillede" />
+    <div class="arrow right" onclick="nextImage()">&gt;</div>
+</div>
+
+<script>
+var images = [
+    'https://www.verdensmaalene.dk/sites/default/files/filarkiv/kommunikationsmateriale/Verdensmaals-white-baggrund-RGB.png',
+    'https://img.icons8.com/?size=160&id=fQRzB9r2Qrxf&format=png',
+    'https://img.icons8.com/?size=160&id=V4xIeDhASU39&format=png',
+    'https://img.icons8.com/?size=160&id=qDMEwWyxjqFc&format=png',
+    'https://img.icons8.com/?size=160&id=vSNUnAV0tnsg&format=png'
+];
+var currentIndex = 0;
+
+function previousImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    var image = document.getElementById('displayImage');
+    image.src = images[currentIndex];
+}
+
+function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    var image = document.getElementById('displayImage');
+    image.src = images[currentIndex];
+}
+</script>
+
+</body>
+</html>

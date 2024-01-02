@@ -1,0 +1,35 @@
+data/assistants/
+.vscode/
+*.lock
+
+# Python bytecode
+__pycache__/
+
+# Compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+
+# IDE-specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Editor backup files
+*~
+*.swp
+*.swo
+
+# Log files
+*.log
+
+# Dependency directories
+lib/
+libs/
+dist/
+build/
