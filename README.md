@@ -1,4 +1,4 @@
-# MyGPT
+# MyGPTs
 
 The goal of this app, is to allow everyone in an organisation to create their own personlized GPT Chat Assistants with custom "rules" and knowledge sources, using a simple graphic user interface and without any coding.
 
