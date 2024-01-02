@@ -21,7 +21,7 @@ __Models__
  - Local models served using LM Studio
 
 __Languages__
-<br> User interface languages currently supported:
+<br>User interface languages currently supported:
 - Danish
 
 __Knowledge base sources currently supported__
