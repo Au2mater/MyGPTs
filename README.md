@@ -15,13 +15,13 @@ __Assistants__
 
 
 __Models__
-APIs currently supported:
+<br>APIs currently supported:
  - Azure OpenAi (GPT 3.5 Turbo)
  - Azure OpenAi (GPT 4)
  - Local models served using LM Studio
 
 __Languages__
-User interface languages currently supported:
+<br> User interface languages currently supported:
 - Danish
 
 __Knowledge base sources currently supported__
