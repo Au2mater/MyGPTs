@@ -41,6 +41,7 @@ pixi install pipenv
 ```
 - An [Azure OpenAi](https://learn.microsoft.com/en-us/azure/ai-services/openai/) API key, an OpenAi API key or a local LLM running using [LM Studio](https://lmstudio.ai/)
 - Your API key and endpoint must be set as environment variables in your terminal:
+
 <br>_Here's an example for Windows with Azure API:_
 ```sh 
 setx AZURE_OPENAI_ENDPOINT "https://<endpoint>.openai.azure.com/"
