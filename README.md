@@ -20,11 +20,6 @@ __Languages__
 __Knowledge base sources currently supported__
 <br>PDF, DOC, DOCX, MD, TXT, and web URLs
 
-## Prototype in Beta
-Please note that this app is currently in beta and is still a prototype. Breaking changes may occur as I continue to improve and refine the functionality. I appreciate your understanding and feedback as I work towards a stable release.
-
-Version: 0.2.1
-
 ## Prerequisites
 
 Before you can run this application, you need to have the following installed on your system:
@@ -54,6 +49,10 @@ pipenv install
 ```sh
 pipenv run python app/Opret_assistent.py
 ```
+## Prototype in Beta
+Please note that this app is currently in beta and is still a prototype. Breaking changes may occur as I continue to improve and refine the functionality. I appreciate your understanding and feedback as I work towards a stable release.
+
+Version: 0.2.1
 
 _Built using [Streamlit](https://streamlit.io/), [LangChain](https://www.langchain.com/) and [ChromaDB](https://www.trychroma.com/)._
 ____
