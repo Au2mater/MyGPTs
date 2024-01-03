@@ -4,6 +4,7 @@ The goal of this app is to allow everyone in an organization to create their own
 The initial setup is done by a developer or the IT department. If you already have access to an OpenAi or Azure OpenAi API, this can be done in a few minutes. 
 When the app is launched, everyone with acess to the app can create and chat with their own assistants.
 <br>
+<br>
 ![Oprah meme: You get a GPT! You get a GPT! Everyone gets a GPT! ](<images/oprah.jpg>)
 
 ## Features
