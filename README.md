@@ -5,10 +5,7 @@ The goal of this app, is to allow everyone in an organisation to create their ow
 ## Features
 __Assistants__
 - Create and edit your own GPT Chat Assistants
-- Create assistants from pre-configured templates
-- Create assistants from scratch
-
-
+- Add documents and websites to the assistants knowledge base.
 
 __Models__
 <br>APIs currently supported:
