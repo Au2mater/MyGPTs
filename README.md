@@ -1,7 +1,7 @@
 # MyGPTs :left_speech_bubble: 
 
 The goal of this app is to allow everyone in an organization to create their own personalized GPT Chat Assistants with custom "rules" and knowledge sources (RAG), using a simple graphic user interface and without any coding.
-<br>The initial setup is done by a developer or the IT department. If you already have access to an OpenAi or Azure OpenAi API, this can be done in a few minutes. 
+<br>The initial setup is done by a developer or the IT department. If you already have access to an OpenAi API, Azure OpenAi API or have LM Studio running locally, this can be done in a few minutes. 
 <br>When the app is launched, everyone with access to the app can create and chat with their own assistants.
 <br>
 <br>
@@ -12,11 +12,16 @@ __Assistants__
 - Add documents and websites to the assistant's knowledge base (Drag and drop RAG).
 - No coding required
 
+
 __Models__
 <br>APIs currently supported:
  - Azure OpenAi
  - OpenAi
  - Local models served using LM Studio
+
+<br>__Privacy__
+<br> The only external data transfer happens when using OpenAi and Azure OpenAi APIs.
+<br> If you want full privacy, use an open-source local model through LM Studio. In this case everything should run on-premise and no data will leave your organisation. 
 
 __Languages__
 <br>User interface languages currently supported:
