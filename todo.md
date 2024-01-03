@@ -2,7 +2,8 @@
 Project Description
 
 ### To-do
-- [ ] Add profile picture: ability to add profile picture to assistant
+- [ ] Add sign-in: ability to sign in as a user, elminiating the need to download and upload the assistant archive files
+- [ ] Add reset conversation button to the chat UI 
 - [ ] Add history: ability to save and load conversation history into zip
 - [ ] Add multi-conversations: ability to create multiple conversations in one session
 - [ ] Add assistant memmory: ability to index conversation hitory into knowledge base
@@ -11,6 +12,7 @@ Project Description
 - [ ] Add functionality to show references for sources being used in the conversation  
 - [ ] Add token/price counter for Azure OpenAi API  
 - [ ] Add English language to user interface  
+- [ ] Add profile picture: ability to add profile picture to assistant
 
 
 ### In-progress
