@@ -51,7 +51,7 @@ setx AZURE_OPENAI_KEY "Your Azure OpenAI API key"
 ```sh
 pipenv install
 ```
-4. In the project directory, open _config/LLMs.yaml_ and add the API that you want to use.
+4. In the project directory, open _config/LLMs.yaml_ and add the APIs that you want to use.
 5. Run the application:
 ```sh
 pipenv run python app/Opret_assistent.py
