@@ -10,7 +10,7 @@ The goal of this app is to allow everyone in an organization to create their own
 ## Features
 __Assistants__
 - Allow anyone to create and edit their own GPT Chat Assistants
-- Add documents and websites to the assistant's knowledge base.
+- Add documents and websites to the assistant's knowledge base (Drag and drop RAG).
 - No coding required
 
 __Models__
