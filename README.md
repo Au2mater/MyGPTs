@@ -9,8 +9,8 @@ __Assistants__
 
 __Models__
 <br>APIs currently supported:
- - Azure OpenAi (GPT 3.5 Turbo)
- - Azure OpenAi (GPT 4)
+ - Azure OpenAi
+ - OpenAi
  - Local models served using LM Studio
 
 __Languages__
