@@ -33,7 +33,7 @@ __Knowledge base sources currently supported__
 ## Prerequisites
 
 Before you can run this application, you need to have the following installed on your system:
-
+- - A internal server (if others in the organization should be able to access the app, otherwise run on your local machine).
 - [Python 3.10](https://www.python.org/downloads/)
 - Pipenv installed using [PIXI](https://pixijs.io/)
 ```sh
@@ -52,8 +52,6 @@ setx AZURE_OPENAI_KEY "<your Azure OpenAI API key>"
 setx LOCAL_LLM_ENDPOINT "http://localhost:1234/v1"
 setx LOCAL_LLM_KEY "not-needed"
 ```
-
-- A internal server if others in the organization should be able to access the app.
 
 ## Usage
 1.  Clone the repository to your local machine.
