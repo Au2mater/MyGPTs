@@ -1,6 +1,6 @@
-# test_streamlit_fileupload.py
-# streamlit run tests/test_streamlit_fileupload.py
-""" load saved assistent configuration in streamlit """
+# Chat_med_din_assistent.py
+# streamlit run app/Opret_assistent.py
+""" load and chat with saved assistent """
 import os
 import streamlit as st
 

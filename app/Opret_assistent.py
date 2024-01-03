@@ -1,6 +1,6 @@
-# test_streamlit_fileupload.py
-# streamlit run tests/test_streamlit_fileupload.py
-""" create custom assistant """
+# Opret_assistent.py
+# streamlit run app/Opret_assistent.py
+""" create custom assistant and optional knowledge base """
 import os
 import sys
 from pathlib import Path
