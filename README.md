@@ -32,8 +32,7 @@ __Knowledge base sources currently supported__
 
 ## Prerequisites
 
-Before you can run this application, you need to have the following installed on your system:
-- A internal server (if others in the organization should be able to access the app, otherwise run on your local machine).
+Before you can run this application, you need to have the following installed on your server or local machine:
 - [Python 3.10](https://www.python.org/downloads/)
 - Pipenv installed using [PIXI](https://pixijs.io/)
 ```sh
