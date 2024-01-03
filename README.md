@@ -19,7 +19,8 @@ __Models__
  - OpenAi
  - Local models served using LM Studio
 
-<br>__Privacy__
+__Privacy__
+<br> This app wuns locally on your server and no data is collected.
 <br> The only external data transfer happens when using OpenAi and Azure OpenAi APIs.
 <br> If you want full privacy, use an open-source local model through LM Studio. In this case everything should run on-premise and no data will leave your organisation. 
 
@@ -65,7 +66,8 @@ pipenv install
 ```sh
 pipenv run streamlit run app\Opret_assistent.py
 ```
-6. A server should start up on port 8501 and a browser tab should open with the app interface. Share access and start building your GPTs. 
+6. A server should start up on port 8501 and a browser tab should open with the app interface. Share access and start building your GPTs.
+
 ## Prototype in Beta
 Please note that this app is currently in beta and is still a prototype. Breaking changes may occur as I continue to improve and refine the functionality. I appreciate your understanding and feedback as I work towards a stable release.
 
