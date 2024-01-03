@@ -1,11 +1,11 @@
 # MyGPTs
 
-The goal of this app, is to allow everyone in an organisation to create their own personlized GPT Chat Assistants with custom "rules" and knowledge sources, using a simple graphic user interface and without any coding.
+The goal of this app is to allow everyone in an organization to create their own personalized GPT Chat Assistants with custom "rules" and knowledge sources, using a simple graphic user interface and without any coding.
 
 ## Features
 __Assistants__
 - Create and edit your own GPT Chat Assistants
-- Add documents and websites to the assistants knowledge base.
+- Add documents and websites to the assistant's knowledge base.
 
 __Models__
 <br>APIs currently supported:
@@ -18,7 +18,12 @@ __Languages__
 - Danish
 
 __Knowledge base sources currently supported__
-<br>PDF, DOC, DOCX, MD, TXT and web URLs
+<br>PDF, DOC, DOCX, MD, TXT, and web URLs
+
+## Prototype in Beta
+Please note that this app is currently in beta and is still a prototype. Breaking changes may occur as I continue to improve and refine the functionality. I appreciate your understanding and feedback as I work towards a stable release.
+
+Version: 0.2.1
 
 ## Prerequisites
 
