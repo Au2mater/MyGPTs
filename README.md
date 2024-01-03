@@ -1,6 +1,9 @@
 # MyGPTs
 
 The goal of this app is to allow everyone in an organization to create their own personalized GPT Chat Assistants with custom "rules" and knowledge sources, using a simple graphic user interface and without any coding.
+The initial setup is done by a developer or the IT department. 
+When the app is launched, everyone with acess to the app can create and chat with their own assistants.
+<br>
 ![Oprah meme: You get a GPT! You get a GPT! Everyone gets a GPT! ](<images/oprah.jpg>)
 
 ## Features
@@ -37,6 +40,9 @@ pixi install pipenv
 setx AZURE_OPENAI_ENDPOINT "https://<endpoint>.openai.azure.com/"
 setx AZURE_OPENAI_KEY "<your Azure OpenAI API key>"
 ```
+
+- A internal server if others in the organization should be able to access the app.
+
 ## Usage
 1.  Clone the repository to your local machine.
 
