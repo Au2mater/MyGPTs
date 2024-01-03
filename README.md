@@ -34,7 +34,7 @@ pixi install pipenv
 <br>_Here's an example for Windows:_
 ```sh 
 setx AZURE_OPENAI_ENDPOINT "https://<endpoint>.openai.azure.com/"
-setx AZURE_OPENAI_KEY "Your Azure OpenAI API key"
+setx AZURE_OPENAI_KEY "<your Azure OpenAI API key>"
 ```
 ## Usage
 1.  Clone the repository to your local machine.
