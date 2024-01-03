@@ -9,8 +9,9 @@ When the app is launched, everyone with acess to the app can create and chat wit
 
 ## Features
 __Assistants__
-- Create and edit your own GPT Chat Assistants
+- Allow anyone to create and edit their own GPT Chat Assistants
 - Add documents and websites to the assistant's knowledge base.
+- No coding required
 
 __Models__
 <br>APIs currently supported:
