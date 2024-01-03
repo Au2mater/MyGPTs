@@ -2,7 +2,9 @@
 🗺️ Roadmap for MyGPTs 
 
 ### To-do
-- [ ] Add sign-in: ability to sign in as a user, elminiating the need to download and upload the assistant archive files
+- [ ] Add sign-in: ability to sign in as a user,
+  - [ ] elminiating the need to download and upload the assistant archive files
+  - [ ] adding better control over app access and API user budget
 - [ ] Add reset conversation button to the chat UI 
 - [ ] Add history: ability to save and load conversation history into zip
 - [ ] Add multi-conversations: ability to create multiple conversations in one session
