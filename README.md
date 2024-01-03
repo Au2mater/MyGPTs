@@ -1,6 +1,7 @@
 # MyGPTs
 
 The goal of this app is to allow everyone in an organization to create their own personalized GPT Chat Assistants with custom "rules" and knowledge sources, using a simple graphic user interface and without any coding.
+![Oprah meme: You get a GPT! You get a GPT! Everyone gets a GPT! ](<images/oprah.jpg>)
 
 ## Features
 __Assistants__
