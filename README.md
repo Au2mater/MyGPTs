@@ -36,12 +36,12 @@ Before you can run this application, you need to have the following installed on
 ```sh
 pixi install pipenv
 ```
-- An [Azure OpenAi](https://learn.microsoft.com/en-us/azure/ai-services/openai/) API key
-- Your Azure API key and endpoint must be set as environment variables in your terminal:
+- An [Azure OpenAi](https://learn.microsoft.com/en-us/azure/ai-services/openai/) API key, an OpenAi API key or a local LLM running using [LM Studio](https://lmstudio.ai/)
+- Your API key and endpoint must be set as environment variables in your terminal:
 _For Windows:_
 ```sh 
-setx OPENAI_API_BASE "https://<endpoint>.openai.azure.com/"
-setx OPENAI_API_KEY "Your Azure OpenAI API key"
+setx AZURE_OPENAI_ENDPOINT "https://<endpoint>.openai.azure.com/"
+setx AZURE_OPENAI_KEY "Your Azure OpenAI API key"
 ```
 ## Usage
 1.  Clone the repository to your local machine.
@@ -51,7 +51,8 @@ setx OPENAI_API_KEY "Your Azure OpenAI API key"
 ```sh
 pipenv install
 ```
-4. Run the application:
+4. In the project directory, open _config/LLMs.yaml_ and add the API that you want to use.
+5. Run the application:
 ```sh
 pipenv run python app/Opret_assistent.py
 ```
