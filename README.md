@@ -57,6 +57,7 @@ pipenv install
 ```sh
 pipenv run streamlit run app\Opret_assistent.py
 ```
+6. A server should start up on port 8501 and a browser tab should open with the app interface. Share access and start building your GPTs. 
 ## Prototype in Beta
 Please note that this app is currently in beta and is still a prototype. Breaking changes may occur as I continue to improve and refine the functionality. I appreciate your understanding and feedback as I work towards a stable release.
 
