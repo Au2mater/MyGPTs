@@ -25,7 +25,7 @@ __Languages__
 - Danish
 
 __Knowledge base sources currently supported__
-PDF, DOC, DOCX, MD, TXT and web URLs
+<br>PDF, DOC, DOCX, MD, TXT and web URLs
 
 ## Prerequisites
 
