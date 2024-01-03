@@ -9,7 +9,7 @@
 - [ ] Dockerize app
 - [ ] Add history: ability to save and load conversation history
 - [ ] Add multi-conversations: ability to create multiple conversations in one session
-- [ ] Add assistant-user memmory: ability to index conversation hitory into knowledge base and retrieve later on.
+- [ ] Add assistant-user memmory: ability to auto index conversations into knowledge base and retrieve later on.
 - [ ] Add sample starter templates for assistant configurations
 - [ ] Add edit: option to edit a single user message in conversation.  
 - [ ] Add functionality to show references for sources being used in the conversation
