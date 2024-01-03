@@ -7,7 +7,7 @@
   - [ ] adding better control over app access and API user budget
 - [ ] Add reset conversation button to the chat UI
 - [ ] Dockerize app
-- [ ] Add history: ability to save and load conversation history into zip
+- [ ] Add history: ability to save and load conversation history
 - [ ] Add multi-conversations: ability to create multiple conversations in one session
 - [ ] Add assistant-user memmory: ability to index conversation hitory into knowledge base and retrieve later on.
 - [ ] Add sample starter templates for assistant configurations
