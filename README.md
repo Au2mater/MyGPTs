@@ -63,7 +63,7 @@ setx LOCAL_LLM_KEY "not-needed"
 ```sh
 pipenv install
 ```
-4. In the project directory, open _config/LLMs.yaml_ and add the APIs that you want to use.
+4. In the project directory, open _config/LLMs.yaml_ and add the necessary details for the APIs that you want to use.
 5. Run the application:
 ```sh
 pipenv run streamlit run app\Opret_assistent.py
