@@ -37,7 +37,7 @@ __Knowledge base sources currently supported__
 
 Before you can run this application, you need to have the following installed on your server or local machine:
 - [Python 3.10](https://www.python.org/downloads/)
-- Pipenv installed using [PIXI](https://pixi.sh/)
+- [Pipenv](https://pipenv.pypa.io/en/latest/installation.html) 
 ```sh
 pixi install pipenv
 ```
