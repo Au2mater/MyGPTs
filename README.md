@@ -20,9 +20,11 @@ __Models__
  - Local models served using LM Studio
 
 __Privacy__
-<br> This app wuns locally on your server and no data is collected.
+<br> This app runs locally on your server.
+<br> Besides the optional OpenAi or Azure API calls, no data is collected.
 <br> The only external data transfer happens when using OpenAi and Azure OpenAi APIs.
-<br> If you want full privacy, use an open-source local model through LM Studio. In this case everything should run on-premise and no data will leave your organisation. 
+<br> If you want full privacy, use an open-source local model through LM Studio. In this case everything should run on-premise and no data will leave your organisation.
+<br> Knowledge sources are indexed in a local vector database using a locally downloaded open-source embeddings model.
 
 __Languages__
 <br>User interface languages currently supported:
