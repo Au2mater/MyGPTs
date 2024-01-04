@@ -7,6 +7,7 @@ The goal of this app is to allow everyone in an organization to create their own
 <br>
 <img src="images/oprah.jpg" alt="Oprah meme: You get a GPT! You get a GPT! Everyone gets a GPT!" width="500"/>
 ## Features
+
 __Assistants__
 - Allow anyone to create and edit their own GPT Chat Assistants
 - Add documents and websites to the assistant's knowledge base (Drag and drop RAG).
