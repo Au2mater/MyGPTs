@@ -87,11 +87,14 @@ pipenv shell
 python scripts\setup.py
 ```
 4. In the project directory, open _config/LLMs.yaml_ and add the necessary details for the APIs that you want to use.
-5. With the environment activated, run the application:
+
+Congrats! :tada: You're ready to run the app.
+
+5. With the environment activated, run the application using the following command:
 ```sh
 streamlit run app\MyGPTs.py
 ```
-6. A server should start up on port 8501 and a browser tab should open with the app interface. Share access and start building your GPTs.
+A server should start up on port _8501_ and a browser tab should open with the app interface. Start building and sharing your GPTs.
 
 ## Prototype in Beta
 Please note that this app is currently in beta and is still a prototype. Breaking changes may occur as I continue to improve and refine the functionality. I appreciate your understanding and feedback as I work towards a stable release.
