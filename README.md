@@ -1,4 +1,5 @@
 # MyGPTs :left_speech_bubble: 
+_A simple user interface for easily creating, sharing and chatting with assistants based on GPT models._
 
 The goal of this app is to allow everyone in an organization to create their own personalized GPT Chat Assistants with custom "rules" and knowledge sources (RAG), using a simple graphic user interface and without any coding.
 <br>The initial setup is done by a developer or the IT department. If you already have access to an OpenAi API, Azure OpenAi API or have LM Studio running locally, this can be done in a few minutes. 
