@@ -69,10 +69,10 @@ setx LOCAL_LLM_KEY "not-needed"
 
 ## Setup
 1. Clone the repository to your local machine or download as a zip file and extract it.
-2. In a terminal: Navigate to the project directory in your terminal (the root folder name MYGPTS).
+2. In a terminal: Navigate to the project directory in your terminal, the folder named 'MYGPTS'.
 _For windows:_
 ```sh
-cd <path to project directory>
+cd <path to project directory>/MYGPTS
 ```
 3. Install the project dependencies using Pipenv by running the following command:
 ```sh
