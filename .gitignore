@@ -1,7 +1,12 @@
-data/assistants/
 lab/
+archive/
+backup/
+data/db/
+data/vector_db/
+images/archive/
 .vscode/
 *.lock
+*.bak
 
 # Python bytecode
 __pycache__/

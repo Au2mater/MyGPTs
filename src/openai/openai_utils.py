@@ -6,7 +6,7 @@ import yaml
 
 # read LLM configurations
 def get_LLMs():
-    with open("config/LLMs.yaml", "r" , encoding="UTF-8") as f:
+    with open("config/LLMs.yaml", "r", encoding="UTF-8") as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
         LLMs = config["models"]
         # returns a dict of dictionaries where each dictionary is similar to this:
@@ -26,12 +26,9 @@ def get_settings():
 def get_LLMs_names():
     return list(get_LLMs().keys())
 
+
 def get_LLM_descriptions():
     return {k: v["description"] for k, v in get_LLMs().items()}
-
-def format_docs(docs):
-    "takes a list of documents and returns a string of the page content of each document."
-    return "\n\n".join(doc.page_content for doc in docs)
 
 
 def prepare_request(question, system_prompt=None, messages=None, retriever=None):

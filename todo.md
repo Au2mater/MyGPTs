@@ -3,13 +3,9 @@
 
 ### To-do
 - [ ] Add sign-in: ability to sign in as a user,
-  - [ ] elminiating the need to download and upload the assistant archive files
   - [ ] adding better control over app access and API user budget
-- [ ] Add reset conversation button to the chat UI
 - [ ] Dockerize app
-- [ ] Add history: ability to save and load conversation history
-- [ ] Add multi-conversations: ability to create multiple conversations in one session
-- [ ] Add custom introductive assistant message (currently deafults to: 'Hej jeg <navn>, Hvordan kan jeg hjælpe dig?'). 
+- [ ] Update tests
 - [ ] Add assistant-user memmory: ability to auto index conversations into knowledge base and retrieve later on.
 - [ ] Add sample starter templates for assistant configurations
 - [ ] Add edit: option to edit a single user message in conversation.  
@@ -19,17 +15,20 @@
 - [ ] Add English language to user interface
 - [ ] Add profile picture: ability to add profile picture to assistant
 
-
 ### In-progress
-
-- [ ] Resolve knowledge base changes from from config file, not chromaDB, for faster updates.
-- [ ] WebURLs saved as txt in files directory. 
-
+- [ ] deactivate anonymzied telemetry for chromaDB
+- [ ] Add history: ability to and see delete previous conversations 
+- [ ] Simplify and better structure streamlit app code 
 
 ### Completed ✓
+- [x] Add custom introductive assistant message (previously deafulted to: 'Hej jeg <navn>, Hvordan kan jeg hjælpe dig?'). 
+- [x] Add reset conversation button to the chat UI
+- [x] Resolve knowledge base changes from config file, not chromaDB, for faster updates.
+- [x] Validate urls when types
+- [x] Ensure files and urls can be replaced by new files and urls with same name 
+- [x] elminiating the need to download and upload the assistant archive files
+- [x] WebURLs saved as txt in files directory. 
 - [x] Edit previously created assistants  
-- [x] Assistant archive name = new assistant name when loaded from pre-config #bug  
-- [x] document seemes to be indexed twice and paths prefix not removed #bug
 - [x] Add support for GPT 4  
 - [x] Add support for OpenAi API  
 - [x] Add support for a local open-source LLM (Mixtral 8 7B)  

@@ -1,4 +1,4 @@
-from src.chroma.chroma_utils import load_document, split_document
+from src.chroma.chroma_utils import load_document, split_document, Source
 from langchain.text_splitter import SentenceTransformersTokenTextSplitter
 
 sources = [
@@ -10,6 +10,12 @@ sources = [
     "https://gladsaxe.dk/kommunen/borger/borgerservice/pas-koerekort-og-id/pas",
 ]
 
+source = Source(sources[0])
+print(source)
+type(source.getvalue())
+path = r"data/assistants/test_2024-01-04_19-12-47-555159/files/httpsjazzobservercomtheoriginsofjazz_2024-01-04_19-12-45-437764.txt"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(source.getvalue())
 # test loader
 docs = []
 for source in sources:

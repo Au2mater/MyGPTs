@@ -1,0 +1,68 @@
+# sqlite database for user management
+tables:
+  - name: users
+    fields:
+      - Field: id
+        Type: varchar(15)
+        NOT NULL: NOT NULL
+        UNIQUE: UNIQUE
+      - Field: creation_datetime
+        Type: datetime
+        NOT NULL: NOT NULL
+    PRIMARY KEY: id
+
+  - name: assistants
+    fields:
+      - Field: id 
+        Type: varchar(100)
+        NOT NULL: NOT NULL
+        UNIQUE: UNIQUE
+        # in chroma, the assistant's the collection name is the same as the assistant's id
+      - Field: name
+        Type: varchar(30)
+        NOT NULL: NOT NULL
+      - Field: chat_model_name
+        Type: varchar(15)
+        NOT NULL: NOT NULL
+      - Field: system_prompt
+        Type: varchar(500)
+        NOT NULL: NOT NULL
+      - Field: welcome_message
+        Type: varchar(500)
+        NOT NULL: NOT NULL
+      - Field: creation_time
+        Type: datetime
+        NOT NULL: NOT NULL
+      - Field: last_updated
+        Type: datetime
+        NOT NULL: NOT NULL
+      - Field: owner_id
+        Type: varchar(15)
+        NOT NULL: NOT NULL
+    PRIMARY KEY: id
+
+  - name: sources
+    fields:
+      - Field: id
+        Type: varchar(15)
+        NOT NULL: NOT NULL
+        UNIQUE: UNIQUE
+      - Field: name
+        Type: varchar(30)
+        NOT NULL: NOT NULL
+      - Field: source_type
+        Type: varchar(30)
+        NOT NULL: NOT NULL
+      - Field: creation_time
+        Type: datetime
+        NOT NULL: NOT NULL
+      - Field: content_type
+        Type: varchar(30)
+        NOT NULL: NOT NULL
+      - Field: content
+        Type: text
+        NOT NULL: NOT NULL
+      - Field: collection_name_and_assistant_id
+        Type: varchar(100)
+        NOT NULL: NOT NULL
+    PRIMARY KEY: id

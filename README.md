@@ -57,27 +57,40 @@ setx LOCAL_LLM_KEY "not-needed"
 ```
 
 ## Usage
-1.  Clone the repository to your local machine.
-
-2. Navigate to the project directory in your terminal.
-3. Install the project dependencies using Pipenv:
+1. Clone the repository to your local machine or download as a zip file and extract it.
+2. In a terminal: Navigate to the project directory in your terminal (the root folder name MYGPTS).
+_For windows:_
+```sh
+cd <path to project directory>
+```
+3. Install the project dependencies using Pipenv by running the following command:
 ```sh
 pipenv install
 ```
-4. In the project directory, open _config/LLMs.yaml_ and add the necessary details for the APIs that you want to use.
-5. Run the application:
+4. Activate the virtual environment:
 ```sh
-pipenv run streamlit run app\Opret_assistent.py
+pipenv shell
+```
+5. With the environment still activated, run the following command to setup the databases:
+```sh
+python scripts\setup.py
+```
+4. In the project directory, open _config/LLMs.yaml_ and add the necessary details for the APIs that you want to use.
+5. With the environment activated, run the application:
+```sh
+streamlit run app\MyGPTs.py
 ```
 6. A server should start up on port 8501 and a browser tab should open with the app interface. Share access and start building your GPTs.
 
 ## Prototype in Beta
 Please note that this app is currently in beta and is still a prototype. Breaking changes may occur as I continue to improve and refine the functionality. I appreciate your understanding and feedback as I work towards a stable release.
 
-Version: 0.2.1
+Version: 0.3.1
 
 _Built using [Streamlit](https://streamlit.io/), [LangChain](https://www.langchain.com/) and [ChromaDB](https://www.trychroma.com/)._
 ____
-![Screenshot of assistant builder. ](<images/Screenshot_2024-01-02_1.png>)
+![Screenshot of assistant builder. ](<images/ss_myassistants_240109.jpg>)
 ____
-![Screenshot of chat interface. ](<images/Screenshot_2024-01-02 221402.png>)
+![Screenshot of assistant builder. ](<images/ss_edit_240109.jpg>)
+___
+![Screenshot of chat interface. ](<images/ss_chat_240109.jpg>)

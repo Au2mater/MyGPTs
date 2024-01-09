@@ -1,8 +1,13 @@
+import os
 from src.chroma.chroma_utils import (
+    Source,
     load_document,
     split_document,
     index_documents,
     retriever_from_sources,
+    update_index,
+    delete_source,
+    create_or_get_db,
 )
 from src.chroma.chroma_utils import db_from_sources, zipdb_from_sources
 from pathlib import Path
@@ -12,9 +17,28 @@ sources = [
     "data/test_documents/the_origins_of_jazz.md",
     "data/test_documents/the_origins_of_jazz.txt",
 ]
+sources = [Source(source) for source in sources]
+assert len(sources) == 3
 
-sources = ["https://jazzobserver.com/the-origins-of-jazz/"]
+directory = r"data\assistants\1_2024-01-05_21-28-09-337288"
+for source in sources:
+    source.save_to(directory=os.path.join(directory, "files"))
+
+# test delete source
+# db = create_or_get_db(directory=directory, model_name="intfloat/multilingual-e5-base")
+
+# docs = [load_document(source) for source in sources]
+# chunks = [chunk for doc in docs for chunk in split_document(document=doc)]
+update_index(sources_to_add=sources, directory=directory)
+# test with no sources
+update_index(sources_to_add=[], directory=directory)
+update_index(sources_to_remove=[], directory=directory)
+sources_to_remove = [source.id for source in sources]
+update_index(sources_to_remove=sources_to_remove, directory=directory)
+
+
 directory = Path(r"data\assistants\j5_2023-12-21_00-48-51")
+
 db = db_from_sources(sources, directory="data/assistants/J5_2023-12-21_00-34-29")
 zippath = zipdb_from_sources(sources, directory=directory)
 # test single steps

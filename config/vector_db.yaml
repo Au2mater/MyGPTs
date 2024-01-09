@@ -1,0 +1,3 @@
+embeddings_model: intfloat/multilingual-e5-base # any huggingface sentence transformer model
+port: 8000 # port to run the chroma server on
+host: localhost # host to run the chroma server on

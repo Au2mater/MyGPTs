@@ -1,7 +1,15 @@
 global_settings:
   max_tokens: 500 # max number of tokens to generate
   temperature: 0.7 # [min: 0.0, max: 2.0]
-  
+  # system prompt can be changed by the user in the UI
+  default_system_prompt: | 
+    Du er en  hjælpsom assistent der hjælper med spørgsmål og svar. 
+    Brug de følgende stykker af indhentet kontekst til at besvare spørgsmålet. 
+    Hvis du ikke kender svaret, så sig bare, at du ikke ved det. 
+    Brug maksimalt tre sætninger og hold svaret kortfattet.
+  # welcome message can be changed by the user in the UI
+  default_welcome_message: Hej, hvad kan jeg hjælpe dig med?
+
 models:
   GPT 3.5 Turbo: # the UI display name / nickname of the model. Anything goes.
     api_type: azure # azure, openai, or localhost

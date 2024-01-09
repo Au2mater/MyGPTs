@@ -170,7 +170,7 @@ def save_assistant_config(
 
     save_path = Path(assistant_dir)
     save_path.mkdir(exist_ok=True)
-    save_path = save_path / f"config.yaml"
+    save_path = save_path / "config.yaml"
     with open(save_path, "w", encoding="ISO 8859-15") as f:
         yaml.dump(config, f, encoding="ISO 8859-15", allow_unicode=True)
 

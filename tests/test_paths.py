@@ -1,20 +1,22 @@
 import os
 from pathlib import Path
-from datetime import datetime
 from src.path_urls.path_url_utilities import (
-    unique_assistent_name,
+    name_to_id,
     create_assistant_dir,
     zip_assistant_dir,
+    create_session_dir,
+    distinguish_string,
+    Source,
 )
 from src.config_assistant import save_assistant_config
 
 
 fake_assistant_name = "min/Assistent! 2"
 
-unique_name1 = unique_assistent_name(fake_assistant_name)
+unique_name1 = name_to_id(fake_assistant_name)
 print(unique_name1)
 assert unique_name1.split("_")[0] == "minAssistent"
-unique_name2 = unique_assistent_name(fake_assistant_name)
+unique_name2 = name_to_id(fake_assistant_name)
 print(unique_name2)
 # should return unique normalized names similar to minAssistent_2_2023-12-22_11-35-31-078619
 assert unique_name1 != unique_name2
@@ -54,3 +56,20 @@ save_assistant_config(**config, assistant_dir=assisten_dir)
 zip_path = zip_assistant_dir(assisten_dir, delete_directory=True)
 assert "Din_assistent" in str(zip_path)
 os.remove(zip_path)
+
+
+session_dir = create_session_dir()
+assert os.path.exists(session_dir)
+zip_path = zip_assistant_dir(session_dir, delete_directory=True)
+os.remove(zip_path)
+
+# Test the url path distinguisher
+assert distinguish_string("https://www.example.com") == "URL"
+assert distinguish_string("C:\\Users\\username\\Documents\\file.txt") == "File Path"
+assert distinguish_string("/home/username/Documents/file.txt") == "File Path"
+assert distinguish_string("example.com") == "URL"
+assert distinguish_string("example") == "Unknown"
+
+Source("https://www.example.com")
+source = Source("data/test_documents/the_origins_of_jazz.txt")
+source.getvalue()
