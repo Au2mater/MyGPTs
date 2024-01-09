@@ -6,6 +6,16 @@ The goal of this app is to allow everyone in an organization to create their own
 <br>
 <br>
 <img src="images/oprah.jpg" alt="Oprah meme: You get a GPT! You get a GPT! Everyone gets a GPT!" width="500"/>
+
+## Table of contents
+- [Features](#features)
+- [Installation](#installation)
+    - [Prerequisites](#prerequisites)
+    - [Setup](#setup)
+- [Version](#prototype-in-beta)
+- [Screenshots](#screenshots)
+
+
 ## Features
 
 __Assistants__
@@ -34,6 +44,7 @@ __Languages__
 __Knowledge base sources currently supported__
 <br>PDF, DOC, DOCX, MD, TXT, and web URLs
 
+# Installation
 ## Prerequisites
 
 Before you can run this application, you need to have the following installed on your server or local machine:
@@ -56,7 +67,7 @@ setx LOCAL_LLM_ENDPOINT "http://localhost:1234/v1"
 setx LOCAL_LLM_KEY "not-needed"
 ```
 
-## Usage
+## Setup
 1. Clone the repository to your local machine or download as a zip file and extract it.
 2. In a terminal: Navigate to the project directory in your terminal (the root folder name MYGPTS).
 _For windows:_
@@ -87,8 +98,11 @@ Please note that this app is currently in beta and is still a prototype. Breakin
 
 Version: 0.3.1
 
+
 _Built using [Streamlit](https://streamlit.io/), [LangChain](https://www.langchain.com/) and [ChromaDB](https://www.trychroma.com/)._
-____
+
+
+## Screenshots
 ![Screenshot of assistant builder. ](<images/ss_myassistants_240109.jpg>)
 ____
 ![Screenshot of assistant builder. ](<images/ss_edit_240109.jpg>)
