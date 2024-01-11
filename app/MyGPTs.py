@@ -129,6 +129,9 @@ def validate_config(assistant):
     if len(assistant.system_prompt) < 10:
         st.toast("🚨 :red[Du skal angive assistantens grundvilkår udførligt.]")
         return False
+    if len(assistant.welcome_message) < 1:
+        st.toast("🚨 :red[Du skal angive en velkomstbesked.]")
+        return False
     return True
 
 
@@ -239,9 +242,11 @@ if get("online",False):
                         help=f"Slet {assistant.name}",
                         key=assistant.id + "slet",
                         use_container_width=True,
-                        on_click=confirm_and_delete_assistant,
-                        args=(assistant,),
+                        # on_click=confirm_and_delete_assistant,
+                        # args=(assistant,),
                     )
+                    if get(assistant.id + "slet"):
+                        confirm_and_delete_assistant(assistant)
                     columns[assistant.id][3].button(
                         # shared assistant link
                         label=":link:",
