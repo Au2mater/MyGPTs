@@ -308,7 +308,7 @@ if get("online",False):
             )
             # welcome message input
             st.text_input(
-                label="Assitentens velkomstbesked",
+                label="Assitentens velkomstbesked*",
                 value=current_assistant.welcome_message,
                 help="Hvad skal assistanten sige til brugeren, når samtalen starter?",
                 key="welcome_message",
@@ -424,7 +424,7 @@ if get("online",False):
             ):
                 st.write(message["content"])
 
-        if prompt := st.chat_input():
+        if prompt := st.chat_input(placeholder="Skriv din besked her..."):
             with st.chat_message(
                 name=names["user"],
                 avatar=icons["user"],
@@ -433,15 +433,18 @@ if get("online",False):
             with st.spinner("Søger..."):
                 if get("number_of_sources") > 0:
                     request_messages = add_context(
-                        prompt=prompt, messages=get("messages"), assistant=assistant
+                        prompt=prompt, messages=get("messages"), assistant=assistant , top_k=3
                     )
+                    # st.write(request_messages)
                 else:
                     request_messages = get("messages")
-            response = generate_response(
-                prompt_input=prompt,
-                chat_model=assistant.chat_model_name,
-                messages=request_messages,
-            )
+            with st.spinner("Skriver..."):
+                response = generate_response(
+                    prompt_input=prompt,
+                    chat_model=assistant.chat_model_name,
+                    messages=request_messages,
+                )
+            # response = "test"
             append("messages", {"role": "user", "content": prompt})
             append("messages", {"role": "assistant", "content": response})
             with st.chat_message(

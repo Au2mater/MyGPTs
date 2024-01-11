@@ -138,7 +138,7 @@ def format_docs(docs):
 def add_context(prompt: str, messages: list, assistant: object, top_k: int = 5):
     # if retriever is provided, get relevant documents and add them to request
     retriever = get_or_create_retriever(collection_name=assistant.id)
-    retrieved_docs = retriever.get_relevant_documents(prompt, top_k=top_k)
+    retrieved_docs = retriever.get_relevant_documents(prompt, top_k=top_k)[:top_k]
     context = format_docs(retrieved_docs)
     request_messages = messages + [{"role": "user", "content": "context: " + context}]
     return request_messages
