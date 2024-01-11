@@ -36,6 +36,7 @@ env/
 
 # Log files
 *.log
+.ruff_cache
 
 # Dependency directories
 lib/
