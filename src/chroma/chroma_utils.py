@@ -13,12 +13,11 @@ from langchain_community.document_loaders import (
 from langchain_core.documents import Document
 from langchain.text_splitter import SentenceTransformersTokenTextSplitter
 import streamlit as st  # for caching
-from streamlit.runtime.uploaded_file_manager import UploadedFile
-import os
 from pydantic import BaseModel, Field, ConfigDict
-from pydantic.types import Literal, FilePath
+from pydantic.types import FilePath #, Lteral
+from typing import Literal
 from pydantic.networks import AnyHttpUrl
-from pathlib import Path, WindowsPath
+from pathlib import WindowsPath
 from typing import Union
 from pydantic_core import Url
 from streamlit.runtime.uploaded_file_manager import UploadedFile
@@ -59,7 +58,7 @@ def start_chroma_server():
         if response.status_code == 200:
             print("chroma server is already running")
             return
-    except:
+    except requests.exceptions.RequestException:
         pass
     # Define the command you want to run in the new terminal
     command = ["chroma", "run", "--path", db_path, "--port", port]
@@ -67,6 +66,7 @@ def start_chroma_server():
     subprocess.Popen(command)
     # we are using subprocess to keep the terminal open for more python code execution while server is running
     # check if subprocess is running
+
 
 def start_chroma_client():
     db_config = get_db_config()
@@ -259,9 +259,11 @@ def index_source(source: Source):
     collection = get_or_create_collection(
         collection_name=source.collection_name_and_assistant_id
     )
-    collection.add_documents(
-        chunks,
-    )
+    # add chunks in batches of 100
+    for batch in range(0, len(chunks), 100):
+        collection.add_documents(
+            chunks[batch : batch + 100],
+        )
     print(f"{source.name} indexed into {len(chunks)} chunks")
 
 
@@ -270,10 +272,10 @@ def remove_source(source: Source):
     where = {"id": source.id}
     collection = get_collection(collection_name=source.collection_name_and_assistant_id)
     remove_ids = collection.get(where=where)["ids"]
-    try:
+    try: 
         collection.delete(remove_ids)
-    except:
-        print(f"{source.name} not found")
+    except Exception:
+        print(f"{source.name} not found in collection {source.collection_name_and_assistant_id}")
 
 
 if __name__ == "__main__":
@@ -288,5 +290,3 @@ if __name__ == "__main__":
     print(collection_name)
     remove_source(source)
     delete_collection(collection_name)
-
-

@@ -14,7 +14,7 @@ def get_remote_ip() -> str:
         session_info = runtime.get_instance().get_client(ctx.session_id)
         if session_info is None:
             return None
-    except Exception as e:
+    except Exception:
         return None
 
     return session_info.request.remote_ip

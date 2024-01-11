@@ -1,6 +1,6 @@
-
 import os
 import sys
+
 if (
     path := os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ) not in sys.path:

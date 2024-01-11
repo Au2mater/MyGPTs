@@ -1,5 +1,4 @@
 from src.chroma.chroma_utils import load_document, split_document, Source
-from langchain.text_splitter import SentenceTransformersTokenTextSplitter
 
 sources = [
     "https://jazzobserver.com/the-origins-of-jazz/",

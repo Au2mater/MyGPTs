@@ -1,3 +1,4 @@
+import shutil
 import os
 from src.chroma.chroma_utils import (
     Source,
@@ -6,8 +7,6 @@ from src.chroma.chroma_utils import (
     index_documents,
     retriever_from_sources,
     update_index,
-    delete_source,
-    create_or_get_db,
 )
 from src.chroma.chroma_utils import db_from_sources, zipdb_from_sources
 from pathlib import Path
@@ -87,7 +86,6 @@ retrieved_docs = retriever.get_relevant_documents(query)
 print(retrieved_docs)
 
 # archive the chroma db folder into a zip file
-import shutil
 
 shutil.make_archive("data/chroma_db", "zip", "data/chroma_db")
 # delete the chroma db folder

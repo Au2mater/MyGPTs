@@ -3,11 +3,8 @@ from src.chroma.chroma_utils import (
     get_db_sources,
     compare_sources,
     delete_source,
-    update_sources,
     zipupdate_directory_with_sources,
-    update_sources_beta,
 )
-from src.path_urls.path_url_utilities import add_path
 
 sources_in = [
     "influence of jazz on blues.pdf",

@@ -26,6 +26,7 @@ streamlit-tags = "*"
 
 [dev-packages]
 black = "*"
+ruff = "*"
 
 
 [requires]

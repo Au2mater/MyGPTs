@@ -4,7 +4,6 @@ from src.sqlite.db_creation import execute_query
 from src.chroma.chroma_utils import (
     start_chroma_client,
     get_or_create_collection,
-    get_collection,
     delete_collection,
     Source,
     create_source,
@@ -53,7 +52,7 @@ def delete_source(source):
 
 def delete_all_sources():
     """delete all sources from the sources table"""
-    execute_query(f"DELETE FROM sources;")
+    execute_query("DELETE FROM sources;")
 
 
 # ------------------------

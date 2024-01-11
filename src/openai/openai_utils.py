@@ -7,9 +7,11 @@ import yaml
 def get_LLM_descriptions():
     return {k: v["description"] for k, v in get_LLMs().items()}
 
+
 def format_docs(docs):
     "takes a list of documents and returns a string of the page content of each document."
     return "\n\n".join(doc.page_content for doc in docs)
+
 
 # read LLM configurations
 def get_LLMs():
@@ -22,6 +24,7 @@ def get_LLMs():
         # , 'description': 'hurtig og billig model.'}
     return LLMs
 
+
 def prepare_request(question, system_prompt=None, messages=None, retriever=None):
     """return a messages reuest for the chat model.
     If retriever is provided, use the retiriever to get relevant documents.
@@ -31,7 +34,7 @@ def prepare_request(question, system_prompt=None, messages=None, retriever=None)
         print("no system prompt provided, using default")
         if retriever:
             system_prompt = (
-                f"Du er en assistent der hjælper med spørgsmål og svar."
+                "Du er en assistent der hjælper med spørgsmål og svar."
                 " Brug de følgende stykker af indhentet kontekst til at besvare spørgsmålet."
                 " Hvis du ikke kender svaret, så sig bare, at du ikke ved det."
                 " Hvis du har brug for mere kontekst, så spørg brugeren."
@@ -39,7 +42,7 @@ def prepare_request(question, system_prompt=None, messages=None, retriever=None)
             )
         else:
             system_prompt = (
-                f"Du er en hjælpsom dansktalende assistent."
+                "Du er en hjælpsom dansktalende assistent."
                 " Du hjælper medarbejdere og borgere i Gladsaxe Kommune."
             )
 
@@ -101,4 +104,3 @@ def generate_response(
 
 # def get_LLMs_names():
 #     return list(get_LLMs().keys())
-

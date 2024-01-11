@@ -13,6 +13,7 @@ database_location = Path("data/db/myGPTs.db")
 vector_db_location = Path("data/vector_db")
 backup_directory = Path("backup/db")
 
+
 def get_or_create_database(db_name):
     # Create the destination directory if it does not exist
     db_name.parent.mkdir(exist_ok=True)
@@ -20,8 +21,7 @@ def get_or_create_database(db_name):
     return conn
 
 
-
-def backup(sources: list| str):
+def backup(sources: list | str):
     """
     Backup the source (file or directory) to a file in backup_directory
     Returns the backup file path
@@ -59,6 +59,7 @@ def backup(sources: list| str):
             return
     # return time string
     return current_datetime
+
 
 def execute_query(query: str, fetchall=True):
     conn = get_or_create_database(database_location)
@@ -105,7 +106,7 @@ def get_table_names(conn):
 
 
 def delete_tables(conn, table_names):
-    """ deletes the tables in the list table_names from the database"""
+    """deletes the tables in the list table_names from the database"""
     # prompt user to confirm deletion of tables
     print(f"Are you sure you want to delete {table_names}?")
     response = input("Enter 'y' to confirm: ")
@@ -115,8 +116,10 @@ def delete_tables(conn, table_names):
         try:
             delete_table(conn, table)
         #  capture exception and continue
-        except:
+        except Exception as e:
+            print(f"Error deleting table {table}: {e}")
             pass
+
 
 def delete_vector_db(directory=vector_db_location):
     """delete the vector database"""
@@ -128,7 +131,6 @@ def delete_vector_db(directory=vector_db_location):
             return None
     shutil.rmtree(directory, ignore_errors=True)
     print(f"Deleted vector database: {directory}")
-
 
 
 def initialize_database():
@@ -155,10 +157,10 @@ def initialize_database():
 def recreate_db_from_backup(time: str):
     """
     recreate the main and vector database from a backup file and directory
-    :param time: the time of the backup file to use 
+    :param time: the time of the backup file to use
         can be a string or a datetime object
         if string, it should be in the format: %Y_%m_%d_%H_%M or %Y_%m_%d_%H or %Y_%m_%d
-        if hour or minute is not provided, the latest backup file for that day will be used 
+        if hour or minute is not provided, the latest backup file for that day will be used
     backups are located in backup_directory
     main db backup files have the format: myGPTs_%Y_%m_%d_%H_%M.bak
     vector db backup directories have the format: vector_db_%Y_%m_%d_%H_%M.bak
@@ -194,8 +196,6 @@ def recreate_db_from_backup(time: str):
     print(f"Vector database recreated from backup: {bak_files[1]}")
 
 
-
-
 def test_functions():
     # read the database configuration from yaml file
     db_config = yaml.safe_load(open("src/sqlite/users_db.yaml"))
@@ -212,11 +212,11 @@ def test_functions():
     assert test_table["name"] not in get_table_names(conn)
 
 
-
 if __name__ == "__main__":
     # test_functions()
-    initialize_database() # automatically backs up existing database
-    bkp = backup([database_location, vector_db_location]) ; print(bkp)
+    initialize_database()  # automatically backs up existing database
+    bkp = backup([database_location, vector_db_location])
+    print(bkp)
     recreate_db_from_backup("2024_01_09_18")
     no_bkp = backup_directory / "myGPTs_does_not_exist.bak"
     recreate_db_from_backup(no_bkp)

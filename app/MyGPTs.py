@@ -1,4 +1,3 @@
-status = "prod" # "dev" or "prod"
 import streamlit as st
 from random import randint
 from streamlit_tags import st_tags
@@ -6,6 +5,7 @@ from uuid import uuid4
 import re
 import os
 import sys
+
 if (
     path := os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ) not in sys.path:
@@ -25,6 +25,9 @@ from src.sqlite.db_utils import (
 from src.streamlit_utils import get_remote_ip, init, get, set_to, append
 from src.openai.openai_utils import get_LLM_descriptions, generate_response
 from src.chroma.chroma_utils import start_chroma_server, create_source, add_context
+
+# chinging status to dev display under construction message for ip addresses other than localhost 
+status = "prod"  # "dev" or "prod"
 
 # ------------------------
 # functions
@@ -102,8 +105,10 @@ def read_text_from_files(assistant_id: str):
     # reset uploader
     st.session_state.temp_file_key = str(randint(1, 1000000))
 
+
 def display_source(s):
     return f"{s.name} ({s.creation_time.strftime('%d/%m %H:%M')})"
+
 
 def add_urls():
     for source in displayed_sources:
@@ -115,7 +120,7 @@ def add_urls():
                     # remove from displayed sources
                     append("session_sources", new_source)
                     append("sources_to_add", new_source)
-                except:
+                except Exception:
                     st.error(f"Kunne ikke indlæse {source}")
 
 
@@ -178,7 +183,7 @@ if get("username") is None:
 
 # ------------------------
 # ui
-if not get("online",False):
+if not get("online", False):
     st.markdown(
         """
         <div style="text-align:center">
@@ -189,15 +194,14 @@ if not get("online",False):
         </div>
         """,
         unsafe_allow_html=True,
-    )        
-if get("online",False):
+    )
+if get("online", False):
     # chat with shared assistant
     if "shared_assistant_id" in (params := st.experimental_get_query_params()):
         shared_assistant_id = params["shared_assistant_id"][0]
         assistant = get_assistant(shared_assistant_id)
         set_to("shared_assistant_view", True)
         go_to_chat_assistant_page(assistant)
-
 
     # page 1: my assistants
     if get("page") == "my assistants":
@@ -323,17 +327,16 @@ if get("online",False):
                     help="Dette er ikke påkrævet.",
                 )
 
-                if ( st.file_uploader(
+                if st.file_uploader(
                     label="Filer",
                     type=["csv", "doc", "docx", "pdf", "txt", "md"],
                     accept_multiple_files=True,
                     key=get("temp_file_key", "2"),
                     # on_change=read_text_from_files,
                     # kwargs={"assistant_id": current_assistant.id},
-                )):
-                    with st.spinner(f"Indlæser tekst fra uploadet fil ..."):
-                        read_text_from_files(current_assistant.id)     
-
+                ):
+                    with st.spinner("Indlæser tekst fra uploadet fil ..."):
+                        read_text_from_files(current_assistant.id)
 
                 # all sources
                 displayed_sources = st_tags(
@@ -379,7 +382,6 @@ if get("online",False):
             # deebbuging
             # set_to("num",get("num",0)+1)
             # st.write(get("num"))
-
 
     # page 3: chat with assistant
     if get("page") == "chat":
@@ -433,7 +435,10 @@ if get("online",False):
             with st.spinner("Søger..."):
                 if get("number_of_sources") > 0:
                     request_messages = add_context(
-                        prompt=prompt, messages=get("messages"), assistant=assistant , top_k=3
+                        prompt=prompt,
+                        messages=get("messages"),
+                        assistant=assistant,
+                        top_k=3,
                     )
                     # st.write(request_messages)
                 else:
