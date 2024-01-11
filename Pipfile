@@ -7,7 +7,9 @@ name = "pypi"
 # vector database tools
 chromadb = "*"
 langchain = "*"
+langchainhub = "*"
 langchain-community = "*"
+
 unstructured = "*"
 "unstructured[pdf]" = "*"
 "unstructured[docx]" = "*"
@@ -15,7 +17,6 @@ unstructured = "*"
 beautifulsoup4 = "*"
 pypdf = "*"
 markdown = "*"
-langchainhub = "*"
 sentence-transformers = "*"
 # chat and llm
 openai = "*"
