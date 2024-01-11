@@ -111,4 +111,4 @@ _Built using [Streamlit](https://streamlit.io/), [LangChain](https://www.langcha
 ____
 ![Screenshot of assistant builder. ](<images/ss_edit_240109.jpg>)
 ___
-![Screenshot of chat interface. ](<images/ss_chat_240109.jpg>)
+![Screenshot of chat interface. ](<images/ss_chat_240111.jpg>)
