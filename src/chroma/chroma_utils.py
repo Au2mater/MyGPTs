@@ -66,7 +66,7 @@ def start_chroma_server():
     # Open a new terminal and run the command
     subprocess.Popen(command)
     # we are using subprocess to keep the terminal open for more python code execution while server is running
-
+    # check if subprocess is running
 
 def start_chroma_client():
     db_config = get_db_config()

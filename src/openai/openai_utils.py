@@ -4,6 +4,13 @@ from openai import AzureOpenAI, OpenAI
 import yaml
 
 
+def get_LLM_descriptions():
+    return {k: v["description"] for k, v in get_LLMs().items()}
+
+def format_docs(docs):
+    "takes a list of documents and returns a string of the page content of each document."
+    return "\n\n".join(doc.page_content for doc in docs)
+
 # read LLM configurations
 def get_LLMs():
     with open("config/LLMs.yaml", "r", encoding="UTF-8") as f:
@@ -14,22 +21,6 @@ def get_LLMs():
         # , 'base_url': 'AZURE_OPENAI_ENDPOINT', 'api_key': 'AZURE_OPENAI_KEY'
         # , 'description': 'hurtig og billig model.'}
     return LLMs
-
-
-def get_settings():
-    with open("config/LLMs.yaml", "r") as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
-        settings = config["global_settings"]
-    return settings
-
-
-def get_LLMs_names():
-    return list(get_LLMs().keys())
-
-
-def get_LLM_descriptions():
-    return {k: v["description"] for k, v in get_LLMs().items()}
-
 
 def prepare_request(question, system_prompt=None, messages=None, retriever=None):
     """return a messages reuest for the chat model.
@@ -99,3 +90,15 @@ def generate_response(
     )
 
     return response.choices[0].message.content
+
+
+# def get_settings():
+#     with open("config/LLMs.yaml", "r") as f:
+#         config = yaml.load(f, Loader=yaml.FullLoader)
+#         settings = config["global_settings"]
+#     return settings
+
+
+# def get_LLMs_names():
+#     return list(get_LLMs().keys())
+
