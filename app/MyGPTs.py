@@ -331,7 +331,7 @@ if get("online",False):
                     # on_change=read_text_from_files,
                     # kwargs={"assistant_id": current_assistant.id},
                 )):
-                    with st.spinner(f"Indlæser tekst fra uplaodet fil ..."):
+                    with st.spinner(f"Indlæser tekst fra uploadet fil ..."):
                         read_text_from_files(current_assistant.id)     
 
 
