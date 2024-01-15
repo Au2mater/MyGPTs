@@ -6,17 +6,18 @@ if (
     path := os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ) not in sys.path:
     sys.path.append(path)
+
 # add root directory to path for relative import
 from src.sqlite.db_utils import add_or_get_user, get_assistant
 from src.streamlit_utils import get_remote_ip, init, get, set_to
 from src.chroma.chroma_utils import start_chroma_server
 from src.basic_data_classes import User
 
-from mine_assistenter import mine_assistenter_page, go_to_chat_assistant_page
-from edit_assistant import edit_assistant_page
-from chat import chat_page
-from gov_home import gov_home_page
-from gov_edit_llm_model import edit_llm_model_page
+from app.mine_assistenter import mine_assistenter_page, go_to_chat_assistant_page
+from app.edit_assistant import edit_assistant_page
+from app.chat import chat_page
+from app.gov_home import gov_home_page
+from app.gov_edit_llm_model import edit_llm_model_page
 
 # changing status to dev display under construction message for ip addresses other than localhost
 status = "prod"  # "dev" or "prod"

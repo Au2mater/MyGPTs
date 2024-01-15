@@ -9,32 +9,35 @@ import datetime
 from pathlib import Path
 from src.basic_data_classes import GlobalSetting, LLM, Source, Assistant, User
 from pydantic import BaseModel
-from dotenv import load_dotenv
-
+import dotenv as de
 import logging
-
-logging.basicConfig(
-    level=logging.INFO,
-    filename="sqlite.log",
-    filemode="a",  # "a" stands for append, which means new log messages will be added to the end of the file instead of overwriting the existing conten
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
 
 # Define the .env file path
 env_path = Path(".") / ".env"
 
 # Load the variables from the .env file into the environment
-load_dotenv(dotenv_path=env_path)
-
+de.load_dotenv(dotenv_path=env_path)
 # constants
 data_classes = [GlobalSetting, Source, Assistant, User]
 database_location = Path(
-    os.environ.get("DATABASE_LOCATION", "data/db/myGPTs.db")
+    os.environ.get("DATABASE_LOCATION")
 ).resolve()
 vector_db_location = Path(
-    os.environ.get("VECTOR_DB_LOCATION", "data/vector_db")
+    os.environ.get("VECTOR_DB_LOCATION")
 ).resolve()
-backup_directory = Path(os.environ.get("BACKUP_DIRECTORY", "backup/db")).resolve()
+backup_directory = Path(os.environ.get("BACKUP_DIRECTORY")).resolve()
+log_file =  Path(os.environ.get("LOG_FILE")
+).resolve()
+
+print(f"database_location: {database_location}")
+logging.basicConfig(
+    level=logging.INFO,
+    filename=log_file,
+    filemode="a",  # "a" stands for append, which means new log messages will be added to the end of the file instead of overwriting the existing conten
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+
+
 
 
 def get_or_create_database(db_name) -> Connection:
@@ -283,7 +286,7 @@ def recreate_db_from_backup(time: str):
         # check for filenames in backup_directory containing the time string
         bak_file_paths = list(backup_directory.glob(f"*{prefix}_{time}*.bak"))
         # check if there are any backup files
-        if len(bak_file_paths) < 2:
+        if len(bak_file_paths) < 1:
             print(f"No backup files found for {time}")
             return
         # get the latest backup file for both main and vector database
@@ -401,60 +404,3 @@ def delete_row(dataobject_or_id: object | str, table_name: str = None):
     conn.close()
     logging.info(f"deleted row-id {id} from {table_name} table")
 
-
-# testing
-
-
-# def test_functions():
-#     temp_db_location = Path("data/db/temp.db")
-#     conn = get_or_create_database(temp_db_location)  # create the database
-#     print(f"db successfully created at {temp_db_location}")
-#     # test the functions
-
-#     # read the database configuration from yaml file
-#     db_config = yaml.safe_load(open("src/sqlite/users_db.yaml"))
-#     tables = db_config["tables"]
-#     test_table = tables[0]
-#     print(test_table["name"])
-#     create_table_from_dict(conn, test_table)
-#     assert test_table["name"] in get_table_names(conn)
-#     delete_table(test_table["name"])
-#     assert test_table["name"] not in get_table_names(conn)
-
-#     # create a table from a dataclass
-#     create_table_from_dataclass(LLM)
-#     assert "llms" in get_table_names(conn)
-#     delete_table("llms")
-#     assert "llms" not in get_table_names(conn)
-
-#     # close the connection
-#     conn.close()
-#     # delete temp db
-#     temp_db_location.unlink(missing_ok=True)
-
-
-if __name__ == "__main__":
-    print("")
-    # test_functions()
-    # initialize_database_from_dataclasses(data_classes)
-    # initialize_database_from_yaml()  # automatically backs up existing database
-    # bkp = backup([database_location, vector_db_location])
-    # print(bkp)
-    # recreate_db_from_backup("2024_01_12")
-    # no_bkp = backup_directory / "myGPTs_does_not_exist.bak"
-    # recreate_db_from_backup(no_bkp)
-    # initialize_database_from_yaml()
-    # # bkp = "backup/db/myGPTs_2024_01_09_16_50.bak"
-    # recreate_db_from_backup(bkp)
-
-    # create_table_from_dataclass(LLM)
-    # create_table_from_dataclass(conn, Source, "sources_2")
-    # # copy the contents of the sources table to the sources_2 table
-    # migrate_table("sources", "sources_2")
-    # # delete the sources table and rename the sources_2 table to sources
-    # delete_table( "sources")
-    # execute_query("ALTER TABLE sources_2 RENAME TO sources")
-
-    # conn = get_or_create_database(database_location)
-    # delete_table( "globalsettings")
-    # create_table_from_dataclass(GlobalSetting)

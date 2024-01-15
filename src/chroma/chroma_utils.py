@@ -22,7 +22,8 @@ from pydantic_core import Url
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 from uuid import uuid4
 from src.basic_data_classes import Source
-
+from pathlib import Path
+import dotenv as de
 # ---------------------------
 
 """ 
@@ -31,6 +32,13 @@ create and delete collections
 convert various input types to sources
 index and remove sources from collections
  """
+
+# Define the .env file path
+env_path = Path(".") / ".env"
+
+# Load the variables from the .env file into the environment
+de.load_dotenv(dotenv_path=env_path)
+temp_file_location = os.getenv("TEMP_FILE_LOCATION")
 
 # ----------------------------
 # chroma client operations
@@ -176,7 +184,7 @@ def create_source(input, c_a_id: str) -> Source:
 
     if isinstance(validated_input, UploadedFile):
         # save the file to temp directory data/temp
-        path_url = os.path.join("data", "temp", uuid4().hex + input.name)
+        path_url = os.path.join(temp_file_location, uuid4().hex + input.name)
         with open(path_url, "wb") as f:
             f.write(input.getvalue())
             f.close()

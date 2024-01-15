@@ -1,4 +1,5 @@
 """ utilties for sqlite """
+import os
 from datetime import datetime
 from src.sqlite.db_creation import (
     execute_query,
@@ -17,11 +18,15 @@ from src.chroma.chroma_utils import (
     remove_source,
 )
 from src.basic_data_classes import Assistant, User, Source, LLM
+from pathlib import Path
 import logging
+
+log_file =  Path(os.environ.get("LOG_FILE")
+).resolve()
 
 logging.basicConfig(
     level=logging.INFO,
-    filename="sqlite.log",
+    filename=log_file,
     filemode="a",  # "a" stands for append, which means new log messages will be added to the end of the file instead of overwriting the existing conten
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
