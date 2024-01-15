@@ -1,30 +1,11 @@
 """ Utility functions for using OpenAI API."""
 import os
 from openai import AzureOpenAI, OpenAI
-import yaml
 from src.basic_data_classes import LLM
-
-
-def get_LLM_descriptions():
-    return {k: v["description"] for k, v in get_LLMs().items()}
-
 
 def format_docs(docs):
     "takes a list of documents and returns a string of the page content of each document."
     return "\n\n".join(doc.page_content for doc in docs)
-
-
-# read LLM configurations
-def get_LLMs():
-    with open("config/LLMs.yaml", "r", encoding="UTF-8") as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
-        LLMs = config["models"]
-        # returns a dict of dictionaries where each dictionary is similar to this:
-        # 'GPT 3.5 Turbo': {'api_type': 'azure', 'deployment': 'gpt-35-turbo'
-        # , 'base_url': 'AZURE_OPENAI_ENDPOINT', 'api_key': 'AZURE_OPENAI_KEY'
-        # , 'description': 'hurtig og billig model.'}
-    return LLMs
-
 
 def prepare_request(question, system_prompt=None, messages=None, retriever=None):
     """return a messages reuest for the chat model.
@@ -71,52 +52,31 @@ def prepare_request(question, system_prompt=None, messages=None, retriever=None)
 # Function for generating LLM response
 def generate_response(
     prompt_input,
-    llm=None,
+    llm,
     chat_model: str = "GPT 3.5 Turbo",
     messages=[],
     api_version="2023-07-01-preview",
     max_tokens=1000,
     temperature=0.7,
 ):
-    if not llm:
-        LLMs = get_LLMs()
-        api_type = LLMs[chat_model]["api_type"]
-        if api_type == "azure":
-            client = AzureOpenAI(
-                api_key=os.getenv(LLMs[chat_model]["api_key"]),
-                api_version=api_version,
-                azure_endpoint=os.getenv(LLMs[chat_model]["base_url"]),
-            )
-        else:
-            client = OpenAI(
-                api_key=os.getenv(LLMs[chat_model]["api_key"]),
-                base_url=os.getenv(LLMs[chat_model]["base_url"]),
-            )
-        response = client.chat.completions.create(
-            model=LLMs[chat_model]["deployment"],
-            messages=messages + [{"role": "user", "content": prompt_input}],
-            max_tokens=max_tokens,
-            temperature=temperature,
+    api_type = llm.api_type
+    if api_type == "azure":
+        client = AzureOpenAI(
+            api_key=llm.api_key,
+            api_version=api_version,
+            azure_endpoint=llm.enpoint_or_base_url,
         )
     else:
-        api_type = llm.api_type
-        if api_type == "azure":
-            client = AzureOpenAI(
-                api_key=llm.api_key,
-                api_version=api_version,
-                azure_endpoint=llm.enpoint_or_base_url,
-            )
-        else:
-            client = OpenAI(
-                api_key=llm.api_key,
-                base_url=llm.enpoint_or_base_url,
-            )
-        response = client.chat.completions.create(
-            model=llm.deployment,
-            messages=messages + [{"role": "user", "content": prompt_input}],
-            max_tokens=max_tokens,
-            temperature=temperature,
+        client = OpenAI(
+            api_key=llm.api_key,
+            base_url=llm.enpoint_or_base_url,
         )
+    response = client.chat.completions.create(
+        model=llm.deployment,
+        messages=messages + [{"role": "user", "content": prompt_input}],
+        max_tokens=max_tokens,
+        temperature=temperature,
+    )
 
     return response.choices[0].message.content
 
@@ -146,16 +106,6 @@ def test_llm(llm):
             return False, "Der problem med at få respons fra modellen. Fejl:" + str(e)
 
 
-# def get_settings():
-#     with open("config/LLMs.yaml", "r") as f:
-#         config = yaml.load(f, Loader=yaml.FullLoader)
-#         settings = config["global_settings"]
-#     return settings
-
-
-# def get_LLMs_names():
-#     return list(get_LLMs().keys())
-
 if __name__ == "__main__":
     model = {
         "name": "GPT",
@@ -175,7 +125,7 @@ if __name__ == "__main__":
         "api_type": "azure",
         "deployment": "gpt-35-turbo",
         "enpoint_or_base_url": os.getenv("AZURE_OPENAI_ENDPOINT"),
-        "api_key": "abc123",  # os.getenv("AZURE_OPENAI_KEY")
+        "api_key": "abc123",  # FAKE KEY
         "description": "test model",
     }
     llm = LLM(**model)
