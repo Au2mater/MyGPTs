@@ -1,13 +1,14 @@
 from src.sqlite.db_creation import (
-    # database_location,
-    # backup_directory,
+    database_location,
+    backup_directory,
     get_or_create_database,
     create_table_from_dataclass, 
     get_table_names, 
     delete_table,
     insert_row,
     get_rows,
-    recreate_db_from_backup
+    recreate_db_from_backup,
+    execute_query,
     )
 from pydantic import BaseModel
 
@@ -20,7 +21,10 @@ def create_test_class():
         age: int
     return TestClass
 
+
 def test_create_table_from_dataclass():
+    # start with a clean slate, delete the table if it exists
+    execute_query('DROP TABLE IF EXISTS testclasss')
     create_table_from_dataclass(create_test_class())
     table_names = get_table_names(conn)
     assert 'testclasss' in table_names
@@ -35,8 +39,3 @@ def test_delete_table():
     delete_table('testclasss', )
     table_names = get_table_names(conn)
     assert 'testclasss' not in table_names
-
-
-time = '2024_01_15_14'
-# bak_file_paths = list(backup_directory.glob(f"*{'vector_db'}_{time}*.bak")) 
-recreate_db_from_backup(time)

@@ -5,7 +5,6 @@ import chromadb
 import os
 import subprocess
 import requests
-import yaml
 from langchain_community.document_loaders import (
     UnstructuredFileLoader,
     WebBaseLoader,
@@ -24,6 +23,7 @@ from uuid import uuid4
 from src.basic_data_classes import Source
 from pathlib import Path
 import dotenv as de
+from src.sqlite.gov_db_utils import get_global_setting
 # ---------------------------
 
 """ 
@@ -39,29 +39,21 @@ env_path = Path(".") / ".env"
 # Load the variables from the .env file into the environment
 de.load_dotenv(dotenv_path=env_path)
 temp_file_location = os.getenv("TEMP_FILE_LOCATION")
+chromadb_host = os.getenv("CHROMADB_HOST")
+chromadb_port = int(os.getenv("CHROMADB_PORT"))
 
 # ----------------------------
 # chroma client operations
-
-
-def get_db_config():
-    """read the chroma port, embeddings_model, and host from config/vector_db.yaml"""
-    with open("config/vector_db.yaml", "r") as f:
-        db_config = yaml.load(f, Loader=yaml.FullLoader)
-        f.close()
-    return db_config
-
 
 @st.cache_resource(show_spinner=False)
 def start_chroma_server():
     """start chroma http server if it's not already running"""
     # run command chroma run --path data/db --port 8000
-    db_config = get_db_config()
     db_path = os.path.join("data", "vector_db")
-    port = str(db_config["port"])
+    port = str(chromadb_port)
     # test if server is already running
     try:
-        response = requests.get(f"http://localhost:{port}/api/v1")
+        response = requests.get(f"http://{chromadb_host}:{port}/api/v1")
         if response.status_code == 200:
             print("chroma server is already running")
             return
@@ -74,10 +66,8 @@ def start_chroma_server():
     # we are using subprocess to keep the terminal open for more python code execution while server is running
     # check if subprocess is running
 
-
 def start_chroma_client():
-    db_config = get_db_config()
-    client = chromadb.HttpClient(host=db_config["host"], port=db_config["port"])
+    client = chromadb.HttpClient(host=chromadb_host, port=chromadb_port)
     return client
 
 
@@ -92,7 +82,7 @@ def get_or_create_collection(collection_name):
     """create a collection with the given name and client"""
     # create a collection
     client = start_chroma_client()
-    emb_model_name = get_db_config()["embeddings_model"]
+    emb_model_name = get_global_setting('embeddings_model').value
     embedding_function = SentenceTransformerEmbeddings(model_name=emb_model_name)
     print(f"embeddings model {emb_model_name} loaded")
     collection = Chroma(
@@ -240,7 +230,7 @@ def source_to_document(source: Source) -> Document:
 
 def split_document(document: object) -> list:
     """given a langhchain document, split the document into chunks (list of sentences)"""
-    emb_model_name = get_db_config()["embeddings_model"]
+    emb_model_name = get_global_setting('embeddings_model').value
     splitter = SentenceTransformersTokenTextSplitter(model_name=emb_model_name)
     chunks = splitter.split_documents([document])
     return chunks
@@ -276,17 +266,3 @@ def remove_source(source: Source):
         print(
             f"{source.name} not found in collection {source.collection_name_and_assistant_id}"
         )
-
-
-if __name__ == "__main__":
-    input = "https://www.google.com"
-    fake_id = uuid4().hex
-    source = create_source(input=input, c_a_id=fake_id)
-    print(source)
-    document = source_to_document(source)
-    print(document)
-    index_source(source)
-    collection_name = source.collection_name_and_assistant_id
-    print(collection_name)
-    remove_source(source)
-    delete_collection(collection_name)
