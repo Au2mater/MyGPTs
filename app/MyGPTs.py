@@ -65,7 +65,7 @@ elif "shared_assistant_id" in (params := st._get_query_params()):
     go_to_chat_assistant_page(assistant)
 
 # check if url is /?admin
-elif "admin" in (params := st._get_query_params()) and get("user").id == "::1":
+elif get("user").id == "::1":
     init("page", "admin_home")
 
 else:

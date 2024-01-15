@@ -10,9 +10,7 @@ if (
     sys.path.append(path)
 # add root directory to path for relative import
 from src.sqlite.db_utils import (
-    add_or_get_user,
     get_user_assistants,
-    get_assistant,
     get_assistant_sources,
     delete_assistant,
     get_active_llms,
@@ -103,6 +101,11 @@ def go_to_chat_assistant_page(assistant: Assistant):
 
 def mine_assistenter_page():
     st.title("Mine Assistenter")
+    if get("user").id == "::1":
+        st.button('← Gå til admin side'
+                , on_click=set_to
+                , args=('page', 'admin_home')
+                    )
     with st.container(border=True):
         # create assistant button
         st.button(
