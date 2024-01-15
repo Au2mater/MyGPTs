@@ -80,12 +80,14 @@ Congrats! :tada: You're ready to run the app.
 
 # Running the app
 1. In the scripts folder, run the the start_app.bat file.
-A server should start up on port _8501_ and a browser tab should open with the app interface. Start building and sharing your GPTs.
+A server should start up on port _8501_ and a browser tab should open with the app interface. 
 
-2. You will now be presented with an admin interface where you have can add one your model APIs to the app.
-<br>_This view is only visible from localhost_
+2. You will now be presented with an admin interface where you can add your model APIs to the app.
+<br>_This admin view is only visible from localhost_
 <br>Click the '_Tilføj ny model_' button and fill out the form.
 <br>To start creating and sharing assistants press the '_Mine assistenter_' button.
+
+Start building and sharing your GPTs.
 
 ## Prototype in Beta
 Please note that this app is currently in beta and is still a prototype. Breaking changes may occur as I continue to improve and refine the functionality. I appreciate your understanding and feedback as I work towards a stable release.
