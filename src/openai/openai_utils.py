@@ -52,8 +52,7 @@ def prepare_request(question, system_prompt=None, messages=None, retriever=None)
 # Function for generating LLM response
 def generate_response(
     prompt_input,
-    llm,
-    chat_model: str = "GPT 3.5 Turbo",
+    llm: str,
     messages=[],
     api_version="2023-07-01-preview",
     max_tokens=1000,

@@ -79,7 +79,7 @@ def chat_page():
         with st.spinner("Skriver..."):
             response = generate_response(
                 prompt_input=prompt,
-                chat_model=assistant.chat_model_name,
+                llm=assistant.chat_model_name,
                 messages=request_messages,
                 max_tokens=int(get_global_setting("max_tokens").value),
                 temperature=assistant.temperature,

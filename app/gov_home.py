@@ -100,17 +100,16 @@ def gov_home_page():
         init("initialized", True)
     # ------------------------
     # UI
-    st.title("MyGPTs Setup & Governance")
+    st.title("MyGPTs: Setup & Governance")
     if get("page", "") == "admin_home":
-        # t1, t2, t3 = st.tabs(["__Modeller__", "__Indstillinger__", "__Statistik__"])
-
         st.button(
-            "Gå til Mine Assistenter",
+            "Gå til Mine Assistenter →",
             on_click=go_to_my_assistants,
             use_container_width=True,
         )
-        # with t1:
-        with st.expander("__Modeller__", expanded=True):
+        t1, t2, t3 = st.tabs(["__Modeller__", "__Indstillinger__", "__Statistik__"])
+        with t1:
+        # with st.expander("__Modeller__", expanded=True):
             # create a form for adding a new model
             deployed_llms = get_deployed_llms()
 
@@ -162,27 +161,16 @@ def gov_home_page():
                         use_container_width=True,
                     )
 
-        # with t2:
-        with st.expander(
-            "__Standardindstillinger for oprettelse af assistenter__", expanded=True
-        ):
-            # deafult global settings
-            # if any of the settings are changed, enable a save button ,
-            # if values are not default enable a reset button
+        with t2:
+        # with st.expander("__Standardindstillinger for oprettelse af assistenter__", expanded=True):
             global_settings = get_global_setting_dicts()
-
-            st.markdown(
-                "Her kan du ændre standardindstillingerne for oprettelse af assistenter."
-                "<br> Disse indstillinger kan ændres af brugeren for hver enkelt assistent.",
-                unsafe_allow_html=True,
-            )
 
             # The maximum number of tokens that can be generated in the chat completion.
             # The total length of input tokens and generated tokens is limited by the model's context length.
             st.text_input(
                 "Base URL",
                 value=global_settings["base_url"]["value"],
-                help="Denne URL bruges til at tilgå løsningen og dele assistenter i organisation",
+                help="Denne URL bruges til at tilgå løsningen og dele assistenter i organisationen.",
                 key=get("global_setting_keys")["base_url"],
             )
             st.slider(
@@ -198,6 +186,16 @@ def gov_home_page():
                 ),
                 key=get("global_setting_keys")["max_tokens"],
             )
+            st.text_input(
+                'Sentece Embeddings model',
+                value=global_settings["embeddings_model"]["value"],
+                help='Navnet på den Sentence Embeddings model, der skal bruges til at indeksere kilder.',
+                key=get("global_setting_keys")["embeddings_model"],
+            )
+            st.markdown(
+                "<br> Nedenstående indstillinger kan ændres af brugeren for hver enkelt assistent.",
+                unsafe_allow_html=True,
+            )
 
             st.text_area(
                 "Standard system prompt",
@@ -209,14 +207,17 @@ def gov_home_page():
                 value=global_settings["default_welcome_message"]["value"],
                 key=get("global_setting_keys")["default_welcome_message"],
             )
-            set_to("settings_deafult", True)
-            set_to("settings_unchanged", True)
-            for setting in global_settings.values():
-                if setting["value"] != setting["default_value"]:
-                    set_to("settings_deafult", False)
-                if setting["value"] != get(get("global_setting_keys")[setting["id"]]):
-                    set_to("settings_unchanged", False)
+            
             with st.container():
+
+                init("settings_deafult", True)
+                init("settings_unchanged", True)
+                for setting in global_settings.values():
+                    if setting["value"] != setting["default_value"]:
+                        set_to("settings_deafult", False)
+                    if (a:=setting["value"]) != (b:=get(get("global_setting_keys")[setting["id"]])):
+                        set_to("settings_unchanged", False)
+
                 col1, col2, col3 = st.columns([1, 1, 1])
                 col1.button(
                     "Nulstil",
@@ -240,3 +241,10 @@ def gov_home_page():
                     use_container_width=True,
                     on_click=reset_displayed_settings,
                 )
+    # ------------------------
+                
+    with t3:
+        st.write("Statistik")
+        st.write("Kommer snart")
+    # ------------------------
+        

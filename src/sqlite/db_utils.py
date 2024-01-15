@@ -40,6 +40,13 @@ def get_active_llms():
     llms = results_to_data_objects(results, LLM)
     return llms
 
+def get_llm(llm_id):
+    """get an llm from the database"""
+    llm_row = get_row(llm_id, "llms")
+    llm = results_to_data_objects(llm_row, LLM)
+    if len(llm) == 1:
+        return llm[0]
+
 
 def get_base_url():
     """get the base url for the llm"""
