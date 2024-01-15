@@ -13,16 +13,15 @@ from langchain_community.document_loaders import (
 from langchain_core.documents import Document
 from langchain.text_splitter import SentenceTransformersTokenTextSplitter
 import streamlit as st  # for caching
-from pydantic import BaseModel, Field, ConfigDict
-from pydantic.types import FilePath #, Lteral
-from typing import Literal
+from pydantic import BaseModel, ConfigDict
+from pydantic.types import FilePath  # , Literal
 from pydantic.networks import AnyHttpUrl
 from pathlib import WindowsPath
 from typing import Union
 from pydantic_core import Url
 from streamlit.runtime.uploaded_file_manager import UploadedFile
-from datetime import datetime
 from uuid import uuid4
+from src.basic_data_classes import Source
 
 # ---------------------------
 
@@ -166,17 +165,6 @@ class Input(BaseModel):
     input: Union[UploadedFile, AnyHttpUrl, FilePath]
 
 
-# input to source
-class Source(BaseModel):
-    id: str = Field(default_factory=lambda: uuid4().hex)
-    name: str = Field(min_length=1, max_length=1000)
-    source_type: Literal["url", "file path", "uploaded file"]
-    creation_time: datetime = Field(default_factory=datetime.now)
-    content_type: Literal["txt", "pdf", "csv", "docx", "doc", "md", "url"] = "txt"
-    content: str = Field(min_length=1, max_length=500000)
-    collection_name_and_assistant_id: str = Field(min_length=1, max_length=100)
-
-
 # this function takes an input and return a source object.
 def create_source(input, c_a_id: str) -> Source:
     """
@@ -234,9 +222,11 @@ def source_to_document(source: Source) -> Document:
     """given a source object, convert the source to a langchain document"""
     # copy the source object
     src = source.model_copy()
-    # convert creation time to string
-    src.creation_time = src.creation_time.strftime("%Y-%m-%d %H:%M:%S")
     document = Document(page_content=src.content, metadata=src.model_dump())
+    # convert any document metdata that is not str, int, float or bool to str
+    for k, v in document.metadata.items():
+        if not isinstance(v, (str, int, float, bool)):
+            document.metadata[k] = str(v)
     return document
 
 
@@ -272,10 +262,12 @@ def remove_source(source: Source):
     where = {"id": source.id}
     collection = get_collection(collection_name=source.collection_name_and_assistant_id)
     remove_ids = collection.get(where=where)["ids"]
-    try: 
+    try:
         collection.delete(remove_ids)
     except Exception:
-        print(f"{source.name} not found in collection {source.collection_name_and_assistant_id}")
+        print(
+            f"{source.name} not found in collection {source.collection_name_and_assistant_id}"
+        )
 
 
 if __name__ == "__main__":

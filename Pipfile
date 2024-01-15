@@ -1,33 +1,42 @@
 [[source]]
-url = "https://pypi.org/simple"
+url = 'https://pypi.org/simple'
 verify_ssl = true
-name = "pypi"
+name = 'pypi'
 
 [packages]
+
+# data validation
+pydantic = '>=2.5.3,<2.6.0'
+'pydantic[email]' = '*'
+
 # vector database tools
-chromadb = "*"
-langchain = "*"
-langchainhub = "*"
-langchain-community = "*"
+chromadb = '>=0.4.0,<0.5.0'
+langchain = '>=0.1.0,<0.2.0'
+langchainhub = '>=0.1.0,<0.2.0'
+langchain-community = '>=0.0.0,<0.1.0'
+sentence-transformers = '>=2.2.0,<2.3.0'
 
-unstructured = "*"
-"unstructured[pdf]" = "*"
-"unstructured[docx]" = "*"
+# reading text from files and urls
+unstructured = '>=0.12.0,<0.13.0'
+'unstructured[pdf]' = '*'
+'unstructured[docx]' = '*'
+beautifulsoup4 = '~=4.12'
+# pypdf = '*'
+# markdown = '*'
 
-beautifulsoup4 = "*"
-pypdf = "*"
-markdown = "*"
-sentence-transformers = "*"
+
 # chat and llm
-openai = "*"
+openai = '~=1.7'
+
 # ui
-streamlit = "*"
-streamlit-tags = "*"
+streamlit = '~=1.29'
+streamlit-tags = '~=1.2'
 
 [dev-packages]
-black = "*"
-ruff = "*"
+black = '*'
+ruff = '*'
+pytest = '*'
 
 
 [requires]
-python_version = "3.10"
+python_version = '3.10'

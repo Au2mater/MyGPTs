@@ -14,5 +14,3 @@ messages = [
 response = generate_response(
     prompt_input="Hvordan opretter jeg admin på en fælles postkasse?", messages=messages
 )
-
-print(response)

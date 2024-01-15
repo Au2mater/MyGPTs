@@ -1,18 +1,45 @@
 """ utilties for sqlite """
 from datetime import datetime
-from src.sqlite.db_creation import execute_query
+from src.sqlite.db_creation import (
+    execute_query,
+    insert_row,
+    delete_row,
+    add_or_update_row,
+    get_row,
+    results_to_data_objects,
+)
 from src.chroma.chroma_utils import (
     start_chroma_client,
     get_or_create_collection,
     delete_collection,
-    Source,
     create_source,
     index_source,
     remove_source,
 )
-from pydantic import BaseModel, Field
-import yaml
-from uuid import uuid4
+from src.basic_data_classes import Assistant, User, Source, LLM
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    filename="sqlite.log",
+    filemode="a",  # "a" stands for append, which means new log messages will be added to the end of the file instead of overwriting the existing conten
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+
+
+# llm level operations
+def get_active_llms():
+    """get all llms from the database where is_active is True"""
+    results = execute_query("SELECT * FROM llms WHERE is_active='True';")
+    # sort results by name key
+    results = sorted(results, key=lambda x: x["name"])
+    llms = results_to_data_objects(results, LLM)
+    return llms
+
+
+def get_base_url():
+    """get the base url for the llm"""
+    return execute_query("SELECT * FROM globalsettings WHERE id='base_url';")[0][1]
 
 
 # ------------------------
@@ -27,18 +54,7 @@ def add_source(source):
     # add source to sources table
     src = source.model_copy()
     src.content = src.content.strip()[:500]
-    columns = ", ".join(k for k in src.model_dump().keys())
-    # string values where single quotes and backslashes are removed
-    values = "', '".join(
-        [str(v).replace("'", "").replace("\\", "") for k, v in src.model_dump().items()]
-    )
-    # print(query)
-    execute_query(
-        f"""
-        REPLACE INTO sources ({columns})
-        VALUES ('{values}');
-    """
-    )
+    insert_row(src)
 
 
 def delete_source(source):
@@ -46,82 +62,40 @@ def delete_source(source):
     # remove source from chroma
     remove_source(source)
     # delete source from sources table
-    source_id = source.id
-    execute_query(f"DELETE FROM sources WHERE id='{source_id}';")
-
-
-def delete_all_sources():
-    """delete all sources from the sources table"""
-    execute_query("DELETE FROM sources;")
+    delete_row(source)
 
 
 # ------------------------
 # 1- assistant level operations
-# each assistant has one owner indicated in the owner_id field
-# create an assistant data class that correponds to a row in the assistants table
-class Assistant(BaseModel):
-    """data class for an assistant"""
-
-    id: str = Field(default_factory=lambda: uuid4().hex)
-    # is also the name of the assistant's collection in chroma
-    name: str = Field(min_length=1, max_length=30)
-    # must correspond to one of the models in config/LLMS.yaml
-    # this ensures that each assistant has a one unique collection
-    _LLM_config = yaml.safe_load(open("config/LLMs.yaml", encoding="utf-8"))
-    chat_model_name: str = Field(
-        min_length=1,
-        default=list(_LLM_config["models"].keys())[0],
-    )
-    system_prompt: str = Field(
-        min_length=15,
-        default=_LLM_config["global_settings"]["default_system_prompt"],
-    )
-    welcome_message: str = Field(
-        min_length=3,
-        default=_LLM_config["global_settings"]["default_welcome_message"],
-    )
-    creation_time: datetime = datetime.now()
-    last_updated: datetime = datetime.now()
-    owner_id: str = Field(min_length=1, max_length=30)
-
-
 # a function to add an assistant to the database
+
+
 def add_or_update_assistant(assistant: Assistant):
     """add an assistant to the database or update if it already exists
     this also creates a collection for the assistant if it does not exist
     """
     # update the assistant
     assistant.last_updated = datetime.now()
-    columns = ", ".join(k for k in assistant.model_dump().keys())
-    values = ", ".join([f"'{v}'" for k, v in assistant.model_dump().items()])
-    execute_query(
-        f"""
-        REPLACE INTO assistants ({columns})
-        VALUES ({values});
-    """
-    )
-    # create the collection
+    add_or_update_row(assistant)
+    # create the collection for the assistant in the vector database
     get_or_create_collection(assistant.id)
     print(f"Updated assistant {assistant.id}")
 
 
 def get_assistant(assistant_id):
     """get an assistant from the database"""
-    assistant = execute_query(f"SELECT * FROM assistants WHERE id='{assistant_id}';")
-    assistant = Assistant(
-        **dict(zip(list(Assistant.model_fields.keys()), assistant[0]))
-    )
-    return assistant
+    assistant_row = get_row(assistant_id, "assistants")
+    assistant = results_to_data_objects(assistant_row, Assistant)
+    if len(assistant) == 1:
+        return assistant[0]
 
 
 def get_assistant_sources(assistant_id):
     """get all sources for an assistant"""
-    sources = execute_query(
+    source_rows = execute_query(
         f"SELECT * FROM sources WHERE collection_name_and_assistant_id='{assistant_id}';"
     )
-    sources = [
-        Source(**dict(zip(list(Source.model_fields.keys()), s))) for s in sources
-    ]
+    sources = results_to_data_objects(source_rows, Source)
     return sources
 
 
@@ -148,35 +122,65 @@ def get_assistant_collection(assistant_id):
 # 1 - user operations
 
 
-def add_or_get_user(user_id):
+def add_or_get_user(user: User | dict):
     """add a user to the database if it does not exist"""
 
-    creation_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if isinstance(user, dict):
+        user = User(**user)
+    elif not type(user) == User:
+        raise ValueError("user must be a User class or a dict")
+    found_user = execute_query(f"SELECT * FROM users WHERE id='{user.id}';")
+    if len(found_user) == 1:
+        print(f"User {found_user[0][0]} fetched")
+        # currently user are missing email, username, and passwords
+        # to avoid validation problems (e-mail), we will remove empty fields
+        user_dict = {k: v for k, v in dict(found_user[0]).items() if v != ""}
+        user = User(**user_dict)
+        return user
+
+    columns = ", ".join(k for k in user.model_dump().keys())
+    values = ", ".join([f"'{v}'" for k, v in user.model_dump().items()])
     execute_query(
-        f" INSERT OR IGNORE INTO users (id, creation_datetime) VALUES ('{user_id}', '{creation_time}');",
+        f" INSERT OR IGNORE INTO users ({columns}) VALUES ({values});",
         fetchall=False,
     )
-    print(f"User {user_id} initialized")
-    return user_id
+    print(f"User {user.id} created")
+    return user
 
 
-def delete_user(user_id, and_assistants=True):
+def update_user(user: User | dict):
+    """update a user in the database"""
+    if isinstance(user, dict):
+        user = User(**user)
+    elif not type(user) == User:
+        raise ValueError("user must be a User class or a dict")
+    add_or_update_row(user)
+
+
+def delete_user(user: User | dict, and_assistants=True):
     """delete a user from the database"""
+    if isinstance(user, dict):
+        user = User(**user)
+    elif not type(user) == User:
+        raise ValueError("user must be a User class or a dict")
     if and_assistants:
-        assistants = get_user_assistants(user_id)
+        assistants = get_user_assistants(user)
         for assistant in assistants:
             delete_assistant(assistant.id)
     # delete the user
-    execute_query(f"DELETE FROM users WHERE id='{user_id}';")
+    execute_query(f"DELETE FROM users WHERE id='{user.id}';")
 
 
-def get_user_assistants(user_id):
+def get_user_assistants(user: User | dict):
     """get all assistants for a user"""
-    assistants = execute_query(f"SELECT * FROM assistants WHERE owner_id='{user_id}';")
-    assistants = [
-        Assistant(**dict(zip(list(Assistant.model_fields.keys()), a)))
-        for a in assistants
-    ]
+    if isinstance(user, dict):
+        user = User(**user)
+    elif not type(user) == User:
+        raise ValueError("user must be a User class or a dict")
+    assistants = execute_query(f"SELECT * FROM assistants WHERE owner_id='{user.id}';")
+    assistants = [Assistant(**a) for a in assistants]
+    # sort by creation_time
+    assistants = sorted(assistants, key=lambda x: x.creation_time)
     return assistants
 
 
@@ -186,17 +190,19 @@ def get_user_assistants(user_id):
 if __name__ == "__main__":
     # test the function
     username = "test_user"
-    delete_user(username)
-    add_or_get_user(username)
+    test_user = User(id=username, username=username)
+    test_user
+    delete_user(test_user)
+    add_or_get_user(test_user)
     assert "test_user" in [u[0] for u in execute_query("SELECT id FROM users;")]
-    a = Assistant(name="Jazzmin", owner_id=username)
+    a = Assistant(name="Test", owner_id=username)
     print(a)
     add_or_update_assistant(assistant=a)
-    a.name = "Jazzmin2"
+    a.name = "Test2"
     add_or_update_assistant(assistant=a)
-    assert "Jazzmin2" in [a.name for a in get_user_assistants(username)]
-    b = get_user_assistants(username)[0]
-    b.name = "Jazzmin3"
+    assert "Test2" in [a.name for a in get_user_assistants(username)]
+    b = get_user_assistants(test_user)[0]
+    b.name = "Test3"
     add_or_update_assistant(assistant=b)
     test_source = create_source(
         "https://jazznyt.blogspot.com"
@@ -208,3 +214,7 @@ if __name__ == "__main__":
     print(b)
     delete_assistant(b.id)
     delete_user(username, and_assistants=True)
+
+    get_assistant("05e32b2dc80444aeab0032605423966b")
+
+    get_assistant_sources("05e32b2dc80444aeab0032605423966b")

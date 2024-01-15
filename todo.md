@@ -2,6 +2,7 @@
 🗺️ Roadmap for MyGPTs 
 
 ### To-do
+- [ ]
 - [ ] Add sign-in: ability to sign in as a user,
   - [ ] adding better control over app access and API user budget
 - [ ] Dockerize app
@@ -16,6 +17,10 @@
 - [ ] Add profile picture: ability to add profile picture to assistant
 
 ### In-progress
+- [ ] Add governance module
+    - [ ] Setting up and make LLMs available to assistants
+    - [ ] See and delete user, assistants, and sources
+    - [ ] Monitor API usage
 - [ ] deactivate anonymzied telemetry for chromaDB
 - [ ] Add history: ability to and see delete previous conversations 
 - [ ] Simplify and better structure streamlit app code 

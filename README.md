@@ -13,6 +13,7 @@ The goal of this app is to allow everyone in an organization to create their own
 - [Installation](#installation)
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
+- [Running the app](#running-the-app)
 - [Version](#prototype-in-beta)
 - [Screenshots](#screenshots)
 
@@ -55,18 +56,6 @@ Before you can run this application, you need to have the following installed on
 pixi install pipenv
 ```
 - An [Azure OpenAi](https://learn.microsoft.com/en-us/azure/ai-services/openai/) API key, an OpenAi API key or a local LLM running using [LM Studio](https://lmstudio.ai/)
-- Your API key and endpoint must be set as environment variables in your terminal:
-
-<br>_Here's an example for Windows with Azure API:_
-```sh 
-setx AZURE_OPENAI_ENDPOINT "https://<endpoint>.openai.azure.com/"
-setx AZURE_OPENAI_KEY "<your Azure OpenAI API key>"
-```
-<br>_Here's an example for Windows with LM Studio:_
-```sh
-setx LOCAL_LLM_ENDPOINT "http://localhost:1234/v1"
-setx LOCAL_LLM_KEY "not-needed"
-```
 
 ## Setup
 1. Clone the repository to your local machine or download as a zip file and extract it.
@@ -87,20 +76,21 @@ pipenv shell
 ```sh
 python scripts\setup.py
 ```
-4. In the project directory, open _config/LLMs.yaml_ and add the necessary details for the APIs that you want to use.
-
 Congrats! :tada: You're ready to run the app.
 
-5. With the environment activated, run the application using the following command:
-```sh
-streamlit run app\MyGPTs.py
-```
+# Running the app
+1. In the scripts folder, run the the start_app.bat file.
 A server should start up on port _8501_ and a browser tab should open with the app interface. Start building and sharing your GPTs.
+
+2. You will now be presented with an admin interface where you have can add one your model APIs to the app.
+<br>_This view is only visible from localhost_
+<br>Click the '_Tilføj ny model_' button and fill out the form.
+<br>To start creating and sharing assistants press the '_Mine assistenter_' button.
 
 ## Prototype in Beta
 Please note that this app is currently in beta and is still a prototype. Breaking changes may occur as I continue to improve and refine the functionality. I appreciate your understanding and feedback as I work towards a stable release.
 
-Version: 0.3.1
+Version: 0.3.2
 
 
 _Built using [Streamlit](https://streamlit.io/), [LangChain](https://www.langchain.com/) and [ChromaDB](https://www.trychroma.com/)._

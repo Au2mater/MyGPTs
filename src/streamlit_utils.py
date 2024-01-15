@@ -39,3 +39,11 @@ def set_to(key, value):
 def append(key, value):
     """append value to session state list"""
     st.session_state[key].append(value)
+
+
+def nav_to(url):
+    """navigate to url"""
+    nav_script = """
+        <meta http-equiv="refresh" content="0; url='%s'">
+    """ % (url)
+    st.write(nav_script, unsafe_allow_html=True)
