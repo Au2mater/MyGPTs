@@ -18,6 +18,7 @@ import dotenv as de
 # Define the .env file path
 env_path = Path(".") / ".env"
 
+
 def populate_global_settings():
     # reset the GlobalSettings table
     reset_table_for_dataclass(GlobalSetting)
@@ -45,13 +46,13 @@ def populate_global_settings():
 
 def set_env_variables():
     # set environment variables
-    data_directory = str(Path('..\MyGPTs_data').resolve())
-    log_file = os.path.join(data_directory, 'logs', 'myGPTs.log')
-    main_database_location = os.path.join(data_directory, 'main_db','myGPTs.db')
-    vector_db_location = os.path.join(data_directory, 'vector_db') 
-    backup_directory = os.path.join(data_directory, 'backup', 'db') 
-    temp_file_location = os.path.join(data_directory, 'temp_files')
-    chromadb_host = 'localhost'
+    data_directory = str(Path("..\MyGPTs_data").resolve())
+    log_file = os.path.join(data_directory, "logs", "myGPTs.log")
+    main_database_location = os.path.join(data_directory, "main_db", "myGPTs.db")
+    vector_db_location = os.path.join(data_directory, "vector_db")
+    backup_directory = os.path.join(data_directory, "backup", "db")
+    temp_file_location = os.path.join(data_directory, "temp_files")
+    chromadb_host = "localhost"
     chromadb_port = 8051
 
     # set the environment variables to .env file
@@ -93,27 +94,28 @@ def set_env_variables():
         value_to_set=str(chromadb_port),
     )
 
+
 def create_data_directories():
     # load the environment variables from the .env file
     de.load_dotenv(dotenv_path=env_path)
 
-    dirs = [os.environ['DATA_DIRECTORY']
-            , os.environ['LOG_FILE']
-            , os.environ['MAIN_DATABASE_LOCATION']
-            , os.environ['VECTOR_DB_LOCATION']
-            , os.environ['BACKUP_DIRECTORY']
-            , os.environ['TEMP_FILE_LOCATION']]
-    
+    dirs = [
+        os.environ["DATA_DIRECTORY"],
+        os.environ["LOG_FILE"],
+        os.environ["MAIN_DATABASE_LOCATION"],
+        os.environ["VECTOR_DB_LOCATION"],
+        os.environ["BACKUP_DIRECTORY"],
+        os.environ["TEMP_FILE_LOCATION"],
+    ]
+
     for directory in dirs:
         os.makedirs(directory, exist_ok=True)
 
 
-
 if __name__ == "__main__":
-
     set_env_variables()
     create_data_directories()
-    # backup any existing db and create a new main database in myGPTs.db 
+    # backup any existing db and create a new main database in myGPTs.db
     # and vector database in data/db/myGPTs_vectors.db
     initialize_database_from_dataclasses()
     populate_global_settings()

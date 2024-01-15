@@ -1,5 +1,4 @@
 import streamlit as st
-from random import randint
 from uuid import uuid4
 import os
 import sys
@@ -16,8 +15,8 @@ from src.sqlite.db_utils import (
     get_active_llms,
     get_base_url,
 )
-from src.streamlit_utils import init, get, set_to
-from src.basic_data_classes import Assistant, User
+from src.streamlit_utils import get, set_to
+from src.basic_data_classes import Assistant
 from src.sqlite.gov_db_utils import get_global_setting
 
 
@@ -95,16 +94,14 @@ def go_to_chat_assistant_page(assistant: Assistant):
     )
     set_to("number_of_sources", len(get_assistant_sources(assistant.id)))
 
+
 # UI
 
 
 def mine_assistenter_page():
     st.title("Mine Assistenter")
     if get("user").id == "::1":
-        st.button('← Gå til admin side'
-                , on_click=set_to
-                , args=('page', 'admin_home')
-                    )
+        st.button("← Gå til admin side", on_click=set_to, args=("page", "admin_home"))
     with st.container(border=True):
         # create assistant button
         st.button(

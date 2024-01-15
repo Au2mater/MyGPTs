@@ -21,8 +21,7 @@ from src.basic_data_classes import Assistant, User, Source, LLM
 from pathlib import Path
 import logging
 
-log_file =  Path(os.environ.get("LOG_FILE")
-).resolve()
+log_file = Path(os.environ.get("LOG_FILE")).resolve()
 
 logging.basicConfig(
     level=logging.INFO,

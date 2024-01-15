@@ -6,6 +6,7 @@ from src.chroma.chroma_utils import (
 )
 from langchain.docstore.document import Document
 
+
 def test_server():
     start_chroma_server()
     assert start_chroma_client(), "chroma http client could not reached/created"
@@ -20,12 +21,15 @@ def test_collection():
     ], "collection could not be created"
     assert client.get_collection(name="testCollection")
 
+
 test_collection()
+
 
 def test_indexing():
     collection = get_or_create_collection("testCollection")
     doc = Document(page_content="this is a test document")
     assert collection.add_documents([doc]), "document could not be added to collection"
+
 
 def test_deletion():
     client = start_chroma_client()  # if the server is not running, this will fail
@@ -33,5 +37,6 @@ def test_deletion():
     assert "testCollection" not in [
         col.name for col in client.list_collections()
     ], "collection could not be deleted"
+
 
 test_server()

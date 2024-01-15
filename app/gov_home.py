@@ -11,7 +11,6 @@ from random import randint
 from src.streamlit_utils import init, get, set_to
 from src.sqlite.gov_db_utils import (
     get_deployed_llms,
-    deploy_llm,
     activate_llm,
     deactivate_llm,
     delete_llm,
@@ -30,12 +29,15 @@ def go_to_editing_model(model):
     set_to("model", model)
     set_to("page", "editing_model")
 
+
 def reset_and_go_to_home():
     set_to("model", {})
     set_to("page", "admin_home")
 
+
 def go_to_my_assistants():
     set_to("page", "my assistants")
+
 
 # llms
 def confirm_and_delete_llm(llm):
@@ -82,9 +84,8 @@ def set_global_settings():
         set_global_setting(setting)
 
 
-
-
 # ------------------------
+
 
 def gov_home_page():
     # ------------------------
@@ -92,7 +93,8 @@ def gov_home_page():
     if get("initialized", False) is False:
         init("page", "admin_home")
         global_settings = get_global_setting_dicts()
-        init("global_setting_keys",
+        init(
+            "global_setting_keys",
             {key: f"{key}_{randint(100000, 999999)}" for key in global_settings.keys()},
         )
         init("initialized", True)
@@ -102,7 +104,11 @@ def gov_home_page():
     if get("page", "") == "admin_home":
         # t1, t2, t3 = st.tabs(["__Modeller__", "__Indstillinger__", "__Statistik__"])
 
-        st.button('Gå til Mine Assistenter', on_click=go_to_my_assistants, use_container_width=True)
+        st.button(
+            "Gå til Mine Assistenter",
+            on_click=go_to_my_assistants,
+            use_container_width=True,
+        )
         # with t1:
         with st.expander("__Modeller__", expanded=True):
             # create a form for adding a new model

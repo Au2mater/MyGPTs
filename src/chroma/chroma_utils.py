@@ -45,6 +45,7 @@ chromadb_port = int(os.getenv("CHROMADB_PORT"))
 # ----------------------------
 # chroma client operations
 
+
 @st.cache_resource(show_spinner=False)
 def start_chroma_server():
     """start chroma http server if it's not already running"""
@@ -66,6 +67,7 @@ def start_chroma_server():
     # we are using subprocess to keep the terminal open for more python code execution while server is running
     # check if subprocess is running
 
+
 def start_chroma_client():
     client = chromadb.HttpClient(host=chromadb_host, port=chromadb_port)
     return client
@@ -82,7 +84,7 @@ def get_or_create_collection(collection_name):
     """create a collection with the given name and client"""
     # create a collection
     client = start_chroma_client()
-    emb_model_name = get_global_setting('embeddings_model').value
+    emb_model_name = get_global_setting("embeddings_model").value
     embedding_function = SentenceTransformerEmbeddings(model_name=emb_model_name)
     print(f"embeddings model {emb_model_name} loaded")
     collection = Chroma(
@@ -230,7 +232,7 @@ def source_to_document(source: Source) -> Document:
 
 def split_document(document: object) -> list:
     """given a langhchain document, split the document into chunks (list of sentences)"""
-    emb_model_name = get_global_setting('embeddings_model').value
+    emb_model_name = get_global_setting("embeddings_model").value
     splitter = SentenceTransformersTokenTextSplitter(model_name=emb_model_name)
     chunks = splitter.split_documents([document])
     return chunks
