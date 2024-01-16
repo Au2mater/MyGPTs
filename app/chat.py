@@ -72,7 +72,7 @@ def chat_page():
                     prompt=prompt,
                     messages=get("messages"),
                     assistant=assistant,
-                    top_k=3,
+                    top_k=4,
                 )
                 # st.write(request_messages)
         else:
