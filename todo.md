@@ -5,7 +5,6 @@
 - [ ] Add sign-in: ability to sign in as a user,
   - [ ] adding better control over app access and API user budget
 - [ ] Dockerize app
-- [ ] Update tests
 - [ ] Add assistant-user memmory: ability to auto index conversations into knowledge base and retrieve later on.
 - [ ] Add sample starter templates for assistant configurations
 - [ ] Add edit: option to edit a single user message in conversation.  
@@ -19,10 +18,11 @@
 - [ ] Governance: See and delete user, assistants, and sources
 - [ ] Governance: Monitor API usage
 - [ ] Chat: Add history: ability to and see delete previous conversations 
-- [ ] privacy: deactivate anonymzied telemetry for chromaDB
-- [ ] backend: Simplify and better structure streamlit app code 
+- [ ] Backend: Simplify and better structure streamlit app code 
+- [ ] Backend: Update tests
 
 ### Completed ✓
+- [x] Privacy: deactivate anonymzied telemetry for chromaDB
 - [x] Add governance module
     - [x] Setting up and make LLMs available to assistants
 - [x] Add simple temperature parameter control in Assistant Builder

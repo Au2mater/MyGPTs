@@ -32,6 +32,7 @@ __Models__
  - Azure OpenAi
  - OpenAi
  - Local models served using LM Studio
+ - Any Chat API compatible with openai-python library
 
 __Privacy__
 <br> This app runs locally on your server.
