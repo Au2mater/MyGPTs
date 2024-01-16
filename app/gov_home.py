@@ -17,9 +17,13 @@ from src.sqlite.gov_db_utils import (
     get_global_setting_dicts,
     set_global_setting,
     reset_all_global_settings,
+    get_user_stats,
 )
-# from gov_edit_llm_model import edit_llm_model_page
 
+from src.sqlite.db_creation import (backup, recreate_db_from_backup
+                                    , database_location, vector_db_location
+                                    , get_backups
+                                    )
 # ------------------------
 # UTILITY FUNCTIONS
 
@@ -107,7 +111,11 @@ def gov_home_page():
             on_click=go_to_my_assistants,
             use_container_width=True,
         )
-        t1, t2, t3 = st.tabs(["__Modeller__", "__Indstillinger__", "__Statistik__"])
+        t1, t2, t3 ,t4 = st.tabs(["__Modeller__"
+                              , "__Indstillinger__"
+                              , "__Statistik__"
+                              , "__Backup & Restore__"
+                              ])
         with t1:
         # with st.expander("__Modeller__", expanded=True):
             # create a form for adding a new model
@@ -244,7 +252,25 @@ def gov_home_page():
     # ------------------------
                 
     with t3:
-        st.write("Statistik")
-        st.write("Kommer snart")
-    # ------------------------
+        st.write("Kommer snart...")      
+        # stats = [dict(r) for r in  get_user_stats()] # stats is a list of sqlite3.Row objects
+        # display stats in a table
+        # st.table(stats)
         
+    # ------------------------
+    with t4:
+        # backup and restore
+        if st.button(
+            "Opret Sikkerhedskopi",
+            help="Skab en backup af MyGPTs databasen",
+            use_container_width=True,
+        ):
+          with st.spinner('Vent venligst...'):
+            time = backup()
+            if time:
+              st.success(f"Backup oprettet: {time}")
+        
+        # list backups 
+        backups = get_backups()
+        for bkp in backups:
+            st.markdown(f'Sikkerhedskopi oprettet: :green[{bkp}]')

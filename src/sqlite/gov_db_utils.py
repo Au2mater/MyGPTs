@@ -7,7 +7,7 @@ from src.sqlite.db_creation import (
     delete_row,
     results_to_data_objects,
 )
-from src.basic_data_classes import LLM, GlobalSetting, Assistant
+from src.basic_data_classes import LLM, GlobalSetting, Assistant, User
 from datetime import datetime
 
 
@@ -147,3 +147,23 @@ def get_all_assistants():
     results = get_rows("assistants")
     assistants = results_to_data_objects(results, Assistant)
     return assistants
+
+# user object schema:
+# User = {
+#     "id": str,
+#     "username": str,
+#     "email": str,
+#     "password": str,
+#     "created_datetime": datetime,
+#     }
+
+def get_all_users():
+    """get all users from the database"""
+    results = get_rows("users")
+    users = results_to_data_objects(results, User)
+    return users
+
+def get_user_stats():
+    """get all users from the database"""
+    results = get_rows("user_stats")
+    return results
