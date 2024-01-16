@@ -23,24 +23,23 @@ def chat_page():
     if isinstance(m:=get("messages"), tuple):
         set_to("messages", m[0])
     col1, _, col3 = st.columns([1, 1, 1])
-    with st.container():
-        with col1:
-            if not get("shared_assistant_view"):
-                st.button(
-                    label="← Mine assistenter ",
-                    key="my_assistants",
-                    on_click=set_to,
-                    args=("page", "my assistants"),
-                    use_container_width=True,
-                )
-
-        with col3:
+    with col1:
+        if not get("shared_assistant_view"):
             st.button(
-                label=":sparkles: Ny samtale\n",
-                key="ny_samtale",
-                on_click=new_conversation,
+                label="← Mine assistenter ",
+                key="my_assistants",
+                on_click=set_to,
+                args=("page", "my assistants"),
                 use_container_width=True,
             )
+
+    with col3:
+        st.button(
+            label=":sparkles: Ny samtale\n",
+            key="ny_samtale",
+            on_click=new_conversation,
+            use_container_width=True,
+        )
     st.markdown(
         "__" + assistant.name + "__",
     )
@@ -67,8 +66,8 @@ def chat_page():
             avatar=icons["user"],
         ):
             st.write(prompt)
-        with st.spinner("Søger..."):
-            if get("number_of_sources") > 0:
+        if get("number_of_sources") > 0:
+            with st.spinner("Søger..."):
                 request_messages = add_context(
                     prompt=prompt,
                     messages=get("messages"),
@@ -76,8 +75,8 @@ def chat_page():
                     top_k=3,
                 )
                 # st.write(request_messages)
-            else:
-                request_messages = get("messages")
+        else:
+            request_messages = get("messages")
         with st.spinner("Skriver..."):
             response = generate_response(
                 prompt_input=prompt,
