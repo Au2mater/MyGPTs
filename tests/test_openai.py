@@ -1,6 +1,6 @@
 import os
 from openai import AzureOpenAI, OpenAI
-from src.openai.openai_utils import _test_llm_api, generate_response
+from src.openai.openai_utils import llm_api_test, generate_response
 from src.basic_data_classes import LLM
 from src.sqlite.gov_db_utils import deploy_llm, delete_llm
 from src.mock_api import _start_mockup_api, _test_llm
@@ -12,7 +12,7 @@ import subprocess
 
 def test_test_model():
     p = _start_mockup_api()
-    result, _ = _test_llm_api(_test_llm)
+    result, _ = llm_api_test(_test_llm)
     subprocess.Popen.kill(p)
     assert result
 

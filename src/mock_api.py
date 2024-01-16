@@ -33,6 +33,7 @@ def _start_mockup_api():
     return p
 
 _test_llm = LLM(**{
+            'id': 'test_GPT',
             'name': 'test_GPT',
             'api_type': 'openai',
             'enpoint_or_base_url': f'http://{host}:{port}',

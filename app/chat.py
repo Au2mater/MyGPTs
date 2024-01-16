@@ -20,7 +20,8 @@ def new_conversation():
 
 def chat_page():
     assistant = get("current_assistant")
-
+    if isinstance(m:=get("messages"), tuple):
+        set_to("messages", m[0])
     col1, _, col3 = st.columns([1, 1, 1])
     with st.container():
         with col1:
