@@ -80,7 +80,7 @@ def generate_response(
     return response.choices[0].message.content
 
 
-def test_llm(llm):
+def _test_llm_api(llm):
     """test the LLM model by generating a response to a prompt."""
     prompt_input = "repeat after me: 'All systems go!'"
     try:
@@ -117,7 +117,7 @@ if __name__ == "__main__":
     llm = LLM(**model)
     print(llm.model_dump())
     # test llm
-    test_llm(llm)
+    _test_llm_api(llm)
     # test non existing deployment
     model = {
         "name": "GPT",
@@ -130,4 +130,5 @@ if __name__ == "__main__":
     llm = LLM(**model)
     print(llm.model_dump())
     # test llm
-    test_llm(llm)
+    _test_llm_api(llm)
+ 

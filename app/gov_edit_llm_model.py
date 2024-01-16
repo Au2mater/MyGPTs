@@ -1,7 +1,7 @@
 """ This module contains the streamlit page for editing a LLM model. """ ""
 import streamlit as st
 from src.streamlit_utils import get, set_to
-from src.openai.openai_utils import LLM, test_llm
+from src.openai.openai_utils import LLM,_test_llm_api
 from src.sqlite.gov_db_utils import deploy_llm
 
 
@@ -108,7 +108,7 @@ def edit_llm_model_page():
             # test llm
             with st.spinner("Tester modellen..."):
                 llm = LLM(**model)
-                test_result, message = test_llm(llm)
+                test_result, message =_test_llm_api(llm)
             if test_result:
                 # add to db
                 st.success(message)

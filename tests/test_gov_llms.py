@@ -8,6 +8,7 @@ from src.sqlite.gov_db_utils import (
 from src.basic_data_classes import LLM
 from src.sqlite.db_creation import execute_query, get_row
 from src.sqlite.db_creation import add_or_update_row
+from src.mock_api import  _test_llm
 
 
 cache = {}
@@ -18,14 +19,7 @@ def test_deploy_llm():
     # delete all llms names test_llm or test_llm_updated
     execute_query("DELETE FROM llms WHERE name LIKE 'test_llm%';")
     # create an llm object
-    cache["llm"] = LLM(
-        name="test_llm",
-        api_type="openai",
-        deployment="local",
-        enpoint_or_base_url="https://api.openai.com/v1/engines/davinci/completions",
-        api_key="sk-12345",
-        description="test llm",
-    )
+    cache["llm"] = _test_llm
     # deploy the llm
     deploy_llm(cache["llm"])
     assert cache["llm"] in get_deployed_llms()

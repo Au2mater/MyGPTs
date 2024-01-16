@@ -3,6 +3,8 @@ from src.basic_data_classes import User
 from src.chroma.chroma_utils import start_chroma_server
 from src.sqlite.db_utils import add_or_get_user, add_or_update_assistant
 from src.sqlite.db_creation import execute_query
+from src.sqlite.gov_db_utils import deploy_llm, delete_llm
+from src.mock_api import _start_mockup_api, _test_llm
 
 
 def clean_up():
@@ -38,9 +40,12 @@ def test_assistant_creation():
     clean_up()
 
 
+# def test_deploy_llm_and_model():
+
+
 def test_chat():
     # let's deploy a test assistant
-    
+
     at = init_MyGPT()
     at = at.run()
     bt = [bt for bt in at.get("button") if bt.key == "create_assistant"][0]

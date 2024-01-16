@@ -17,7 +17,34 @@ curl http://10.10.1.13:8123/chat/completions ^
 '''
 from fastapi import FastAPI
 from pydantic import BaseModel
+from src.basic_data_classes import LLM
+import subprocess
 import uvicorn
+
+
+# ---------------------
+# UTILTIY FUNCTIONS
+host = '10.10.1.13'
+port = '8123'
+
+def _start_mockup_api():
+    command = ['uvicorn', 'src.mock_api:app', '--host', host , '--port', port]
+    p = subprocess.Popen(command)
+    return p
+
+_test_llm = LLM(**{
+            'name': 'test_GPT',
+            'api_type': 'openai',
+            'enpoint_or_base_url': f'http://{host}:{port}',
+            'api_key': 'not-relevant',
+            'description': 'test model',
+            'deployment': 'gpt-3.5-turbo',
+            'is_active': True,
+        })
+
+#----------------------
+
+
 
 # Create the FastAPI app
 app = FastAPI()
