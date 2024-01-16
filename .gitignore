@@ -3,6 +3,7 @@ lab/
 archive/
 images/archive/
 .vscode/
+.env
 
 # data directories
 data/db/

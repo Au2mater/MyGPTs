@@ -107,7 +107,7 @@ def set_env_variables():
     )
     de.set_key(
         dotenv_path=env_path,
-        key_to_set="ANONYMIZED_TELEMETRYY",
+        key_to_set="ANONYMIZED_TELEMETRY",
         value_to_set=str(chromadb_telemetry),
     )
 

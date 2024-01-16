@@ -268,7 +268,7 @@ def gov_home_page():
           with st.spinner('Vent venligst...'):
             time = backup()
             if time:
-              st.success(f"Backup oprettet: {time}")
+              st.success(f"Sikkerhedskopi oprettet: {time}")
         
         # list backups 
         backups = get_backups()
