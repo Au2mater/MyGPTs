@@ -3,8 +3,8 @@ _A simple user interface for easily creating, sharing and chatting with assistan
 
 Creating and sharing custom chatbots has never been easier!
 The goal of this app is to allow everyone in an organization to create their own personalized GPT Chat Assistants with custom "rules" and knowledge sources (RAG), using a simple graphic user interface and without any coding.
-<br>Setting up the app requires technical knowledge. If you already have access to an OpenAi API, Azure OpenAi API or have LM Studio running locally, this can be done in a few minutes. 
-<br>When the app is launched, everyone with access to the app can create and chat with their own assistants.
+<br>Setting up the app might require some technical knowledge. If you already have access to an OpenAi API, Azure OpenAi API or have LM Studio running locally, this can be done in a few minutes. 
+<br>When the app is launched, everyone with access to the app can create, share and chat with their own custom made assistants.
 <br>
 <br>
 <img src="images/oprah.jpg" alt="Oprah meme: You get a GPT! You get a GPT! Everyone gets a GPT!" width="500"/>
