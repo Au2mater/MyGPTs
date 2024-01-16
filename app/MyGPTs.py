@@ -62,8 +62,9 @@ elif "shared_assistant_id" in (params := st._get_query_params()):
     # chat with shared assistant
     shared_assistant_id = params["shared_assistant_id"][0]
     assistant = get_assistant(shared_assistant_id)
-    set_to("shared_assistant_view", True)
-    go_to_chat_assistant_page(assistant)
+    if (a:= get('current_assistant')) == None or a.id != assistant.id:
+        set_to("shared_assistant_view", True)
+        go_to_chat_assistant_page(assistant)
 
 # check if url is /?admin
 elif get("user").id == "::1":

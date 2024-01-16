@@ -110,6 +110,7 @@ def gov_home_page():
             on_click=go_to_my_assistants,
             use_container_width=True,
         )
+        st.markdown('<small>Denne side er kun synlig for localhost. </small>', unsafe_allow_html=True)
         t1, t2, t3, t4 = st.tabs(
             [
                 "__Modeller__",
