@@ -3,9 +3,11 @@ import os
 from openai import AzureOpenAI, OpenAI
 from src.basic_data_classes import LLM
 
+
 def format_docs(docs):
     "takes a list of documents and returns a string of the page content of each document."
     return "\n\n".join(doc.page_content for doc in docs)
+
 
 def prepare_request(question, system_prompt=None, messages=None, retriever=None):
     """return a messages reuest for the chat model.
@@ -131,4 +133,3 @@ if __name__ == "__main__":
     print(llm.model_dump())
     # test llm
     llm_api_test(llm)
- 

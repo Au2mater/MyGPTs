@@ -20,7 +20,7 @@ def new_conversation():
 
 def chat_page():
     assistant = get("current_assistant")
-    if isinstance(m:=get("messages"), tuple):
+    if isinstance(m := get("messages"), tuple):
         set_to("messages", m[0])
     col1, _, col3 = st.columns([1, 1, 1])
     with col1:
@@ -80,7 +80,7 @@ def chat_page():
         with st.spinner("Skriver..."):
             response = generate_response(
                 prompt_input=prompt,
-                llm= get_llm(assistant.chat_model_name),
+                llm=get_llm(assistant.chat_model_name),
                 messages=request_messages,
                 max_tokens=int(get_global_setting("max_tokens").value),
                 temperature=assistant.temperature,

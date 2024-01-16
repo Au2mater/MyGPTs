@@ -17,13 +17,12 @@ from src.sqlite.gov_db_utils import (
     get_global_setting_dicts,
     set_global_setting,
     reset_all_global_settings,
-    get_user_stats,
 )
 
-from src.sqlite.db_creation import (backup, recreate_db_from_backup
-                                    , database_location, vector_db_location
-                                    , get_backups
-                                    )
+from src.sqlite.db_creation import (
+    backup,
+    get_backups,
+)
 # ------------------------
 # UTILITY FUNCTIONS
 
@@ -111,13 +110,16 @@ def gov_home_page():
             on_click=go_to_my_assistants,
             use_container_width=True,
         )
-        t1, t2, t3 ,t4 = st.tabs(["__Modeller__"
-                              , "__Indstillinger__"
-                              , "__Statistik__"
-                              , "__Backup & Restore__"
-                              ])
+        t1, t2, t3, t4 = st.tabs(
+            [
+                "__Modeller__",
+                "__Indstillinger__",
+                "__Statistik__",
+                "__Backup & Restore__",
+            ]
+        )
         with t1:
-        # with st.expander("__Modeller__", expanded=True):
+            # with st.expander("__Modeller__", expanded=True):
             # create a form for adding a new model
             deployed_llms = get_deployed_llms()
 
@@ -170,7 +172,7 @@ def gov_home_page():
                     )
 
         with t2:
-        # with st.expander("__Standardindstillinger for oprettelse af assistenter__", expanded=True):
+            # with st.expander("__Standardindstillinger for oprettelse af assistenter__", expanded=True):
             global_settings = get_global_setting_dicts()
 
             # The maximum number of tokens that can be generated in the chat completion.
@@ -195,9 +197,9 @@ def gov_home_page():
                 key=get("global_setting_keys")["max_tokens"],
             )
             st.text_input(
-                'Sentece Embeddings model',
+                "Sentece Embeddings model",
                 value=global_settings["embeddings_model"]["value"],
-                help='Navnet på den Sentence Embeddings model, der skal bruges til at indeksere kilder.',
+                help="Navnet på den Sentence Embeddings model, der skal bruges til at indeksere kilder.",
                 key=get("global_setting_keys")["embeddings_model"],
             )
             st.markdown(
@@ -215,15 +217,14 @@ def gov_home_page():
                 value=global_settings["default_welcome_message"]["value"],
                 key=get("global_setting_keys")["default_welcome_message"],
             )
-            
-            with st.container():
 
+            with st.container():
                 init("settings_deafult", True)
                 init("settings_unchanged", True)
                 for setting in global_settings.values():
                     if setting["value"] != setting["default_value"]:
                         set_to("settings_deafult", False)
-                    if (a:=setting["value"]) != (b:=get(get("global_setting_keys")[setting["id"]])):
+                    if (setting["value"]) != (get(get("global_setting_keys")[setting["id"]])):
                         set_to("settings_unchanged", False)
 
                 col1, col2, col3 = st.columns([1, 1, 1])
@@ -250,13 +251,13 @@ def gov_home_page():
                     on_click=reset_displayed_settings,
                 )
     # ------------------------
-                
+
     with t3:
-        st.write("Kommer snart...")      
+        st.write("Kommer snart...")
         # stats = [dict(r) for r in  get_user_stats()] # stats is a list of sqlite3.Row objects
         # display stats in a table
         # st.table(stats)
-        
+
     # ------------------------
     with t4:
         # backup and restore
@@ -265,12 +266,12 @@ def gov_home_page():
             help="Skab en backup af MyGPTs databasen",
             use_container_width=True,
         ):
-          with st.spinner('Vent venligst...'):
-            time = backup()
-            if time:
-              st.success(f"Sikkerhedskopi oprettet: {time}")
-        
-        # list backups 
+            with st.spinner("Vent venligst..."):
+                time = backup()
+                if time:
+                    st.success(f"Sikkerhedskopi oprettet: {time}")
+
+        # list backups
         backups = get_backups()
         for bkp in backups:
-            st.markdown(f'Sikkerhedskopi oprettet: :green[{bkp}]')
+            st.markdown(f"Sikkerhedskopi oprettet: :green[{bkp}]")

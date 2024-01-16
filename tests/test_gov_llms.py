@@ -5,10 +5,9 @@ from src.sqlite.gov_db_utils import (
     deactivate_llm,
     delete_llm,
 )
-from src.basic_data_classes import LLM
 from src.sqlite.db_creation import execute_query, get_row
 from src.sqlite.db_creation import add_or_update_row
-from src.mock_api import  _test_llm
+from src.mock_api import _test_llm
 
 
 cache = {}

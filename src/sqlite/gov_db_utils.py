@@ -148,6 +148,7 @@ def get_all_assistants():
     assistants = results_to_data_objects(results, Assistant)
     return assistants
 
+
 # user object schema:
 # User = {
 #     "id": str,
@@ -157,11 +158,13 @@ def get_all_assistants():
 #     "created_datetime": datetime,
 #     }
 
+
 def get_all_users():
     """get all users from the database"""
     results = get_rows("users")
     users = results_to_data_objects(results, User)
     return users
+
 
 def get_user_stats():
     """get all users from the database"""

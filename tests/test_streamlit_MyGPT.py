@@ -1,11 +1,9 @@
 from streamlit.testing.v1 import AppTest
 from src.basic_data_classes import User, Assistant
 from src.chroma.chroma_utils import start_chroma_server
-from src.sqlite.db_utils import add_or_get_user, add_or_update_assistant, delete_assistant
 from src.sqlite.db_creation import execute_query
 from src.sqlite.gov_db_utils import deploy_llm, delete_llm
 from src.mock_api import _start_mockup_api, _test_llm
-import subprocess
 
 
 def clean_up():
@@ -38,6 +36,7 @@ def test_assistant_creation():
     assert not at.exception
     clean_up()
 
+
 def init_chat():
     at = AppTest.from_file("app/MyGPTs.py", default_timeout=30.0)
     # simulate session initialization
@@ -56,18 +55,22 @@ def init_chat():
     at.session_state["user"] = test_user
     at.session_state["current_assistant"] = test_assistant
     at.session_state["page"] = "chat"
-    at.session_state["messages"] = [
+    at.session_state["messages"] = (
+        [
             {"role": "system", "content": test_assistant.system_prompt},
             {"role": "assistant", "content": test_assistant.welcome_message},
         ],
+    )
     at.session_state["number_of_sources"] = 0
     return at
+
 
 def test_chat_startup():
     at = init_chat()
     at = at.run()
     assert not at.exception
     clean_up()
+
 
 def test_chat():
     # # let's deploy a test assistant

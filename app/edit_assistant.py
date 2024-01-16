@@ -11,7 +11,6 @@ from src.sqlite.db_utils import (
     delete_source,
     get_active_llms,
     get_base_url,
-    get_llm,
 )
 from src.streamlit_utils import get, set_to, append
 from src.chroma.chroma_utils import create_source
@@ -189,15 +188,19 @@ def edit_assistant_page():
         c2.selectbox(
             label="Chat model",
             options=llm_ids,
-            format_func=lambda llm_id: [llm.name for llm in active_llms if llm.id == llm_id][0],
+            format_func=lambda llm_id: [
+                llm.name for llm in active_llms if llm.id == llm_id
+            ][0],
             help=(
                 "\n".join(f"- __{llm.name}__: {llm.description}" for llm in active_llms)
             ),
             key="chat_model_name",
             # get the index of the current model
-            index=(llm_ids.index(current_assistant.chat_model_name)
-            if current_assistant.chat_model_name in llm_ids else 0),
-            
+            index=(
+                llm_ids.index(current_assistant.chat_model_name)
+                if current_assistant.chat_model_name in llm_ids
+                else 0
+            ),
         )
         # system prompt input
         st.text_area(

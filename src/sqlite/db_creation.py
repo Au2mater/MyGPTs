@@ -54,7 +54,7 @@ def backup(sources: list | str = None):
     logging.info(f"backup attempt started at {current_datetime}")
     if sources is None:
         sources = [database_location, vector_db_location]
-    
+
     for src in list(sources):
         # Source file path
         src_path = Path(src)
@@ -87,22 +87,23 @@ def backup(sources: list | str = None):
     # return time string
     return current_datetime
 
+
 def get_backups():
-    """ 
-    return a list of datetime strings for the backup files in backup_directory 
+    """
+    return a list of datetime strings for the backup files in backup_directory
     condition is that both main and vector database backups exist
     """
     # get all backup files in backup_directory
-    backups = sorted(backup_directory.glob("*")) 
+    backups = sorted(backup_directory.glob("*"))
     # get the datetime strings from the backup files
-    backups = ['_'.join(b.stem.split("_")[-5:]) for b in backups] 
+    backups = ["_".join(b.stem.split("_")[-5:]) for b in backups]
     # filter out datetime strings that do not have both main and vector database backups
     # count string occurrences and keep only those with count 2
-    backups = list(set(b for b in backups if backups.count(b) == 2)) 
+    backups = list(set(b for b in backups if backups.count(b) == 2))
     # convert to datetime objects ; string format: %Y_%m_%d_%H_%M
-    backups = [datetime.datetime.strptime(b, "%Y_%m_%d_%H_%M") for b in backups] 
+    backups = [datetime.datetime.strptime(b, "%Y_%m_%d_%H_%M") for b in backups]
     # sort by datetime
-    backups = sorted(backups) 
+    backups = sorted(backups)
     return backups
 
 

@@ -44,16 +44,18 @@ def populate_global_settings():
         )
         insert_row(global_setting)
 
+
 def create_vews():
-    query = '''
+    query = """
     CREATE VIEW user_stats AS SELECT 
     users.id, 
     COUNT(assistants.id) AS "number of assistants", 
     MAX(assistants.last_updated) AS "last edit" 
     FROM users 
     LEFT JOIN assistants ON users.id = assistants.owner_id 
-    GROUP BY users.id;'''
+    GROUP BY users.id;"""
     execute_query(query)
+
 
 def set_env_variables():
     # set environment variables
@@ -110,6 +112,7 @@ def set_env_variables():
         key_to_set="ANONYMIZED_TELEMETRY",
         value_to_set=str(chromadb_telemetry),
     )
+
 
 def create_data_directories():
     # load the environment variables from the .env file
