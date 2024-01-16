@@ -65,6 +65,7 @@ def set_env_variables():
     temp_file_location = os.path.join(data_directory, "temp_files")
     chromadb_host = "localhost"
     chromadb_port = 8051
+    chromadb_telemetry = False
 
     # set the environment variables to .env file
 
@@ -104,7 +105,11 @@ def set_env_variables():
         key_to_set="CHROMADB_PORT",
         value_to_set=str(chromadb_port),
     )
-
+    de.set_key(
+        dotenv_path=env_path,
+        key_to_set="ANONYMIZED_TELEMETRYY",
+        value_to_set=str(chromadb_telemetry),
+    )
 
 def create_data_directories():
     # load the environment variables from the .env file

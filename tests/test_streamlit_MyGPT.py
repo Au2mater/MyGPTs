@@ -1,7 +1,7 @@
 from streamlit.testing.v1 import AppTest
 from src.basic_data_classes import User
 from src.chroma.chroma_utils import start_chroma_server
-from src.sqlite.db_utils import add_or_get_user
+from src.sqlite.db_utils import add_or_get_user, add_or_update_assistant
 from src.sqlite.db_creation import execute_query
 
 
@@ -35,13 +35,20 @@ def test_assistant_creation():
     bt = [bt for bt in at.get("button") if bt.key == "create_assistant"][0]
     bt.click().run()
     assert not at.exception
-    # at.fill_form('assistant name', 'test_assistant')
-    # at.fill_form('chat model name', 'test_chat_model_name')
-    # at.fill_form('system prompt', 'test_system_prompt')
-    # at.fill_form('welcome message', 'test_welcome_message')
-    # assert get_row('test_assistant', 'assistants') != []
     clean_up()
 
+
+def test_chat():
+    # let's deploy a test assistant
+    
+    at = init_MyGPT()
+    at = at.run()
+    bt = [bt for bt in at.get("button") if bt.key == "create_assistant"][0]
+    bt.click().run()
+    bt = [bt for bt in at.get("button") if bt.key == "ny_samtale"][0]
+    bt.click().run()
+    assert not at.exception
+    clean_up()
 
 test_assistant_creation()
 

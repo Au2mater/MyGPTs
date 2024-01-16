@@ -3,6 +3,7 @@ from src.streamlit_utils import get, set_to, append
 from src.sqlite.gov_db_utils import get_global_setting
 from src.chroma.chroma_utils import add_context
 from src.openai.openai_utils import generate_response
+from src.sqlite.db_utils import get_llm
 
 
 def new_conversation():
@@ -79,7 +80,7 @@ def chat_page():
         with st.spinner("Skriver..."):
             response = generate_response(
                 prompt_input=prompt,
-                llm=assistant.chat_model_name,
+                llm= get_llm(assistant.chat_model_name),
                 messages=request_messages,
                 max_tokens=int(get_global_setting("max_tokens").value),
                 temperature=assistant.temperature,

@@ -24,6 +24,7 @@ from src.basic_data_classes import Source
 from pathlib import Path
 import dotenv as de
 from src.sqlite.gov_db_utils import get_global_setting
+from chromadb.config import Settings
 # ---------------------------
 
 """ 
@@ -69,7 +70,9 @@ def start_chroma_server():
 
 
 def start_chroma_client():
-    client = chromadb.HttpClient(host=chromadb_host, port=chromadb_port)
+    client = chromadb.HttpClient(host=chromadb_host, port=chromadb_port
+                                 ,settings= Settings(anonymized_telemetry=False)
+                                 )
     return client
 
 
