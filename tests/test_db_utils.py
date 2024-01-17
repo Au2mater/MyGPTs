@@ -10,7 +10,7 @@ from src.sqlite.db_utils import (
     add_source,
     delete_source,
 )
-from src.chroma.chroma_utils import start_chroma_server
+from src.chroma_utils import start_chroma_server
 from src.sqlite.db_creation import get_row, delete_row, execute_query
 
 

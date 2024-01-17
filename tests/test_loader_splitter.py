@@ -1,5 +1,5 @@
 """ test coverting an inputs to document chunks ready for indexing"""
-from src.chroma.chroma_utils import (
+from src.chroma_utils import (
     create_source,
     source_to_document,
     split_document,

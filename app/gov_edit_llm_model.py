@@ -1,7 +1,7 @@
 """ This module contains the streamlit page for editing a LLM model. """ ""
 import streamlit as st
 from src.streamlit_utils import get, set_to
-from src.openai.openai_utils import LLM, llm_api_test
+from src.openai_utils import LLM, llm_api_test
 from src.sqlite.gov_db_utils import deploy_llm
 
 

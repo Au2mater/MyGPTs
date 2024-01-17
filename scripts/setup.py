@@ -74,7 +74,7 @@ def set_env_variables():
     # Write the paths to the .env file
     de.set_key(
         dotenv_path=env_path,
-        key_to_set="DATABASE_LOCATION",
+        key_to_set="MAIN_DATABASE_LOCATION",
         value_to_set=main_database_location,
     )
     de.set_key(
@@ -119,7 +119,6 @@ def create_data_directories():
     de.load_dotenv(dotenv_path=env_path)
 
     dirs = [
-        os.environ["DATA_DIRECTORY"],
         os.environ["LOG_FILE"],
         os.environ["MAIN_DATABASE_LOCATION"],
         os.environ["VECTOR_DB_LOCATION"],
@@ -128,7 +127,11 @@ def create_data_directories():
     ]
 
     for directory in dirs:
-        os.makedirs(directory, exist_ok=True)
+        # create the directory or file if it does not exist
+        Path(directory).parent.mkdir(parents=True, exist_ok=True)
+        Path(directory).parent.touch(exist_ok=True)
+        Path(directory).touch(exist_ok=True)
+        # if the path is a file create it, but do not overwrite it
 
 
 if __name__ == "__main__":

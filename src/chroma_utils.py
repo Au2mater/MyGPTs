@@ -148,10 +148,6 @@ def add_context(prompt: str, messages: list, assistant: object, top_k: int = 5):
     return request_messages
 
 
-# if __name__ == "__main__":
-
-# delete_all_collections()
-
 
 # ----------------------------
 # source level operations

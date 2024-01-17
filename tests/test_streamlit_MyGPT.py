@@ -1,6 +1,6 @@
 from streamlit.testing.v1 import AppTest
 from src.basic_data_classes import User, Assistant
-from src.chroma.chroma_utils import start_chroma_server
+from src.chroma_utils import start_chroma_server
 from src.sqlite.db_creation import execute_query
 from src.sqlite.gov_db_utils import deploy_llm, delete_llm
 from src.mock_api import _start_mockup_api, _test_llm

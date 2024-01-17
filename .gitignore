@@ -44,3 +44,5 @@ lib/
 libs/
 dist/
 build/
+data/test_documents/Aula_Ekstra.txt
+Dockerfile

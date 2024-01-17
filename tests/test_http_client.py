@@ -1,5 +1,5 @@
 """ create and http chroma client and test creating and deleting an collections using langchain """
-from src.chroma.chroma_utils import (
+from src.chroma_utils import (
     start_chroma_server,
     start_chroma_client,
     get_or_create_collection,
@@ -22,8 +22,6 @@ def test_collection():
     assert client.get_collection(name="testCollection")
 
 
-test_collection()
-
 
 def test_indexing():
     collection = get_or_create_collection("testCollection")
@@ -39,4 +37,8 @@ def test_deletion():
     ], "collection could not be deleted"
 
 
-test_server()
+if __name__ == "__main__":
+    test_server()
+    test_collection()
+    test_indexing()
+    test_deletion()

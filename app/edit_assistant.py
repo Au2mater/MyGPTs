@@ -13,7 +13,7 @@ from src.sqlite.db_utils import (
     get_base_url,
 )
 from src.streamlit_utils import get, set_to, append
-from src.chroma.chroma_utils import create_source
+from src.chroma_utils import create_source
 from src.basic_data_classes import Assistant
 from src.sqlite.gov_db_utils import get_global_setting
 

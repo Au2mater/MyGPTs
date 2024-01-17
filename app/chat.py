@@ -1,10 +1,10 @@
 import streamlit as st
 from src.streamlit_utils import get, set_to, append
 from src.sqlite.gov_db_utils import get_global_setting
-from src.chroma.chroma_utils import add_context
-from src.openai.openai_utils import generate_response
+from src.chroma_utils import add_context
+from src.openai_utils import generate_response
 from src.sqlite.db_utils import get_llm
-
+import logging
 
 def new_conversation():
     assistant = get("current_assistant")
@@ -20,6 +20,7 @@ def new_conversation():
 
 def chat_page():
     assistant = get("current_assistant")
+
     if isinstance(m := get("messages"), tuple):
         set_to("messages", m[0])
     col1, _, col3 = st.columns([1, 1, 1])
@@ -85,6 +86,10 @@ def chat_page():
                 max_tokens=int(get_global_setting("max_tokens").value),
                 temperature=assistant.temperature,
             )
+        logging.info(f"assistant {assistant.name} received prompt: "
+                     f"{prompt[:100]}{'...' if len(prompt)>100 else ''}")
+        logging.info(f"assistant {assistant.name} responded with: "
+                     f"{response[:100]}{'...' if len(response)>100 else ''}")
         # response = "test"
         append("messages", {"role": "user", "content": prompt})
         append("messages", {"role": "assistant", "content": response})

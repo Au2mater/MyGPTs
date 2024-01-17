@@ -110,7 +110,10 @@ def gov_home_page():
             on_click=go_to_my_assistants,
             use_container_width=True,
         )
-        st.markdown('<small>Denne side er kun synlig for localhost. </small>', unsafe_allow_html=True)
+        st.markdown(
+            "<small>Denne side er kun synlig for localhost. </small>",
+            unsafe_allow_html=True,
+        )
         t1, t2, t3, t4 = st.tabs(
             [
                 "__Modeller__",
@@ -225,7 +228,9 @@ def gov_home_page():
                 for setting in global_settings.values():
                     if setting["value"] != setting["default_value"]:
                         set_to("settings_deafult", False)
-                    if (setting["value"]) != (get(get("global_setting_keys")[setting["id"]])):
+                    if (setting["value"]) != (
+                        get(get("global_setting_keys")[setting["id"]])
+                    ):
                         set_to("settings_unchanged", False)
 
                 col1, col2, col3 = st.columns([1, 1, 1])

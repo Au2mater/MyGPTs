@@ -9,7 +9,7 @@ from src.sqlite.db_creation import (
     get_row,
     results_to_data_objects,
 )
-from src.chroma.chroma_utils import (
+from src.chroma_utils import (
     start_chroma_client,
     get_or_create_collection,
     delete_collection,

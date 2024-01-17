@@ -10,7 +10,7 @@ if (
 # add root directory to path for relative import
 from src.sqlite.db_utils import add_or_get_user, get_assistant
 from src.streamlit_utils import get_remote_ip, init, get, set_to
-from src.chroma.chroma_utils import start_chroma_server
+from src.chroma_utils import start_chroma_server
 from src.basic_data_classes import User
 
 from app.mine_assistenter import mine_assistenter_page, go_to_chat_assistant_page
@@ -62,7 +62,7 @@ elif "shared_assistant_id" in (params := st._get_query_params()):
     # chat with shared assistant
     shared_assistant_id = params["shared_assistant_id"][0]
     assistant = get_assistant(shared_assistant_id)
-    if (a:= get('current_assistant')) == None or a.id != assistant.id:
+    if (a := get("current_assistant")) is None or a.id != assistant.id:
         set_to("shared_assistant_view", True)
         go_to_chat_assistant_page(assistant)
 
