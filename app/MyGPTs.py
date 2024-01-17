@@ -18,6 +18,7 @@ from app.edit_assistant import edit_assistant_page
 from app.chat import chat_page
 from app.gov_home import gov_home_page
 from app.gov_edit_llm_model import edit_llm_model_page
+import logging
 
 # changing status to dev display under construction message for ip addresses other than localhost
 status = "prod"  # "dev" or "prod"
@@ -63,6 +64,7 @@ elif "shared_assistant_id" in (params := st._get_query_params()):
     shared_assistant_id = params["shared_assistant_id"][0]
     assistant = get_assistant(shared_assistant_id)
     if (a := get("current_assistant")) is None or a.id != assistant.id:
+        logging.info(f"ip-adresse {ip_adress} startede chat med delt assistent: {assistant.name} ({assistant.id})")
         set_to("shared_assistant_view", True)
         go_to_chat_assistant_page(assistant)
 
