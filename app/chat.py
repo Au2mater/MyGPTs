@@ -6,6 +6,7 @@ from src.openai_utils import generate_response
 from src.sqlite.db_utils import get_llm
 import logging
 
+
 def new_conversation():
     assistant = get("current_assistant")
     set_to("page", "chat")
@@ -86,10 +87,14 @@ def chat_page():
                 max_tokens=int(get_global_setting("max_tokens").value),
                 temperature=assistant.temperature,
             )
-        logging.info(f"assistant {assistant.name} received prompt: "
-                     f"{prompt[:100]}{'...' if len(prompt)>100 else ''}")
-        logging.info(f"assistant {assistant.name} responded with: "
-                     f"{response[:100]}{'...' if len(response)>100 else ''}")
+        logging.info(
+            f"assistant {assistant.name} received prompt: "
+            f"{prompt[:100]}{'...' if len(prompt)>100 else ''}"
+        )
+        logging.info(
+            f"assistant {assistant.name} responded with: "
+            f"{response[:100]}{'...' if len(response)>100 else ''}"
+        )
         # response = "test"
         append("messages", {"role": "user", "content": prompt})
         append("messages", {"role": "assistant", "content": response})

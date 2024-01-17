@@ -63,5 +63,3 @@ def llm_api_test(llm):
             )
         else:
             return False, "Der problem med at få respons fra modellen. Fejl:" + str(e)
-
-

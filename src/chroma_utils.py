@@ -148,7 +148,6 @@ def add_context(prompt: str, messages: list, assistant: object, top_k: int = 5):
     return request_messages
 
 
-
 # ----------------------------
 # source level operations
 

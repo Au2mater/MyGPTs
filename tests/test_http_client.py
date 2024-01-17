@@ -22,7 +22,6 @@ def test_collection():
     assert client.get_collection(name="testCollection")
 
 
-
 def test_indexing():
     collection = get_or_create_collection("testCollection")
     doc = Document(page_content="this is a test document")

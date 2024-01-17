@@ -10,4 +10,3 @@ def test_test_model():
     result, _ = llm_api_test(_test_llm)
     subprocess.Popen.kill(p)
     assert result
-
