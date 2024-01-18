@@ -76,7 +76,9 @@ def chat_page():
                     assistant=assistant,
                     top_k=4,
                 )
-                # st.write(request_messages)
+                context = request_messages[-1]["content"]
+                with st.expander("Vis kontekst"):
+                    st.write(context)
         else:
             request_messages = get("messages")
         with st.spinner("Skriver..."):

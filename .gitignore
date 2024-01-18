@@ -9,6 +9,7 @@ images/archive/
 data/db/
 data/vector_db/
 data/temp/
+*hidden*
 backup/
 *.bak
 

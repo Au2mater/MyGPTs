@@ -38,3 +38,9 @@ def test_split_document():
     for doc in cache["docs"]:
         chunks = split_document(document=doc)
         assert len(chunks) > 0
+
+if __name__ == "__main__":
+    test_source_creation()
+    test_source_to_document()
+    test_split_document()
+    print("all tests passed")

@@ -10,7 +10,7 @@ from langchain_community.document_loaders import (
     WebBaseLoader,
 )
 from langchain_core.documents import Document
-from langchain.text_splitter import SentenceTransformersTokenTextSplitter
+from langchain.text_splitter import SentenceTransformersTokenTextSplitter, RecursiveCharacterTextSplitter
 import streamlit as st  # for caching
 from pydantic import BaseModel, ConfigDict
 from pydantic.types import FilePath  # , Literal
@@ -27,9 +27,9 @@ from src.sqlite.gov_db_utils import get_global_setting
 from chromadb.config import Settings
 # ---------------------------
 
-""" 
-create an http chroma client,  
-create and delete collections 
+"""
+create an http chroma client,
+create and delete collections
 convert various input types to sources
 index and remove sources from collections
  """
@@ -119,8 +119,13 @@ def delete_all_collections():
     # create a collection
     client = start_chroma_client()
     collections = client.list_collections()
-    for collection in collections:
-        client.delete_collection(name=collection.name)
+    # prompt the user in the terminal to confirm deletion
+    response = input(
+        f"Are you sure you want to delete {len(collections)} collections? (y/n)"
+    )
+    if response == "y":
+        for collection in collections:
+            client.delete_collection(name=collection.name)
 
 
 def get_or_create_retriever(
@@ -136,7 +141,7 @@ def get_or_create_retriever(
 
 def format_docs(docs):
     "takes a list of documents and returns a string of the page content of each document."
-    return "\n\n".join(doc.page_content for doc in docs)
+    return "\n\n---------".join(doc.metadata['chained_content'] for doc in docs)
 
 
 def add_context(prompt: str, messages: list, assistant: object, top_k: int = 5):
@@ -230,12 +235,40 @@ def source_to_document(source: Source) -> Document:
     return document
 
 
+def add_chunk_id(chunks):
+    for i, chunk in enumerate(chunks):
+        chunk.metadata['chunk_id'] = i
+        chunk.metadata['chunk_count'] = len(chunks)
+    return chunks
+
+
+def chain_chunks(chunks , chain_length=3):
+    ''' add the content of the next chunk to the current chunk '''
+    chunks = add_chunk_id(chunks)
+    for i, chunk in enumerate(chunks):
+        chunk.metadata['chained_content'] = ' '.join([chunk.page_content]  + [c.page_content for c in chunks[i+1:i+chain_length]])
+    return chunks
+
+
+# def split_document(document: object) -> list:
+#     """given a langhchain document, split the document into chunks (list of sentences)"""
+#     emb_model_name = get_global_setting("embeddings_model").value
+#     splitter = SentenceTransformersTokenTextSplitter(model_name=emb_model_name)
+#     chunks = splitter.split_documents([document])
+#     return chunks
+
 def split_document(document: object) -> list:
     """given a langhchain document, split the document into chunks (list of sentences)"""
-    emb_model_name = get_global_setting("embeddings_model").value
-    splitter = SentenceTransformersTokenTextSplitter(model_name=emb_model_name)
+    splitter = RecursiveCharacterTextSplitter( 
+        chunk_size=600,
+        chunk_overlap=0,
+        separators=['\n','\\.','\\?']
+        , is_separator_regex= True
+        , keep_separator=True)
     chunks = splitter.split_documents([document])
-    return chunks
+    chunks_to_index = chain_chunks(chunks, chain_length=3)
+    return chunks_to_index
+
 
 
 def index_source(source: Source):
