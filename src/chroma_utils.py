@@ -247,9 +247,12 @@ def chain_chunks(chunks , chain_length=3):
     chunks = add_chunk_id(chunks)
     for i, chunk in enumerate(chunks):
         chunk.metadata['chained_content'] = ' '.join([chunk.page_content]  + [c.page_content for c in chunks[i+1:i+chain_length]])
+        # add previous chunk content to current chunk
+        if i > 0:
+            chunk.metadata['chained_content'] = ' '.join(['...',chunks[i-1].page_content[:-200]] + [chunk.metadata['chained_content']])
     return chunks
 
-
+# deprecated
 # def split_document(document: object) -> list:
 #     """given a langhchain document, split the document into chunks (list of sentences)"""
 #     emb_model_name = get_global_setting("embeddings_model").value
