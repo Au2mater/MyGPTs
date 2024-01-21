@@ -1,9 +1,9 @@
 import streamlit as st
 from src.streamlit_utils import get, set_to, append
 from src.sqlite.gov_db_utils import get_global_setting
-from src.chroma_utils import add_context
 from src.openai_utils import generate_response
 from src.sqlite.db_utils import get_llm
+from src.query_chain import generate_search_queries, add_context_from_queries
 import logging
 
 
@@ -60,25 +60,41 @@ def chat_page():
             name=names[message["role"]],
             avatar=icons[message["role"]],
         ):
-            st.write(message["content"])
+            st.markdown(message["content"], unsafe_allow_html=True)
 
     if prompt := st.chat_input(placeholder="Skriv din besked her..."):
-        with st.chat_message(
-            name=names["user"],
-            avatar=icons["user"],
-        ):
-            st.write(prompt)
+        with st.chat_message(name=names["user"], avatar=icons["user"]):
+            st.markdown(prompt, unsafe_allow_html=True)
+
         if get("number_of_sources") > 0:
-            with st.spinner("Søger..."):
-                request_messages = add_context(
-                    prompt=prompt,
+            search_queries = generate_search_queries(
+                prompt_input=prompt, messages=get("messages")
+            )
+            str_search_queries = "- " + "\n- ".join(search_queries)
+            with st.spinner(f"Søger efter:\n {str_search_queries}"):
+                # with st.spinner("Søger..."):
+                # request_messages = add_context(
+                #     prompt=prompt,
+                #     messages=get("messages"),
+                #     assistant=assistant,
+                #     top_k=4,
+                # )
+                logging.info(f"search queries: {search_queries}" f"prompt: {prompt}")
+                request_messages = add_context_from_queries(
                     messages=get("messages"),
+                    queries=search_queries,
                     assistant=assistant,
                     top_k=4,
                 )
                 context = request_messages[-1]["content"]
-                with st.expander("Vis kontekst"):
-                    st.write(context)
+                with st.sidebar:
+                    st.markdown(
+                        "Søgte efter: \n"
+                        f"{str_search_queries}"
+                        "\n\nResultater:\n\n"
+                        f"{context[8:]}",
+                        unsafe_allow_html=True,
+                    )
         else:
             request_messages = get("messages")
         with st.spinner("Skriver..."):

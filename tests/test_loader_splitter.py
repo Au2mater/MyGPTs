@@ -39,6 +39,7 @@ def test_split_document():
         chunks = split_document(document=doc)
         assert len(chunks) > 0
 
+
 if __name__ == "__main__":
     test_source_creation()
     test_source_to_document()

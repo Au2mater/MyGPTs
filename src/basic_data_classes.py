@@ -75,7 +75,7 @@ class Assistant(BaseModel):
     chat_model_name: str = Field(min_length=1)
     system_prompt: str = Field(min_length=15)
     temperature: float = Field(ge=0.0, le=2.0, default=0.7)
-    welcome_message: str = Field(min_length=3)
+    welcome_message: str = ""
     creation_time: datetime = datetime.now()
     last_updated: datetime = datetime.now()
     owner_id: str = Field(min_length=1, max_length=30)

@@ -285,7 +285,6 @@ def edit_assistant_page():
         # when source is added to displayed sources, add it to sources to add
         # if it's name not in display name of indexed sources and not in sources to add
         # create a new source and add it to sources to add
-    
 
     # save button
     if st.button(
@@ -317,4 +316,3 @@ def edit_assistant_page():
     # st.write(get("sources_to_add"))
     # st.write(get("sources_to_delete"))
     # st.write(get("session_sources"))
-

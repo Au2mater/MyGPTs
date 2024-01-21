@@ -1,6 +1,7 @@
 """ Utility functions for using OpenAI API."""
 from openai import AzureOpenAI, OpenAI
-from src.basic_data_classes import LLM
+from src.basic_data_classes import LLM, Assistant
+from src.sqlite.db_utils import get_llm
 
 
 def connect_to_client(llm: LLM):
@@ -36,6 +37,24 @@ def generate_response(
         messages=messages + [{"role": "user", "content": prompt_input}],
         max_tokens=max_tokens,
         temperature=temperature,
+    )
+    return response.choices[0].message.content
+
+
+def get_response_from_assistant(
+    prompt_input: str,
+    assistant: Assistant,
+    messages=[],
+    max_tokens=1000,
+):
+    """Generate response from LLM model."""
+    llm = get_llm(assistant.chat_model_name)
+    client = connect_to_client(llm=llm)
+    response = client.chat.completions.create(
+        model=llm.deployment,
+        messages=messages + [{"role": "user", "content": prompt_input}],
+        max_tokens=max_tokens,
+        temperature=assistant.temperature,
     )
     return response.choices[0].message.content
 
