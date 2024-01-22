@@ -18,7 +18,7 @@ env_path = Path(".") / ".env"
 # Load the variables from the .env file into the environment
 de.load_dotenv(dotenv_path=env_path)
 # constants
-data_classes = [GlobalSetting, Source, Assistant, User]
+data_classes = [GlobalSetting, Source, Assistant, User, LLM]
 database_location = Path(os.environ.get("MAIN_DATABASE_LOCATION")).resolve()
 vector_db_location = Path(os.environ.get("VECTOR_DB_LOCATION")).resolve()
 backup_directory = Path(os.environ.get("BACKUP_DIRECTORY")).resolve()
