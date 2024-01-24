@@ -3,6 +3,8 @@ import sys
 from pathlib import Path
 
 # ensure that the import below works when running python scripts\setup.py
+import dotenv as de
+env_path = Path(".") / ".env"
 if (
     path := os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ) not in sys.path:
@@ -14,10 +16,8 @@ from src.sqlite.db_creation import (
     reset_table_for_dataclass,
     execute_query,
 )
-import dotenv as de
 
 # Define the .env file path
-env_path = Path(".") / ".env"
 
 
 def populate_global_settings():
