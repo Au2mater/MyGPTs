@@ -9,6 +9,8 @@ from src.chroma_utils import start_chroma_server, get_or_create_retriever
 import json
 from jinja2 import Template
 import copy
+import json
+import re
 
 # Define the query building template with placeholders
 template_string = (
@@ -56,16 +58,44 @@ def format_messages(messages: list):
 
 
 def append_user_input(messages, user_input):
+    user_input = re.sub(r'([^\\]){0,1}\n', r'\\n', user_input)
     return messages + [{"role": "user", "content": user_input}]
 
 
 def prepare_prompt_for_agent(messages):
     # Render the template with variables
     rendered_string = template.render(
-        messages=messages, format_messages=format_messages
-    )  # ; print(rendered_string)
-    rendered_dict = json.loads(rendered_string)  # ;  print(rendered_dict)
+        messages=messages, format_messages=format_messages 
+    )  # ; print(rendered_string)   
+    rendered_dict = json.loads(rendered_string)
     return rendered_dict
+
+if __name__ == "__main__":
+   
+    test_user_prompt = """
+    Når du tilføjer en gruppe til et opslag, en begivenhed, en besked, et album, eller et dokument, kan du vælge om det skal være målrettet forældre, medarbejdere og/eller børn tilknyttet gruppen. 
+    Det gør du ved at klikke på pilen ud for gruppen, som vist på billedet herunder, og sætte flueben ud for de ønskede modtagere.
+    [img_url](images/hidden_images/Screenshot 2024-01-24 141503.jpg)
+    Klikker du nu på pilen ud fra hver brugertype, kan du se gruppens medlemmer.
+    """
+    test_messages = [
+        {"role" : "system",
+        "content" : "Du er en hjælpsom assistent."}
+        ,{"role" : "assistant",
+        "content" : "hej, hvordan kan jeg hjælpe dig?"}
+    ]
+    conversation = append_user_input(
+    messages=test_messages, user_input=test_user_prompt
+    )  ; print(conversation)
+    
+    rendered_string = template.render(
+        messages=conversation, format_messages=format_messages 
+    )  ; print(rendered_string)   
+    # Escape control characters
+   
+    agent_messages = prepare_prompt_for_agent(conversation)  # ; print(agent_messages)
+    agent_messages
+    
 
 
 def generate_search_queries(prompt_input: str, messages: list):
@@ -279,3 +309,5 @@ if __name__ == "__main__":
     # merge the results
     merged_results = merge_multiple_strings(results)
     print(merged_results)
+
+

@@ -18,6 +18,26 @@ def new_conversation():
         ],
     )
 
+def write_message(message):
+    # use st.markdown to display the message
+    # if the message contains a makrdown image reference, then use st.image(image url) to display the image
+    # markdown images are of the form ![alt text](<image url>)
+    import re
+    image_regex = r"(?<=)(!\[.*\]\(\<.*\>\))(?=)"        
+    image_url_regex = r"!\[.*\]\(\<(.*)\>\)"
+    # split message into segments of text and images
+    segments = re.split(image_regex, message)
+    for segment in segments:
+        if re.search(image_regex, segment):
+            # extract the image url
+            image_url = re.search(image_url_regex, segment).group(1)
+            # display the image
+            st.image(image_url, width=400)
+        else:
+            # display the text
+            st.markdown(segment, unsafe_allow_html=True)
+
+
 
 def chat_page():
     assistant = get("current_assistant")
@@ -60,12 +80,13 @@ def chat_page():
             name=names[message["role"]],
             avatar=icons[message["role"]],
         ):
-            st.markdown(message["content"], unsafe_allow_html=True)
+            write_message(message["content"])
+
 
     if prompt := st.chat_input(placeholder="Skriv din besked her..."):
         with st.chat_message(name=names["user"], avatar=icons["user"]):
-            st.markdown(prompt, unsafe_allow_html=True)
-
+            write_message(prompt)
+            # st.markdown(prompt, unsafe_allow_html=True)
         if get("number_of_sources") > 0:
             search_queries = generate_search_queries(
                 prompt_input=prompt, messages=get("messages")
@@ -120,4 +141,4 @@ def chat_page():
             name=names["assistant"],
             avatar=icons["assistant"],
         ):
-            st.write(response)
+            write_message(response)

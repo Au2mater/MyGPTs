@@ -47,8 +47,8 @@ if not get("online") and not get("user").id == "::1":
     st.markdown(
         """
         <div style="text-align:center">
-        <h1>Vi er i gang med at opdatere løsningen</h1>
-        <h2>Vi er tilbage snarest</h2>
+        <h2>Vi er i gang med at opdatere løsningen</h1>
+        <h3>Vi er tilbage snarest</h2>
         <img src="https://media.giphy.com/media/yJwXlLESRVkFd6yQVr/giphy.gif" alt="GPT-3" width="300" height="300">
         </div>
         """,
