@@ -37,6 +37,7 @@ def populate_global_settings():
         "default_welcome_message": "Hej, hvad kan jeg hjælpe dig med?",
         "base_url": f"{os.environ['COMPUTERNAME'] }.{os.environ['USERDNSDOMAIN']}",
         "embeddings_model": "intfloat/multilingual-e5-base",
+        "online": True,
     }
     for k, v in global_settings.items():
         global_setting = GlobalSetting(
@@ -45,7 +46,7 @@ def populate_global_settings():
         insert_row(global_setting)
 
 
-def create_vews():
+def create_views():
     query = """
     CREATE VIEW user_stats AS SELECT 
     users.id, 
@@ -141,4 +142,4 @@ if __name__ == "__main__":
     # and vector database in data/db/myGPTs_vectors.db
     initialize_database_from_dataclasses()
     populate_global_settings()
-    create_vews()
+    create_views()

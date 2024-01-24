@@ -27,7 +27,7 @@ from pathlib import Path
 import dotenv as de
 from src.sqlite.gov_db_utils import get_global_setting
 from chromadb.config import Settings
-
+import logging
 # ---------------------------
 
 """
@@ -272,12 +272,12 @@ def chain_chunks(chunks, chain_length=3):
 #     return chunks
 
 
-def split_document(document: object) -> list:
+def split_document(document: object , chunk_size= 400, separators=["\\n\\n","\\n","\\."] ) -> list:
     """given a langhchain document, split the document into chunks (list of sentences)"""
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=600,
-        chunk_overlap=0,
-        separators=["\n", "\\.", "\\?"],
+        chunk_size=chunk_size,
+        chunk_overlap=100,
+        separators=separators,
         is_separator_regex=True,
         keep_separator=True,
     )
@@ -293,15 +293,19 @@ def index_source(source: Source):
     document = source_to_document(source)
     # split the document
     chunks = split_document(document)
+    f"{source.name} split into {len(chunks)} chunks"
     # index the document
     collection = get_or_create_collection(
         collection_name=source.collection_name_and_assistant_id
+        
     )
     # add chunks in batches of 100
     for batch in range(0, len(chunks), 100):
         collection.add_documents(
             chunks[batch : batch + 100],
+            
         )
+        logging.info(f"added {len(chunks[batch : batch + 100])} chunks to col id {source.collection_name_and_assistant_id}") 
     print(f"{source.name} indexed into {len(chunks)} chunks")
 
 

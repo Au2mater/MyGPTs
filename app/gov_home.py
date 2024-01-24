@@ -179,6 +179,12 @@ def gov_home_page():
         with t2:
             # with st.expander("__Standardindstillinger for oprettelse af assistenter__", expanded=True):
             global_settings = get_global_setting_dicts()
+            st.toggle(
+                "Online",
+                value=global_settings["online"]["value"] ,
+                help="Hvis denne er slået til, kan alle brugere oprette og chatte med assistenter.",
+                key=get("global_setting_keys")["online"],
+            )
 
             # The maximum number of tokens that can be generated in the chat completion.
             # The total length of input tokens and generated tokens is limited by the model's context length.
@@ -207,6 +213,7 @@ def gov_home_page():
                 help="Navnet på den Sentence Embeddings model, der skal bruges til at indeksere kilder.",
                 key=get("global_setting_keys")["embeddings_model"],
             )
+
             st.markdown(
                 "<br> Nedenstående indstillinger kan ændres af brugeren for hver enkelt assistent.",
                 unsafe_allow_html=True,
@@ -228,10 +235,12 @@ def gov_home_page():
                 init("settings_unchanged", True)
                 for setting in global_settings.values():
                     if setting["value"] != setting["default_value"]:
+                        # st.write(f'"{setting["id"]}" er ændret fra standardindstillingen')
                         set_to("settings_deafult", False)
                     if (setting["value"]) != (
                         get(get("global_setting_keys")[setting["id"]])
                     ):
+                        # st.write(f'"{setting["id"]}" er ændret')
                         set_to("settings_unchanged", False)
 
                 col1, col2, col3 = st.columns([1, 1, 1])

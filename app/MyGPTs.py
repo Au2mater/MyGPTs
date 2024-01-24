@@ -12,6 +12,7 @@ from src.sqlite.db_utils import add_or_get_user, get_assistant
 from src.streamlit_utils import get_remote_ip, init, get, set_to
 from src.chroma_utils import start_chroma_server
 from src.basic_data_classes import User
+from src.sqlite.gov_db_utils import get_global_setting
 
 from app.mine_assistenter import mine_assistenter_page, go_to_chat_assistant_page
 from app.edit_assistant import edit_assistant_page
@@ -20,9 +21,6 @@ from app.gov_home import gov_home_page
 from app.gov_edit_llm_model import edit_llm_model_page
 import logging
 
-# changing status to dev display under construction message for ip addresses other than localhost
-status = "prod"  # "dev" or "prod"
-
 # ------------------------
 # Page header
 st.set_page_config(
@@ -30,7 +28,6 @@ st.set_page_config(
     page_icon=":left_speech_bubble:",
     initial_sidebar_state="expanded",
 )
-
 # initialize session
 if get("user") is None:
     # start chroma server  for indexing assistant knwoledge base documents
@@ -40,13 +37,13 @@ if get("user") is None:
         print("initializing user")
         ip_adress = str(get_remote_ip())
         init("user", add_or_get_user(User(id=ip_adress, username=ip_adress)))
-        if status == "prod" or get("user").id == "::1":
-            set_to("online", True)
-
+        # ensure local user always has access to online version      
+        # changing status to dev display under construction message for ip addresses other than localhost
+        set_to('online',get_global_setting("online").value == 'True')
 
 # ------------------------
 # check if app is set to be online
-if not get("online", False):
+if not get("online") and not get("user").id == "::1":
     st.markdown(
         """
         <div style="text-align:center">

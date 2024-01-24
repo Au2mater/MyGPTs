@@ -111,8 +111,8 @@ def get_global_setting_dicts() -> dict[dict]:
             setting["value"] = float(setting["value"])
             setting["default_value"] = float(setting["default_value"])
         elif setting["type"] == "bool":
-            setting["value"] = bool(setting["value"])
-            setting["default_value"] = bool(setting["default_value"])
+            setting["value"] = setting["value"] == "True"
+            setting["default_value"] = bool(setting["default_value"]) == "True"
     global_settings = {setting["id"]: setting for setting in setting_dicts}
     return global_settings
 

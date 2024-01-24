@@ -14,6 +14,8 @@ cache["inputs"] = [
     "data/test_documents/the_origins_of_jazz.txt",
     "data/test_documents/jazz.csv",
     "data/test_documents/influence of jazz on blues.pdf",
+    "data/test_documents/popular-song-blues-jazz-and-big-band-topic-exploration-pack.docx",
+    "data/test_documents/Barnets lov.docx"
 ]
 test_collection_assistant_id = "test_collection_assistant_id"
 
@@ -34,14 +36,29 @@ def test_source_to_document():
         cache["docs"].append(doc)
 
 
-def test_split_document():
+def test_split_document_1():
+    cache["doc_chunks"] = []
     for doc in cache["docs"]:
         chunks = split_document(document=doc)
-        assert len(chunks) > 0
+        assert len(chunks) > 0 , f"{doc.metadata['name']} not split"
+        cache["doc_chunks"].append(chunks)
+
+def test_split_document_2():
+    for doc in cache["docs"]:
+        chunks = split_document(document=doc)
+        assert len(chunks)  == len(set([c.page_content for c in chunks])) , f"{doc.metadata['name']} not split into unique chunks"
+
+def test_chain_chunks():
+    for chunks in cache["doc_chunks"]:
+        for chunk in chunks:
+            assert chunk.page_content in chunk.metadata['chained_content'] , f"chunk {chunk.metadata['chunk_id']} not in chained content"
 
 
 if __name__ == "__main__":
     test_source_creation()
     test_source_to_document()
-    test_split_document()
+    test_split_document_1()
+    test_split_document_2()
+    test_chain_chunks()
     print("all tests passed")
+
