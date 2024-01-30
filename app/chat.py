@@ -23,8 +23,8 @@ def write_message(message):
     # if the message contains a makrdown image reference, then use st.image(image url) to display the image
     # markdown images are of the form ![alt text](<image url>)
     import re
-    image_regex = r"(?<=)(!\[.*\]\(\<.*\>\))(?=)"        
-    image_url_regex = r"!\[.*\]\(\<(.*)\>\)"
+    image_regex = r"(?<=)(\[.*\]\(\<.*\>\))(?=)"        
+    image_url_regex = r"\[.*\]\(\<(.*)\>\)"
     # split message into segments of text and images
     segments = re.split(image_regex, message)
     for segment in segments:
@@ -84,6 +84,8 @@ def chat_page():
 
 
     if prompt := st.chat_input(placeholder="Skriv din besked her..."):
+        print('|'+ prompt+'|')	
+        logging.info(f"user prompted: {prompt}")
         with st.chat_message(name=names["user"], avatar=icons["user"]):
             write_message(prompt)
             # st.markdown(prompt, unsafe_allow_html=True)
@@ -100,7 +102,7 @@ def chat_page():
                 #     assistant=assistant,
                 #     top_k=4,
                 # )
-                logging.info(f"search queries: {search_queries}" f"prompt: {prompt}")
+                logging.info(f"search queries generated: {search_queries}")
                 request_messages = add_context_from_queries(
                     messages=get("messages"),
                     queries=search_queries,
@@ -113,9 +115,8 @@ def chat_page():
                         "Søgte efter: \n"
                         f"{str_search_queries}"
                         "\n\nResultater:\n\n"
-                        f"{context[8:]}",
-                        unsafe_allow_html=True,
-                    )
+                        ,unsafe_allow_html=True)
+                    write_message(context)
         else:
             request_messages = get("messages")
         with st.spinner("Skriver..."):

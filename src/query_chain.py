@@ -11,6 +11,7 @@ from jinja2 import Template
 import copy
 import json
 import re
+import logging
 
 # Define the query building template with placeholders
 template_string = (
@@ -62,12 +63,23 @@ def append_user_input(messages, user_input):
     return messages + [{"role": "user", "content": user_input}]
 
 
+# def prepare_prompt_for_agent(messages):
+#     # Render the template with variables
+#     rendered_string = template.render(
+#         messages=messages, format_messages=format_messages 
+#     )  # ; print(rendered_string)   
+#     rendered_dict = json.loads(rendered_string)
+#     return rendered_dict
+
 def prepare_prompt_for_agent(messages):
-    # Render the template with variables
     rendered_string = template.render(
-        messages=messages, format_messages=format_messages 
-    )  # ; print(rendered_string)   
-    rendered_dict = json.loads(rendered_string)
+    messages=messages, format_messages=format_messages )  ; print(rendered_string)   
+    try:
+        rendered_dict = json.loads(rendered_string)
+    except json.JSONDecodeError:
+        # remove or escape invalid control characters
+        cleaned_string = re.sub(r'[\x00-\x1F\x7F]', '', rendered_string)
+        rendered_dict = json.loads(cleaned_string)
     return rendered_dict
 
 if __name__ == "__main__":
@@ -138,23 +150,28 @@ def generate_search_queries(prompt_input: str, messages: list):
     return queries
 
 
-def retrieve_results(assistant, queries: list, top_k: int = 4):
+def retrieve_results(assistant, queries: list, top_k: int = 4) -> list:
     """
     retireves unique results from main assistants retriever
     sorted by result.metadata['chunk_id']
     """
+    if len(queries) == 0:
+        return []
     retriever = get_or_create_retriever(assistant.id, k=top_k)
     results = []
     for query in queries:
         query_results = retriever.get_relevant_documents(query=query)
-        print(f"{len(query_results)} results retrieved")
+        logging.info(f"{len(query_results)} results retrieved for query: {query}")
         results = results + query_results
     # dedeuplicate results based on result.metadata['chunk_id']
+    test_result = results[0]
+    print(type(test_result), len(test_result.metadata),test_result.metadata.keys())   
     unique_results = list(
         {result.metadata["chunk_id"]: result for result in results}.values()
-    )  # ; print(f'{len(unique_results)} unique results')
+    )  # ; 
     # sort results by result.metadata['chunk_id']
     unique_results.sort(key=lambda result: result.metadata["chunk_id"])
+    logging.info(f'{len(unique_results)} unique results retieved in total')
     return unique_results
 
 
@@ -221,6 +238,7 @@ def add_context_from_queries(
     """
     # retrieve results from main assistants retriever
     unique_results = retrieve_results(assistant=assistant, queries=queries, top_k=top_k)
+    logging.info(f"{len(unique_results)} unique results retrieved")
     # merge results
     contents = merge_multiple_strings(unique_results)
     context = "\n\n-----------".join(contents)

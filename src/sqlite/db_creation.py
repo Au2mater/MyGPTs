@@ -12,25 +12,19 @@ from pydantic import BaseModel
 import dotenv as de
 import logging
 
-# Define the .env file path
-env_path = Path(".") / ".env"
-
-# Load the variables from the .env file into the environment
-de.load_dotenv(dotenv_path=env_path)
-# constants
 data_classes = [GlobalSetting, Source, Assistant, User, LLM]
-database_location = Path(os.environ.get("MAIN_DATABASE_LOCATION")).resolve()
-vector_db_location = Path(os.environ.get("VECTOR_DB_LOCATION")).resolve()
-backup_directory = Path(os.environ.get("BACKUP_DIRECTORY")).resolve()
-log_file = Path(os.environ.get("LOG_FILE")).resolve()
 
-print(f"database_location: {database_location}")
-logging.basicConfig(
-    level=logging.INFO,
-    filename=log_file,
-    filemode="a",  # "a" stands for append, which means new log messages will be added to the end of the file instead of overwriting the existing conten
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
+def get_env(name):
+    # Load the variables from the .env file into the environment
+    env_path = Path(".") / ".env"     # Define the .env file path
+    de.load_dotenv(dotenv_path=env_path)
+    return os.environ.get(name)
+
+# # constants
+# database_location = Path(os.environ.get("MAIN_DATABASE_LOCATION")).resolve()
+# vector_db_location = Path(os.environ.get("VECTOR_DB_LOCATION")).resolve()
+# backup_directory = Path(os.environ.get("BACKUP_DIRECTORY")).resolve()
+
 
 
 def get_or_create_database(db_name) -> Connection:
@@ -48,6 +42,9 @@ def backup(sources: list | str = None):
     Returns the current datetime string used to name the backup files
     This will be used to backup the main database or the vector database
     """
+    database_location = Path(get_env("MAIN_DATABASE_LOCATION"))
+    vector_db_location = Path(get_env("VECTOR_DB_LOCATION"))
+    backup_directory = Path(get_env("BACKUP_DIRECTORY"))
     dsts = []
     # Current datetime
     current_datetime = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")
@@ -93,6 +90,7 @@ def get_backups():
     return a list of datetime strings for the backup files in backup_directory
     condition is that both main and vector database backups exist
     """
+    backup_directory = Path(("BACKUP_DIRECTORY"))
     # get all backup files in backup_directory
     backups = sorted(backup_directory.glob("*"))
     # get the datetime strings from the backup files
@@ -108,6 +106,7 @@ def get_backups():
 
 
 def execute_query(query: str, fetchall=True):
+    database_location = Path(get_env("MAIN_DATABASE_LOCATION"))
     conn = get_or_create_database(database_location)
     cursor = conn.cursor()
     cursor.execute(query)
@@ -146,6 +145,7 @@ def create_table_from_dataclass(dataclass: BaseModel, table_name=None):
         id field is expected to exist in the dataclass is set to primary key
     :param table_name: (optional) the name of the table to create
     """
+    database_location = Path(get_env("MAIN_DATABASE_LOCATION"))
     conn = get_or_create_database(database_location)
     cursor = conn.cursor()
     if table_name is None:
@@ -186,6 +186,7 @@ def create_tables_from_dataclasses(dataclasses: list[BaseModel]):
 
 
 def delete_table(table_name):
+    database_location = Path(get_env("MAIN_DATABASE_LOCATION"))
     conn = get_or_create_database(database_location)
     cursor = conn.cursor()
     cursor.execute(f"DROP TABLE {table_name};")
@@ -243,8 +244,9 @@ def migrate_table(from_table: str, to_table: str):
     execute_query(query)
 
 
-def delete_vector_db(directory=vector_db_location):
+def delete_vector_db():
     """delete the vector database"""
+    directory =  Path(get_env("VECTOR_DB_LOCATION"))
     # check if the vector database exists
     if directory.exists():
         print(f"Are you sure you want to delete {directory}?")
@@ -260,9 +262,11 @@ def initialize_database_from_dataclasses(dataclasses: list[BaseModel] = data_cla
     creates the main database for managing users, assistants, and sources
     backs up existing main database and vector database if any. After which existing vector database is deleted
     """
+    database_location = Path(get_env("MAIN_DATABASE_LOCATION"))
+    vector_db_location = Path(get_env("VECTOR_DB_LOCATION"))
     # backup existing database if any
     backup([database_location, vector_db_location])
-    delete_vector_db(vector_db_location)
+    delete_vector_db()
 
     conn = get_or_create_database(database_location)  # create the database
     try:
@@ -291,6 +295,9 @@ def recreate_db_from_backup(time: str):
     main db backup files have the format: myGPTs_%Y_%m_%d_%H_%M.bak
     vector db backup directories have the format: vector_db_%Y_%m_%d_%H_%M.bak
     """
+    backup_directory = Path(get_env("BACKUP_DIRECTORY"))
+    database_location = Path(get_env("MAIN_DATABASE_LOCATION"))
+    vector_db_location = Path(get_env("VECTOR_DB_LOCATION"))
     # convert datetime object to string
     if isinstance(time, datetime.datetime):
         time = time.strftime("%Y_%m_%d_%H_%M")
@@ -333,6 +340,7 @@ def insert_row(
     insert the row into the corresponding table
     the table must first be created from the dataclass using create_table_from_dataclass
     """
+    database_location = Path(get_env("MAIN_DATABASE_LOCATION"))
     conn = get_or_create_database(database_location)
     cursor = conn.cursor()
     if table_name is None:
@@ -357,6 +365,7 @@ def add_or_update_row(
     insert the row into the corresponding table
     the table must first be created from the dataclass using create_table_from_dataclass
     """
+    database_location = Path(get_env("MAIN_DATABASE_LOCATION"))
     conn = get_or_create_database(database_location)
     cursor = conn.cursor()
     if table_name is None:
@@ -401,6 +410,7 @@ def delete_row(dataobject_or_id: object | str, table_name: str = None):
     dataclass must have an id field
     a table must exist for the dataclass
     """
+    database_location = Path(get_env("MAIN_DATABASE_LOCATION"))
     if isinstance(dataobject_or_id, str):
         id = dataobject_or_id
         if table_name is None:

@@ -2,6 +2,7 @@
 🗺️ Roadmap for MyGPTs 
 
 ### To-do
+
 - [ ] Add sign-in: ability to sign in as a user,
   - [ ] adding better control over app access and API user budget
 - [ ] Dockerize app
@@ -15,6 +16,7 @@
 - [ ] Add profile picture: ability to add profile picture to assistant
 
 ### In-progress
+- [ ] Add ability to suggest prompts to the user in the chat UI
 - [ ] Governance: See and delete user, assistants, and sources
 - [ ] Governance: Monitor API usage
 - [ ] Chat: Add history: ability to and see delete previous conversations 

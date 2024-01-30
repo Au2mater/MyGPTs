@@ -20,7 +20,9 @@ from app.chat import chat_page
 from app.gov_home import gov_home_page
 from app.gov_edit_llm_model import edit_llm_model_page
 import logging
+from src.logging_config import configure_logging
 
+configure_logging()
 # ------------------------
 # Page header
 st.set_page_config(

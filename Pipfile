@@ -40,5 +40,11 @@ pytest = '*'
 # rest api
 fastapi = "*"
 
+# testing pdf image reading
+# poppler-utils = "*" # for pdfs
+pymupdf = "*" # for pdfs
+pdf2docx = "*" # for pdfs
+mammoth = "*" # for docx
+
 [requires]
 python_version = '3.10'

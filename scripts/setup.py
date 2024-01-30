@@ -1,10 +1,9 @@
 import os
 import sys
 from pathlib import Path
-
 # ensure that the import below works when running python scripts\setup.py
 import dotenv as de
-env_path = Path(".") / ".env"
+
 if (
     path := os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ) not in sys.path:
@@ -16,8 +15,7 @@ from src.sqlite.db_creation import (
     reset_table_for_dataclass,
     execute_query,
 )
-
-# Define the .env file path
+from src.logging_config import configure_logging
 
 
 def populate_global_settings():
@@ -59,9 +57,10 @@ def create_views():
 
 
 def set_env_variables():
+    env_path = Path(".") / ".env" 
     # set environment variables
-    data_directory = str(Path("..\MyGPTs_data").resolve())
-    log_file = os.path.join(data_directory, "logs", "myGPTs.log")
+    data_directory = str(Path(r"..\MyGPTs_data").resolve())     
+    log_file = os.path.join(data_directory, "logs", "myGPTs.log") 
     main_database_location = os.path.join(data_directory, "main_db", "myGPTs.db")
     vector_db_location = os.path.join(data_directory, "vector_db")
     backup_directory = os.path.join(data_directory, "backup", "db")
@@ -77,6 +76,7 @@ def set_env_variables():
         dotenv_path=env_path,
         key_to_set="MAIN_DATABASE_LOCATION",
         value_to_set=main_database_location,
+        
     )
     de.set_key(
         dotenv_path=env_path,
@@ -114,30 +114,36 @@ def set_env_variables():
         value_to_set=str(chromadb_telemetry),
     )
 
-
 def create_data_directories():
     # load the environment variables from the .env file
+    env_path = Path(".") / ".env"
     de.load_dotenv(dotenv_path=env_path)
 
     dirs = [
         os.environ["LOG_FILE"],
-        os.environ["MAIN_DATABASE_LOCATION"],
         os.environ["VECTOR_DB_LOCATION"],
         os.environ["BACKUP_DIRECTORY"],
+    ]
+    files = [
+        os.environ["LOG_FILE"],
         os.environ["TEMP_FILE_LOCATION"],
+        os.environ["MAIN_DATABASE_LOCATION"],
     ]
 
     for directory in dirs:
-        # create the directory or file if it does not exist
+        # create the directory if it does not exist
         Path(directory).parent.mkdir(parents=True, exist_ok=True)
-        Path(directory).parent.touch(exist_ok=True)
-        Path(directory).touch(exist_ok=True)
+        Path(directory).mkdir(exist_ok=True)
+    for file in files:
+        Path(file).parent.mkdir(exist_ok=True)
+        Path(file).touch(exist_ok=True)
         # if the path is a file create it, but do not overwrite it
 
 
 if __name__ == "__main__":
     set_env_variables()
     create_data_directories()
+    configure_logging()
     # backup any existing db and create a new main database in myGPTs.db
     # and vector database in data/db/myGPTs_vectors.db
     initialize_database_from_dataclasses()

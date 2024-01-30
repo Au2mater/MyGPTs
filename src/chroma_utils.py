@@ -45,6 +45,7 @@ de.load_dotenv(dotenv_path=env_path)
 temp_file_location = os.getenv("TEMP_FILE_LOCATION")
 chromadb_host = os.getenv("CHROMADB_HOST")
 chromadb_port = int(os.getenv("CHROMADB_PORT"))
+vector_db_location = os.getenv("VECTOR_DB_LOCATION")
 
 # ----------------------------
 # chroma client operations
@@ -54,7 +55,7 @@ chromadb_port = int(os.getenv("CHROMADB_PORT"))
 def start_chroma_server():
     """start chroma http server if it's not already running"""
     # run command chroma run --path data/db --port 8000
-    db_path = os.path.join("data", "vector_db")
+    db_path = vector_db_location
     port = str(chromadb_port)
     # test if server is already running
     try:
@@ -66,10 +67,10 @@ def start_chroma_server():
         pass
     # Define the command you want to run in the new terminal
     command = ["chroma", "run", "--path", db_path, "--port", port]
-    # Open a new terminal and run the command
-    subprocess.Popen(command)
+    # Open a new terminal and run the command, capture the process id
+    p = subprocess.Popen(command, shell=True)
     # we are using subprocess to keep the terminal open for more python code execution while server is running
-    # check if subprocess is running
+    return p
 
 
 def start_chroma_client():
@@ -80,6 +81,10 @@ def start_chroma_client():
     )
     return client
 
+def stop_chroma_server(p):
+    """stop chroma http server"""
+    p.terminate()
+    print("chroma server stopped")
 
 # ----------------------------
 # collection level operations
@@ -139,6 +144,7 @@ def get_or_create_retriever(
     collection = get_or_create_collection(collection_name=collection_name)
     retriever = collection.as_retriever(
         search_type="similarity", search_kwargs={"k": k}
+        
     )
     return retriever
 
@@ -288,7 +294,7 @@ def split_document(document: object , chunk_size= 400, separators=["\\n\\n","\\n
 
 def index_source(source: Source):
     """given a source, load the source, split the source,
-    and index the source in the named collection using a chroma persistent client"""
+    and index the source in the named collection using a chroma client"""
     # convert to langchain document
     document = source_to_document(source)
     # split the document

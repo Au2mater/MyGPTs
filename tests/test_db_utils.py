@@ -12,7 +12,7 @@ from src.sqlite.db_utils import (
 )
 from src.chroma_utils import start_chroma_server
 from src.sqlite.db_creation import get_row, delete_row, execute_query
-
+from src.logging_config import configure_logging
 
 # for each data class we are going to test the following:
 # 1 - add a row
@@ -21,6 +21,7 @@ from src.sqlite.db_creation import get_row, delete_row, execute_query
 # 4 - update a row
 # 5 - delete a row
 
+configure_logging()
 cache = {}
 # ------------------------
 # 1 - user level operations
@@ -32,6 +33,7 @@ def test_user_creation():
     cache["test_user"] = User(username="test_user", id="test_user_id")
     delete_user(cache["test_user"])
     assert add_or_get_user(cache["test_user"]) == cache["test_user"]
+
 
 
 def test_user_update():
