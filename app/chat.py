@@ -84,7 +84,6 @@ def chat_page():
 
 
     if prompt := st.chat_input(placeholder="Skriv din besked her..."):
-        print('|'+ prompt+'|')	
         logging.info(f"user prompted: {prompt}")
         with st.chat_message(name=names["user"], avatar=icons["user"]):
             write_message(prompt)
