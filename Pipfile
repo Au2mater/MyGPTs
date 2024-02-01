@@ -28,17 +28,16 @@ beautifulsoup4 = '~=4.12'
 
 # chat and llm
 openai = '~=1.7'
+# mockup openai rest api
+fastapi = "*"
 
 # ui
 streamlit = '~=1.29'
 streamlit-tags = '~=1.2'
 
 [dev-packages]
-black = '*'
 ruff = '*'
 pytest = '*'
-# rest api
-fastapi = "*"
 
 # testing pdf image reading
 # poppler-utils = "*" # for pdfs
@@ -47,4 +46,4 @@ pdf2docx = "*" # for pdfs
 mammoth = "*" # for docx
 
 [requires]
-python_version = '3.10'
+python_version = '3.11'

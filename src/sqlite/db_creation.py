@@ -11,7 +11,6 @@ from src.basic_data_classes import GlobalSetting, LLM, Source, Assistant, User
 from pydantic import BaseModel
 import dotenv as de
 import logging
-
 data_classes = [GlobalSetting, Source, Assistant, User, LLM]
 
 def get_env(name):
@@ -247,8 +246,9 @@ def migrate_table(from_table: str, to_table: str):
 def delete_vector_db():
     """delete the vector database"""
     directory =  Path(get_env("VECTOR_DB_LOCATION"))
+    db_path = directory / "chroma.sqlite3"
     # check if the vector database exists
-    if directory.exists():
+    if db_path.exists():
         print(f"Are you sure you want to delete {directory}?")
         response = input("Enter 'y' to confirm: ")
         if response != "y":

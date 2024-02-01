@@ -33,12 +33,6 @@ template_string = (
     '"}]'
 )
 
-agent = {
-    "temperature": 1.0,  # higher temperature to generate more diverse queries
-    "max_tokens": 2500,
-    # from the list of active llms use the llm the was first created
-    "llm": get_active_llms()[0],
-}
 
 # Create a Template object
 template = Template(template_string)
@@ -116,6 +110,16 @@ def generate_search_queries(prompt_input: str, messages: list):
     the prompt input is the prompt for the query maker assistant
     the messages list is the conversation between the user and the main assistant
     """
+    if get_active_llms() == []:
+        print("no active llms found")
+        return [prompt_input]
+    agent = {
+    "temperature": 1.0,  # higher temperature to generate more diverse queries
+    "max_tokens": 2500,
+    # from the list of active llms use the llm the was first created
+    "llm": get_active_llms()[0],
+    }
+
     msgs = copy.deepcopy(messages)
     conversation = append_user_input(
         messages=msgs, user_input=prompt_input

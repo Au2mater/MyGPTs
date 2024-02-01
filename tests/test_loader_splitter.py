@@ -1,8 +1,6 @@
 """ test coverting an inputs to document chunks ready for indexing"""
 from src.chroma_utils import (
     start_chroma_server,
-    stop_chroma_server,
-    start_chroma_client,
     create_source,
     source_to_document,
     split_document,
@@ -44,9 +42,6 @@ cache["inputs"] = [
     "data/test_documents/influence of jazz on blues.pdf",
     "data/test_documents/popular-song-blues-jazz-and-big-band-topic-exploration-pack.docx"
 ]
-
-
-
 
 
 def test_source_creation():
@@ -141,6 +136,7 @@ def test_add_context_from_zero_queries(collection):
     messages = [{"role": "assistant", "message": "hvordan kan jeg hjælpe dig?"}
                 , {"role": "user", "message": "tell me about jazz"}]
     assert add_context_from_queries(messages=messages, queries=queries, assistant=test_assistant)
+
 # if __name__ == "__main__":
 #     test_source_creation()
 #     test_source_to_document()

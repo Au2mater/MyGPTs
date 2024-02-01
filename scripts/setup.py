@@ -59,12 +59,12 @@ def create_views():
 def set_env_variables():
     env_path = Path(".") / ".env" 
     # set environment variables
-    data_directory = str(Path(r"..\MyGPTs_data").resolve())     
-    log_file = os.path.join(data_directory, "logs", "myGPTs.log") 
-    main_database_location = os.path.join(data_directory, "main_db", "myGPTs.db")
-    vector_db_location = os.path.join(data_directory, "vector_db")
-    backup_directory = os.path.join(data_directory, "backup", "db")
-    temp_file_location = os.path.join(data_directory, "temp_files")
+    data_directory = Path(r"../MyGPTs_data").resolve()
+    log_file = data_directory / "logs" / "myGPTs.log"
+    main_database_location = data_directory / "main_db" / "myGPTs.db"
+    vector_db_location = data_directory / "vector_db"
+    backup_directory = data_directory / "backup" / "db"
+    temp_file_location = data_directory / "temp_files"
     chromadb_host = "localhost"
     chromadb_port = 8051
     chromadb_telemetry = False
@@ -75,28 +75,28 @@ def set_env_variables():
     de.set_key(
         dotenv_path=env_path,
         key_to_set="MAIN_DATABASE_LOCATION",
-        value_to_set=main_database_location,
+        value_to_set=str(main_database_location),
         
     )
     de.set_key(
         dotenv_path=env_path,
         key_to_set="VECTOR_DB_LOCATION",
-        value_to_set=vector_db_location,
+        value_to_set=str(vector_db_location),
     )
     de.set_key(
         dotenv_path=env_path,
         key_to_set="BACKUP_DIRECTORY",
-        value_to_set=backup_directory,
+        value_to_set=str(backup_directory),
     )
     de.set_key(
         dotenv_path=env_path,
         key_to_set="LOG_FILE",
-        value_to_set=log_file,
+        value_to_set=str(log_file),
     )
     de.set_key(
         dotenv_path=env_path,
         key_to_set="TEMP_FILE_LOCATION",
-        value_to_set=temp_file_location,
+        value_to_set=str(temp_file_location),
     )
     de.set_key(
         dotenv_path=env_path,
@@ -120,7 +120,6 @@ def create_data_directories():
     de.load_dotenv(dotenv_path=env_path)
 
     dirs = [
-        os.environ["LOG_FILE"],
         os.environ["VECTOR_DB_LOCATION"],
         os.environ["BACKUP_DIRECTORY"],
     ]

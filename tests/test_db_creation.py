@@ -4,25 +4,37 @@ from src.sqlite.db_creation import (
     get_table_names,
     delete_table,
     insert_row,
-    execute_query,
+    execute_query
 )
 from pathlib import Path
 from pydantic import BaseModel
 import pytest
 import os
+import dotenv as de
+import tempfile
+import sqlite3
 
 @pytest.fixture(scope="module", autouse=True)
 def connection():
-    test_db_location = Path(".") / "test.db"
+    """ create a test database and connect to it"""
+    env_path = Path(".") / ".env"
+    de.load_dotenv(dotenv_path=env_path)
     old_value = os.environ["MAIN_DATABASE_LOCATION"]
+
+    # change main database location to a test database in temp folder (ensure it works on windows and linux)
+    test_db_location = Path(tempfile.TemporaryDirectory().name) / "test.db"
     os.environ["MAIN_DATABASE_LOCATION"] = str(test_db_location)
-    conn = get_or_create_database(test_db_location.resolve())
+    # create the database file
+    test_db_location.parent.mkdir(parents=True, exist_ok=True)
 
-    yield conn  
-
-    conn.close()
+    print(f"test db location: {test_db_location}")
+    with sqlite3.connect(str(test_db_location)) as conn:
+        conn.row_factory = sqlite3.Row
+        yield conn  
+        
+    # reset the database location
     os.environ["MAIN_DATABASE_LOCATION"] = old_value
-    test_db_location.unlink()
+
 
 
 @pytest.fixture

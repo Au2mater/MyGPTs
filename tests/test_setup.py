@@ -12,7 +12,7 @@ def test_directory():
     # SETUP / FIXTURES
     main_dir = Path(os.getcwd()) ; print(main_dir)
     # create a temporary folder (%TEMP%/test_MyGPTs) two levels above the current folder
-    test_dir = Path(os.getenv("TEMP")) / "test_MyGPTs" ; print(test_dir)
+    test_dir = Path(os.getenv("TEMP") or os.getenv("TMPDIR") or "/tmp") / "test_MyGPTs" ; print(test_dir)
     # CLEAN SLATE
     # delete test folder
     # shutil.rmtree(test_dir, ignore_errors=True)

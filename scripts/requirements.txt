@@ -1,0 +1,2 @@
+auto_mix_prep==0.2.0
+python-dotenv==1.0.1

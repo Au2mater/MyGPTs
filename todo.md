@@ -5,7 +5,6 @@
 
 - [ ] Add sign-in: ability to sign in as a user,
   - [ ] adding better control over app access and API user budget
-- [ ] Dockerize app
 - [ ] Add assistant-user memmory: ability to auto index conversations into knowledge base and retrieve later on.
 - [ ] Add sample starter templates for assistant configurations
 - [ ] Add edit: option to edit a single user message in conversation.  
@@ -16,6 +15,7 @@
 - [ ] Add profile picture: ability to add profile picture to assistant
 
 ### In-progress
+- [ ] Add Docker documentation
 - [ ] Add ability to suggest prompts to the user in the chat UI
 - [ ] Governance: See and delete user, assistants, and sources
 - [ ] Governance: Monitor API usage
@@ -24,6 +24,8 @@
 - [ ] Backend: Update tests
 
 ### Completed ✓
+- [x] Upgrade to python 3.11
+- [x] Dockerize app
 - [x] Privacy: deactivate anonymzied telemetry for chromaDB
 - [x] Add governance module
     - [x] Setting up and make LLMs available to assistants
