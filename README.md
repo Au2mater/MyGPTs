@@ -55,23 +55,19 @@ __Knowledge base sources currently supported__
 ## Docker
 ### Prerequisites
 Before you can run this application, you need to have the following installed on your server or local machine:
-- [Docker](https://docs.docker.com/get-docker/)
+- [Docker](https://docs.docker.com/get-docker/) Desktop or Docker Engine
 - An [Azure OpenAi](https://learn.microsoft.com/en-us/azure/ai-services/openai/) API key, an OpenAi API key or a local LLM running using [LM Studio](https://lmstudio.ai/)
 ### Setup
 1. Clone the repository to your local machine or download as a zip file and extract it.
 2. In a terminal: Navigate to the project directory in your terminal, the folder named 'MYGPTS'.
-_For windows:_ 
+_For windows and linux:_ 
 ```sh
 cd <path to project directory>/MYGPTS
 ```
 3. Build the docker image:
+_For windows and linux:_ 
 ```sh
 docker build -t mygpts:latest .
-```
-### Running the app
-Run the docker image:
-```sh
-docker run -p 8501:8501 mygpts:latest
 ```
 ## Local virtual environment
 ### Prerequisites
@@ -105,12 +101,21 @@ python scripts\setup.py
 ```
 Congrats! :tada: You're ready to run the app.
 
-### Running the app
-1. In the scripts folder, run the the start_app.bat file.
+## Running the app
+1. Start the app:   
+    a. If your using docker, run the docker image:
+    ```sh
+    docker run -p 8501:8501 mygpts:latest
+    ```
+    b. If you're using a local virtual environment, in the scripts folder, run the the start_app.bat file.
+
 A server should start up on port _8501_ and a browser tab should open with the app interface. 
 
-2. You will now be presented with an admin interface where you can add your model APIs to the app.
-<br>_This admin view is only visible from localhost_
+2. In the browser tab, add /?admin to the url and press enter.
+    
+    <br>Example: http://localhost:8501/MyGPTs/?admin
+    
+3. You will now be presented with an admin interface where you can add your model APIs to the app.
 <br>Click the '_Tilføj ny model_' button and fill out the form.
 <br>To start creating and sharing assistants press the '_Mine assistenter_' button.
 
@@ -119,7 +124,7 @@ Start building and sharing your GPTs.
 ## Prototype in Beta
 Please note that this app is currently in beta and is still a prototype. Breaking changes may occur as I continue to improve and refine the functionality. I appreciate your understanding and feedback as I work towards a stable release.
 
-Version: 0.3.3
+Version: 0.3.4
 
 
 _Built using [Streamlit](https://streamlit.io/), [LangChain](https://www.langchain.com/) and [ChromaDB](https://www.trychroma.com/)._
