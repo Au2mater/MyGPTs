@@ -12,13 +12,16 @@ The goal of this app is to allow everyone in an organization to create their own
 ## Table of contents
 - [Features](#features)
 - [Installation](#installation)
-    - [Prerequisites](#prerequisites)
-    - [Setup](#setup)
-- [Running the app](#running-the-app)
+    - [Docker](#docker)
+        - [Prerequisites](#prerequisites)
+        - [Setup](#setup)
+        - [Running the app](#running-the-app)
+    - [Local virtual environment](#local-virtual-environment)
+        - [Prerequisites](#prerequisites-1)
+        - [Setup](#setup-1)
+        - [Running the app](#running-the-app-1)
 - [Version](#prototype-in-beta)
 - [Screenshots](#screenshots)
-
-
 ## Features
 
 __Assistants__
@@ -49,7 +52,29 @@ __Knowledge base sources currently supported__
 <br>PDF, DOC, DOCX, MD, TXT, and web URLs
 
 # Installation
-## Prerequisites
+## Docker
+### Prerequisites
+Before you can run this application, you need to have the following installed on your server or local machine:
+- [Docker](https://docs.docker.com/get-docker/)
+- An [Azure OpenAi](https://learn.microsoft.com/en-us/azure/ai-services/openai/) API key, an OpenAi API key or a local LLM running using [LM Studio](https://lmstudio.ai/)
+### Setup
+1. Clone the repository to your local machine or download as a zip file and extract it.
+2. In a terminal: Navigate to the project directory in your terminal, the folder named 'MYGPTS'.
+_For windows:_ 
+```sh
+cd <path to project directory>/MYGPTS
+```
+3. Build the docker image:
+```sh
+docker build -t mygpts:latest .
+```
+### Running the app
+Run the docker image:
+```sh
+docker run -p 8501:8501 mygpts:latest
+```
+## Local virtual environment
+### Prerequisites
 
 Before you can run this application, you need to have the following installed on your server or local machine:
 - [Python 3.11](https://www.python.org/downloads/)
@@ -59,7 +84,7 @@ pixi install pipenv
 ```
 - An [Azure OpenAi](https://learn.microsoft.com/en-us/azure/ai-services/openai/) API key, an OpenAi API key or a local LLM running using [LM Studio](https://lmstudio.ai/)
 
-## Setup
+### Setup
 1. Clone the repository to your local machine or download as a zip file and extract it.
 2. In a terminal: Navigate to the project directory in your terminal, the folder named 'MYGPTS'.
 _For windows:_
@@ -80,7 +105,7 @@ python scripts\setup.py
 ```
 Congrats! :tada: You're ready to run the app.
 
-# Running the app
+### Running the app
 1. In the scripts folder, run the the start_app.bat file.
 A server should start up on port _8501_ and a browser tab should open with the app interface. 
 
