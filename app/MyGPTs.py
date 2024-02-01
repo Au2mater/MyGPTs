@@ -30,6 +30,13 @@ st.set_page_config(
     page_icon=":left_speech_bubble:",
     initial_sidebar_state="expanded",
 )
+
+def is_admin():
+    """ if url is /?admin or user is localhost"""
+   
+    result = 'admin' in  st._get_query_params() # or get("user").id == "::1"
+    return result 
+
 # initialize session
 if get("user") is None:
     # start chroma server  for indexing assistant knwoledge base documents
@@ -45,7 +52,7 @@ if get("user") is None:
 
 # ------------------------
 # check if app is set to be online
-if not get("online") and not get("user").id == "::1":
+if not get("online") and not is_admin():
     st.markdown(
         """
         <div style="text-align:center">
@@ -70,7 +77,7 @@ elif "shared_assistant_id" in (params := st._get_query_params()):
         go_to_chat_assistant_page(assistant)
 
 # check if url is /?admin
-elif get("user").id == "::1":
+elif is_admin():
     init("page", "admin_home")
 
 else:
