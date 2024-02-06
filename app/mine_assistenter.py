@@ -55,7 +55,7 @@ def go_to_edit_assistant_page(assistant: Assistant = None):
 
 
 def show_assistant_share_link(assistant):
-    link = f"{get_base_url()}:8501/myGPT/?shared_assistant_id={assistant.id}"
+    link = f"{get_base_url()}:8501/myGPTs/?shared_assistant_id={assistant.id}"
     st.success(
         f"Alle kan nu chatte med __{assistant.name}__ på dette  [__link__]({link}) "
     )
